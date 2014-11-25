@@ -3,27 +3,22 @@
  */
 package com.telecom.billing.controller;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
-
-import com.telecom.billing.model.User;
 
 /**
  * @author zhangle
  *
  */
 @Controller
-//@SessionAttributes({ "user" })
+// @SessionAttributes({ "user" })
 public class IndexController {
 
-	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	@RequestMapping(value = { "/admin", "/admin/" }, method = RequestMethod.GET)
 	public String home(Locale locale, ModelMap map) {
 
 		// Date date = new Date();

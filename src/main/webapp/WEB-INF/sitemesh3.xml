@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemesh>
-	<mapping path="/*" exclue="/admin/**" decorator="/WEB-INF/decorators/defaultDecorator.jsp" />
-	<mapping path="/admin/*" decorator="/WEB-INF/decorators/admin/adminDecorator.jsp" />
 	<mapping path="/admin/login" exclue="true" />
+	<mapping path="/admin/logout" exclue="true" />
 	<mapping path="/resources/*" exclue="true" />
+	<mapping path="/admin/*" decorator="/WEB-INF/decorators/admin/adminDecorator.jsp" />
+
 </sitemesh>

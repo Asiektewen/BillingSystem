@@ -1,29 +1,24 @@
+/**
+ * 
+ */
 package com.telecom.billing.dao;
 
 import java.util.List;
 
 import com.telecom.billing.model.User;
 
+/**
+ * @author zhangle
+ *
+ */
+public interface UserDAO extends GenericDAO<User> {
+	public User getUserByUsername(String username);
 
+	public Boolean doesNameExit(String username);
 
-public interface UserDAO {
-	/*
-	 * CREATE and UPDATE
-	 */
-	public void saveUser(User user); // create and update
+	public List<User> findUsersWithoutAdmin(int start, int size,
+			String orderBy, String orderType);
 
-	/*
-	 * READ
-	 */
-	public List<User> listUsers();
-	public User getUser(Long id);
-
-	/*
-	 * DELETE
-	 */
-	public void deleteUser(Long id);
-	
-    public User checkLogin(String userName, String userPassword);
-
+	public Integer countAllUserNotAdmin();
 
 }
