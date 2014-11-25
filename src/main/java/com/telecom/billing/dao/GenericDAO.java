@@ -24,4 +24,5 @@ public interface GenericDAO<T> {
 	public void deleteById(final long id);
 
 	public Integer countAll();
+
 }

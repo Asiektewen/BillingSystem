@@ -16,9 +16,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 @RequestMapping("/admin")
-public class LoginController {
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String home(Locale locale, ModelMap map) {
+public class LogController {
+	@RequestMapping(value = { "/login", "/login/" }, method = RequestMethod.GET)
+	public String login(Locale locale, ModelMap map) {
 		return "admin/login";
+	}
+
+	@RequestMapping(value = { "/logout", "/logout/" }, method = RequestMethod.GET)
+	public String logout(Locale locale, ModelMap map) {
+		return "redirect:login";
 	}
 }

@@ -1,55 +1,67 @@
+/**
+ * 
+ */
 package com.telecom.billing.services.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.telecom.billing.dao.GenericDAO;
 import com.telecom.billing.dao.UserDAO;
 import com.telecom.billing.model.User;
 import com.telecom.billing.services.UserService;
 
-import org.springframework.transaction.annotation.Propagation;
-
-@Service
-public class UserServiceImpl implements UserService{
-	
+/**
+ * @author zhangle
+ *
+ */
+@Service("userService")
+public class UserServiceImpl extends GenericServiceImpl<User> implements
+		UserService {
 	@Autowired
-	UserDAO userDAO;
+	@Qualifier("userDAO")
+	public UserDAO userDAO;
 
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
-	public void saveUser(User user) {
-		// TODO Auto-generated method stub
-		user.setJoinDate(new Date());
-		userDAO.saveUser(user);
-		
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.telecom.billing.services.UserService#getUserByUsername(java.lang.
+	 * String)
+	 */
+	@Override
+	public User getUserByUsername(String username) {
+		return userDAO.getUserByUsername(username);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
-	public List<User> listUsers() {
-		// TODO Auto-generated method stub
-		return userDAO.listUsers();
-	}
-
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
-	public User getUser(Long id) {
-		// TODO Auto-generated method stub
-		return userDAO.getUser(id);	
-		}
-
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
-	public void deleteUser(Long id) {
-		// TODO Auto-generated method stub
-		userDAO.deleteUser(id);
-		
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.telecom.billing.services.UserService#doesNameExit(java.lang.String)
+	 */
+	@Override
+	public Boolean doesNameExit(String username) {
+		return userDAO.doesNameExit(username);
 	}
 
 	@Override
-	public User checkLogin(String userName, String userPassword) {
-		// TODO Auto-generated method stub
-		return userDAO.checkLogin(userName, userPassword);
+	protected GenericDAO<User> getDAO() {
+		return this.userDAO;
+	}
+
+	@Override
+	public List<User> findUsersWithoutAdmin(int start, int size,
+			String orderBy, String orderType) {
+		return userDAO.findUsersWithoutAdmin(start, size, orderBy, orderType);
+	}
+
+	@Override
+	public Integer countAllUserNotAdmin() {
+		return userDAO.countAllUserNotAdmin();
 	}
 
 }

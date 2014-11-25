@@ -1,27 +1,23 @@
+/**
+ * 
+ */
 package com.telecom.billing.services;
 
 import java.util.List;
 
 import com.telecom.billing.model.User;
 
+/**
+ * @author zhangle
+ *
+ */
+public interface UserService extends GenericService<User> {
+	public User getUserByUsername(String username);
 
-public interface UserService {
-	/*
-	 * CREATE and UPDATE 
-	 */
-	public void saveUser(User user);
+	public Boolean doesNameExit(String username);
 
-	/*
-	 * READ
-	 */
-	public List<User> listUsers();
-	public User getUser(Long id);
+	public List<User> findUsersWithoutAdmin(int start, int size,
+			String orderBy, String orderType);
 
-	/*
-	 * DELETE
-	 */
-	public void deleteUser(Long id);
-    public User checkLogin(String userName, String userPassword);
-
-
+	public Integer countAllUserNotAdmin();
 }

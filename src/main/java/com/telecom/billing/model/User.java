@@ -1,24 +1,30 @@
 package com.telecom.billing.model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "t_user_info")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User {
 	@Id
-	@Column(name = "USER_ID")
-	@GeneratedValue
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	private long id;
 
 	@Column(name = "role")
@@ -66,8 +72,41 @@ public class User {
 
 	private String email;
 
-	@Column(name = "contact_information")
-	private String contactInformation;
+	@Column(name = "phone_num")
+	private String phoneNumber;
+
+	@Column(name = "address")
+	private String address;
+
+	@Column(name = "zipCode")
+	private String zipCode;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	public List<Customer> customerList;
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
 
 	public String getFullName() {
 
@@ -124,14 +163,6 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getContactInformation() {
-		return contactInformation;
-	}
-
-	public void setContactInformation(String contactInformation) {
-		this.contactInformation = contactInformation;
 	}
 
 	public long getId() {

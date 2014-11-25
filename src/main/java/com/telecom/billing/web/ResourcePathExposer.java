@@ -19,10 +19,14 @@ public class ResourcePathExposer implements ServletContextAware {
 	 * 初始化方法
 	 */
 	public void init() {
-		adminResRoot = "/billingAdmin/resources/admin";
-		getServletContext().setAttribute("adminResRoot", adminResRoot);
-		getServletContext().setAttribute("contextPath",
-				getServletContext().getContextPath());
+		if (getServletContext() != null) {
+			adminResRoot = "/billingAdmin/resources/admin";
+			getServletContext().setAttribute("adminResRoot", adminResRoot);
+			getServletContext().setAttribute("contextPath",
+					getServletContext().getContextPath());
+			getServletContext().setAttribute("adminContextPath",
+					getServletContext().getContextPath() + "/admin");
+		}
 	}
 
 	public String getAdminResRoot() {
