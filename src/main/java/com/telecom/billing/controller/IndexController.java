@@ -9,15 +9,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import com.telecom.billing.web.FireAuthority;
 
 /**
  * @author zhangle
  *
  */
 @Controller
-// @SessionAttributes({ "user" })
+@SessionAttributes({ "user" })
 public class IndexController {
-
+	@FireAuthority
 	@RequestMapping(value = { "/admin", "/admin/" }, method = RequestMethod.GET)
 	public String home(Locale locale, ModelMap map) {
 
@@ -38,6 +41,6 @@ public class IndexController {
 		// // request.getSession().setAttribute("role", "admin");
 		// map.addAttribute("serverTime", formattedDate);
 
-		return "admin/form";
+		return "admin/home";
 	}
 }

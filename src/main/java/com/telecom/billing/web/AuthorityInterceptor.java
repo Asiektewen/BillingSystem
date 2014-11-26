@@ -30,7 +30,6 @@ public class AuthorityInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		// TODO Auto-generated method stub
 		HandlerMethod handler2 = (HandlerMethod) handler;
 		FireAuthority fireAuthority = handler2
 				.getMethodAnnotation(FireAuthority.class);
@@ -46,14 +45,14 @@ public class AuthorityInterceptor implements HandlerInterceptor {
 				} else {
 					StringBuilder sb = new StringBuilder();
 					sb.append(request.getContextPath());
-					sb.append("/");
+					sb.append("/login/");
 					response.sendRedirect(sb.toString());
 					return false;
 				}
 			} else {
 				StringBuilder sb = new StringBuilder();
 				sb.append(request.getContextPath());
-				sb.append("/");
+				sb.append("/login/");
 				response.sendRedirect(sb.toString());
 				return false;
 
