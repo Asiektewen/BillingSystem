@@ -28,6 +28,7 @@
 <!-- Custom Fonts -->
 <link href="${adminResRoot}/font-awesome-4.1.0/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+<link href="${adminResRoot}/fileinput/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -84,23 +85,23 @@
 
 						<li><a href="index.html"><i class="fa fa-dashboard fa-fw"></i>
 								Dashboard</a></li>
-						<li><a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>
+						<li <c:if test="${currentPage == 'rates'}"> class="active"</c:if>><a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>
 								Rates<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
-								<li><a href="flot.html">Current Rates</a></li>
-								<li><a href="morris.html">Rates History</a></li>
-								<li><a href="morris.html">Update Rates</a></li>
-								<li><a href="morris.html">Export Rates Sheet</a></li>
-								<li><a href="morris.html">Export Traffic Summary</a></li>
+								<li><a href="${adminContextPath}/rates/expCurrent">Current Rates</a></li>
+								<li><a href="${adminContextPath}">Rates History</a></li>
+								<li><a href="${adminContextPath}/rates/updateRates">Update Rates</a></li>
+								<li><a href="${adminContextPath}/rates/expSheet">Export Rates Sheet</a></li>
+								<li><a href="${adminContextPath}/rates/expTraffic">Export Traffic Summary</a></li>
 							</ul> <!-- /.nav-second-level --></li>
-						<li><a href="tables.html"><i class="fa fa-table fa-fw"></i>
+						<li <c:if test="${currentPage == 'customer'}"> class="active"</c:if>><a href="tables.html"><i class="fa fa-table fa-fw"></i>
 								Customers<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
-								<li><a href="blank.html">Customer List</a></li>
-								<li><a href="login.html">Create Customer</a></li>
-								<li><a href="login.html">Generate Bill</a></li>
+								<li><a href="#">Customer List</a></li>
+								<li><a href="#">Create Customer</a></li>
+								<li><a href="${adminContextPath}/customer/genBill">Generate Bill</a></li>
 							</ul> <!-- /.nav-second-level --></li>
-						<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> Sales
+						<li <c:if test="${currentPage == 'sales'}"> class="active"</c:if>><a href="#"><i class="fa fa-sitemap fa-fw"></i> Sales
 								Reprentatives<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li><a href="#">Sales Representatives List</a></li>
@@ -111,7 +112,7 @@
 
 						<li><a href="index.html"><i class="fa fa-dashboard fa-fw"></i>
 								Dashboard</a></li>
-						<li><a href="tables.html"><i class="fa fa-table fa-fw"></i>
+						<li <c:if test="${currentPage == 'customer'}"> class="active"</c:if>><a href="tables.html"><i class="fa fa-table fa-fw"></i>
 								Customers<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li><a href="blank.html">Customer List</a></li>
@@ -145,7 +146,7 @@
 
 	<!-- Custom Theme JavaScript -->
 	<script src="${adminResRoot}/js/sb-admin-2.js"></script>
-
+<script src="${adminResRoot}/fileinput/fileinput.min.js" type="text/javascript"></script>
 </body>
 
 </html>
