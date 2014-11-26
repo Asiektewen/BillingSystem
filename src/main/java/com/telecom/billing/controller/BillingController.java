@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.WebRequest;
 
 import com.telecom.billing.services.UserService;
@@ -28,46 +27,28 @@ import com.telecom.billing.services.UserService;
  *
  */
 @Controller
-@SessionAttributes({ "user" })
-@RequestMapping("/admin/rates/")
-public class RatesController {
+@RequestMapping("/admin/billing")
+// @SessionAttributes({ "user" })
+public class BillingController {
 	private static final Logger logger = LoggerFactory
-			.getLogger(RatesController.class);
+			.getLogger(BillingController.class);
+
+	@ModelAttribute
+	public void currentPage(WebRequest request, Model model) {
+		model.addAttribute("currentPage", "billing");
+	}
+
 	@Autowired
 	@Qualifier("userService")
 	public UserService userService;
 
-	@ModelAttribute
-	public void currentPage(WebRequest request, Model model) {
-		model.addAttribute("currentPage", "rates");
-	}
+	// @RequestMapping(value = "/json", method = RequestMethod.POST)
+	// public @ResponseBody String readJson(@Valid @RequestBody JavaBean bean) {
+	// return "Read from JSON: " + bean;
+	// }
 
-	@RequestMapping(value = { "/updateRates", "/updateRates/" }, method = RequestMethod.GET)
-	public String updateRates() {
-		return "admin/updateRates";
-
-	}
-
-	@RequestMapping(value = { "/expSheet", "/expSheet/" }, method = RequestMethod.GET)
-	public String expSheet() {
-		return "admin/exportRatesSheet";
-
-	}
-
-	@RequestMapping(value = { "/expCurrent", "/expCurrent/" }, method = RequestMethod.GET)
-	public String expCurrent() {
-		return "admin/exportCurrentRates";
-
-	}
-
-	@RequestMapping(value = { "/expTraffic", "/expTraffic/" }, method = RequestMethod.GET)
-	public String expTraffic() {
-		return "admin/exportTrafficSummary";
-
-	}
-
-	@RequestMapping(value = { "/traffic/gen", "/traffic/gen/" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Map<String, String> genTraffic(
+	@RequestMapping(value = { "/gen", "/gen/" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Map<String, String> genMonthlyBill(
 			@RequestParam String month, Model model) {
 		logger.debug("Generate Bills:Month is " + month);
 		Map<String, String> map = new HashMap<String, String>();

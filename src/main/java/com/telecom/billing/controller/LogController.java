@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,8 @@ import com.telecom.billing.services.UserService;
 @RequestMapping("/admin")
 // @SessionAttributes({ "user" })
 public class LogController {
+	private static final Logger logger = LoggerFactory
+			.getLogger(LogController.class);
 	@Autowired
 	@Qualifier("userService")
 	public UserService userService;

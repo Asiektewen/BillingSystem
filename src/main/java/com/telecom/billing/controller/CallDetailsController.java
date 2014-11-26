@@ -20,22 +20,22 @@ import com.telecom.billing.services.UserService;
  */
 @Controller
 @SessionAttributes({ "user" })
-@RequestMapping("/admin/customer")
-public class CustomerController {
+@RequestMapping("/admin/callDetails")
+public class CallDetailsController {
 	private static final Logger logger = LoggerFactory
-			.getLogger(CustomerController.class);
+			.getLogger(CallDetailsController.class);
 	@Autowired
 	@Qualifier("userService")
 	public UserService userService;
 
 	@ModelAttribute
 	public void currentPage(WebRequest request, Model model) {
-		model.addAttribute("currentPage", "customer");
+		model.addAttribute("currentPage", "callDetails");
 	}
 
-	@RequestMapping(value = { "/genBill", "/genBill/" }, method = RequestMethod.GET)
-	public String genBill() {
-		return "admin/generateBill";
+	@RequestMapping(value = { "/upload", "/upload/" }, method = RequestMethod.GET)
+	public String uploadCallDetailsPage() {
+		return "admin/callDetailsProcess";
 
 	}
 }
