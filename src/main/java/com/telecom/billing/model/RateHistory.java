@@ -30,8 +30,8 @@ public class RateHistory {
 	public String servviceType;
 	@Column(name = "src_country")
 	public String srcCountry;
-	@Column(name = "dest_country")
-	public String destCountry;
+	@Column(name = "dest_country_id")
+	public Integer destCountryId;
 	@Column(name = "start_time")
 	public Date startTime;
 	@Column(name = "end_time")
@@ -42,6 +42,8 @@ public class RateHistory {
 	public Double peakRate;
 	@Column(name = "offpeak_rate")
 	public Double offpeakRate;
+	public String destCountry;
+
 
 	/**
 	 * @return the peakRate
@@ -121,16 +123,16 @@ public class RateHistory {
 	/**
 	 * @return the destCountry
 	 */
-	public String getDestCountry() {
-		return destCountry;
+	public Integer getDestCountryId() {
+		return destCountryId;
 	}
 
 	/**
 	 * @param destCountry
 	 *            the destCountry to set
 	 */
-	public void setDestCountry(String destCountry) {
-		this.destCountry = destCountry;
+	public void setDestCountryId(Integer destCountryId) {
+		this.destCountryId = destCountryId;
 	}
 
 	/**
@@ -163,4 +165,11 @@ public class RateHistory {
 		this.endTime = endTime;
 	}
 
+	public String getDestCountry() {
+		return destCountry;
+	}
+
+	public void setDestCountry(String destCountry) {
+		this.destCountry = destCountry;
+	}
 }

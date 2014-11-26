@@ -27,10 +27,10 @@ public class CallDetail {
 	public Long id;
 	@Column(name = "service_type")
 	public String servviceType;
-	@Column(name = "src_country")
-	public String srcCountry;
-	@Column(name = "dest_country")
-	public String destCountry;
+	@Column(name = "src_country_id")
+	public Integer srcCountryId;
+	@Column(name = "dest_country_id")
+	public Integer destCountryId;
 	@Column(name = "src_phone_num")
 	public String srcPhoneNumber;
 	@Column(name = "dest_phone_num")
@@ -52,20 +52,20 @@ public class CallDetail {
 		this.servviceType = servviceType;
 	}
 
-	public String getSrcCountry() {
-		return srcCountry;
+	public Integer getSrcCountryId() {
+		return srcCountryId;
 	}
 
-	public void setSrcCountry(String srcCountry) {
-		this.srcCountry = srcCountry;
+	public void setSrcCountryId(Integer srcCountryId) {
+		this.srcCountryId = srcCountryId;
 	}
 
-	public String getDestCountry() {
-		return destCountry;
+	public Integer getDestCountryId() {
+		return destCountryId;
 	}
 
-	public void setDestCountry(String destCountry) {
-		this.destCountry = destCountry;
+	public void setDestCountryId(Integer destCountryId) {
+		this.destCountryId = destCountryId;
 	}
 
 	public String getSrcPhoneNumber() {
