@@ -5,6 +5,6 @@
 	<mapping path="/admin/logout/" exclue="true" />
 	<mapping path="/admin/logout" exclue="true" />
 	<mapping path="/resources/*" exclue="true" />
-	<mapping path="/admin/*" decorator="/WEB-INF/decorators/admin/adminDecorator.jsp" />
+	<mapping path="/admin*" decorator="/WEB-INF/decorators/admin/adminDecorator.jsp" />
 
 </sitemesh>

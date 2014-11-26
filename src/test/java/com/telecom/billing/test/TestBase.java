@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.telecom.billing.common.SysConstant;
 import com.telecom.billing.model.User;
-import com.yoga.studio.test.RandomData;
 
 /**
  * @author zhangle
