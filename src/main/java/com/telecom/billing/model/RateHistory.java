@@ -44,7 +44,6 @@ public class RateHistory {
 	public Double offpeakRate;
 	public String destCountry;
 
-
 	/**
 	 * @return the peakRate
 	 */

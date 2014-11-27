@@ -81,9 +81,6 @@ public class User {
 	@Column(name = "zipCode")
 	private String zipCode;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	public List<Customer> customerList;
-
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}

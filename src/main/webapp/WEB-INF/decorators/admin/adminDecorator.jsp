@@ -116,8 +116,8 @@
 								href="tables.html"><i class="fa fa-child fa-fw"></i>
 									Customers<span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
-									<li><a href="#">Customer List</a></li>
-									<li><a href="#">Create Customer</a></li>
+									<li><a href="${adminContextPath }/customer/list/">Customer List</a></li>
+									<li><a href="${adminContextPath}/customer/create/">Create Customer</a></li>
 									<li><a href="${adminContextPath}/customer/genBill">Generate
 											Bill</a></li>
 								</ul> <!-- /.nav-second-level --></li>

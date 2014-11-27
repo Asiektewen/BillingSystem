@@ -6,6 +6,7 @@ package com.telecom.billing.dao.impl;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 
 import com.telecom.billing.dao.CustomerDAO;
@@ -28,7 +29,7 @@ public class CustomerDAOImpl extends GenericDAOImpl<Customer> implements
 	public Boolean doesNameExit(String username) {
 		// Session session = sessionFactory.openSession();
 		// Query using Hibernate Query Language
-		String SQL_QUERY = " from Customer as c where c.username=?";
+		String SQL_QUERY = " from Customer c where c.username=?";
 		Query query = getCurrentSession().createQuery(SQL_QUERY);
 		query.setParameter(0, username);
 		List<Customer> list = query.list();
@@ -40,4 +41,46 @@ public class CustomerDAOImpl extends GenericDAOImpl<Customer> implements
 		return false;
 	}
 
+	@Override
+	public List<Customer> findAllCustomerByUser(int start, int size,
+			String orderBy, String orderType, long userID, int type) {
+		Query query = null;
+		if (type == 1) {
+			// salesRep
+			query = getCurrentSession().createQuery(
+					"FROM Customer  c where c.salesRepID= :salesRepId order by :orderBy "
+							+ orderType);
+			query.setParameter("salesRepId", userID);
+		} else {
+			// admin
+			query = getCurrentSession().createQuery(
+					"FROM Customer  c order by :orderBy " + orderType);
+		}
+		query.setString("orderBy", orderBy);
+
+		query.setFirstResult(start);
+		query.setMaxResults(size);
+		List<Customer> customerList = query.list();
+		if (customerList != null) {
+			return customerList;
+		}
+		return null;
+	}
+
+	@Override
+	public Integer countAllCustomerByUser(long userID) {
+		Query query = getCurrentSession().createQuery(
+				"select count(*) from Customer c where c.salesRepID= ? ");
+		query.setParameter(0, userID);
+
+		return DataAccessUtils.intResult(query.list());
+	}
+
+	@Override
+	public Integer countAllCustomerByAdmin() {
+		Query query = getCurrentSession().createQuery(
+				"select count(*) from Customer c ");
+
+		return DataAccessUtils.intResult(query.list());
+	}
 }
