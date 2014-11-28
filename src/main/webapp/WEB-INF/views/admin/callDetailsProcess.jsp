@@ -14,7 +14,10 @@
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<c:out value="${message }" />
+				<c:out value="${uploadMessage}" />
+				<%
+				       request.getSession().setAttribute("uploadMessage", "");
+				%>
 			</div>
 			<div class="panel-body">
 				<div class="row">
@@ -27,7 +30,7 @@
 								<p class="help-block">System will process this file as soon
 									as possible.</p>
 							</div>
-							<input type="hidden" name="function" value="callDetailsProcess" /> 
+							<input type="hidden" name="function" value="processCallDetails" /> 
 							<input type="hidden" name="param" value="123" />
 						</form>
 					</div>

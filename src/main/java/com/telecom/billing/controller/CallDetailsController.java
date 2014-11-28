@@ -1,5 +1,7 @@
 package com.telecom.billing.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,10 @@ public class CallDetailsController {
 	}
 
 	@RequestMapping(value = { "/upload", "/upload/" }, method = RequestMethod.GET)
-	public String uploadCallDetailsPage() {
+	public String uploadCallDetailsPage(HttpServletRequest request, Model model) {
+		String message = (String) request.getSession().getAttribute(
+				"uploadMessage");
+		model.addAttribute("uploadMessage", message);
 		return "admin/callDetailsProcess";
 
 	}

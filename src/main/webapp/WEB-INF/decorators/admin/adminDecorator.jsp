@@ -135,12 +135,13 @@
 									class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
 							<li
 								<c:if test="${currentPage == 'customer'}"> class="active"</c:if>><a
-								href="tables.html"><i class="fa fa-table fa-fw"></i>
+								href="tables.html"><i class="fa fa-child fa-fw"></i>
 									Customers<span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
-									<li><a href="blank.html">Customer List</a></li>
-									<li><a href="login.html">Create Customer</a></li>
-									<li><a href="login.html">Generate Bill</a></li>
+									<li><a href="${adminContextPath }/customer/list/">Customer List</a></li>
+									<li><a href="${adminContextPath}/customer/create/">Create Customer</a></li>
+									<li><a href="${adminContextPath}/customer/genBill">Generate
+											Bill</a></li>
 								</ul> <!-- /.nav-second-level --></li>
 						</c:if>
 					</ul>

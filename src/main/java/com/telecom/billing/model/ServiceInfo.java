@@ -3,15 +3,15 @@
  */
 package com.telecom.billing.model;
 
-import java.util.Date;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -28,16 +28,16 @@ public class ServiceInfo {
 
 	@Column(name = "service_type")
 	public String servviceType;
-	@Column(name = "country_num")
-	public String countryNum;
-	@Column(name = "peak_start_time")
-	@Type(type = "date")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "country_code")
+	public CountryInfo countryInfo;
+	@Column(name = "peak_time")
 	@DateTimeFormat(pattern = "HHmm")
-	public Date peakStartTime;
-	@Column(name = "offpeak_start_time")
-	@Type(type = "date")
-	@DateTimeFormat(pattern = "HHmm")
-	public Date offpeakStartTime;
+	public String peakStartTime;
+	@Column(name = "off_peak_time")
+	// @Type(type = "date")
+	// @DateTimeFormat(pattern = "HHmm")
+	public String offpeakStartTime;
 	@Column(name = "status")
 	public int status;
 	@Column(name = "update_history_id")
@@ -89,27 +89,27 @@ public class ServiceInfo {
 		this.servviceType = servviceType;
 	}
 
-	public String getCountryNum() {
-		return countryNum;
+	public CountryInfo getCountryInfo() {
+		return countryInfo;
 	}
 
-	public void setCountryNum(String countryNum) {
-		this.countryNum = countryNum;
+	public void setCountryInfo(CountryInfo countryInfo) {
+		this.countryInfo = countryInfo;
 	}
 
-	public Date getPeakStartTime() {
+	public String getPeakStartTime() {
 		return peakStartTime;
 	}
 
-	public void setPeakStartTime(Date peakStartTime) {
+	public void setPeakStartTime(String peakStartTime) {
 		this.peakStartTime = peakStartTime;
 	}
 
-	public Date getOffpeakStartTime() {
+	public String getOffpeakStartTime() {
 		return offpeakStartTime;
 	}
 
-	public void setOffpeakStartTime(Date offpeakStartTime) {
+	public void setOffpeakStartTime(String offpeakStartTime) {
 		this.offpeakStartTime = offpeakStartTime;
 	}
 

@@ -26,20 +26,20 @@ public class Customer extends User {
 		this.city = city;
 	}
 
-	public String getCountryID() {
-		return countryID;
+	public String getCountryCode() {
+		return countryCode;
 	}
 
-	public void setCountryID(String countryID) {
-		this.countryID = countryID;
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 
-	public String getServiceID() {
-		return serviceID;
+	public String getServiceType() {
+		return serviceType;
 	}
 
-	public void setServiceID(String serviceID) {
-		this.serviceID = serviceID;
+	public void setServiceType(String serviceType) {
+		this.serviceType = serviceType;
 	}
 
 	@Column(name = "commission_level")
@@ -55,10 +55,10 @@ public class Customer extends User {
 
 	@Column(name = "city")
 	private String city;
-	@Column(name = "countryID")
-	private String countryID;
-	@Column(name = "serviceID")
-	private String serviceID;
+	@Column(name = "country_code")
+	private String countryCode;
+	@Column(name = "service_type")
+	private String serviceType;
 	@Column(name = "street")
 	private String street;
 

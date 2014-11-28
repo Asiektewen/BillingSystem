@@ -46,8 +46,8 @@
 									<td><c:out value="${customer.city}" /></td>
 									<td><c:out value="${customer.zipCode}" /></td>
 									<td><c:out value="${customer.phoneNumber}" /></td>
-									<td><c:out value="${customer.countryID}" /></td>
-									<td><c:out value="${customer.serviceID}" /></td>
+									<td><c:out value="${customer.countryCode}" /></td>
+									<td><c:out value="${customer.serviceType}" /></td>
 									<td><c:out value="${customer.salesRepID}" /></td>
 									<td><c:out value="${customer.commissionlevel}" /></td>
 								</tr>

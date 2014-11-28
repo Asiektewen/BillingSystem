@@ -3,10 +3,15 @@
  */
 package com.telecom.billing.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -14,17 +19,29 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "t_country_info")
+@Table(name = "t_country_code")
 public class CountryInfo {
-	@Id
+
 	@Column(name = "id")
 	@GeneratedValue
 	public Long id;
-
-	@Column(name = "country_num")
-	public String countryNum;
+	@Id
+	@Column(name = "country_code")
+	public String countryCode;
 	@Column(name = "country_name")
 	public String countryName;
+
+	// @OneToMany(mappedBy = "countryInfo", cascade =
+	// CascadeType.ALL,fetch=FetchType.LAZY)
+	// private List<ServiceInfo> serviceInfoList;
+
+	// public List<ServiceInfo> getServiceInfoList() {
+	// return serviceInfoList;
+	// }
+	//
+	// public void setServiceInfoList(List<ServiceInfo> serviceInfoList) {
+	// this.serviceInfoList = serviceInfoList;
+	// }
 
 	public Long getId() {
 		return id;
@@ -34,12 +51,12 @@ public class CountryInfo {
 		this.id = id;
 	}
 
-	public String getCountryNum() {
-		return countryNum;
+	public String getCountryCode() {
+		return countryCode;
 	}
 
-	public void setCountryNum(String countryNum) {
-		this.countryNum = countryNum;
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 
 	public String getCountryName() {

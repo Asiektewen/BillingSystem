@@ -2,14 +2,21 @@ package com.telecom.billing.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +33,10 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.telecom.billing.common.SysConstant;
 import com.telecom.billing.model.Customer;
+import com.telecom.billing.model.ServiceInfo;
 import com.telecom.billing.model.User;
 import com.telecom.billing.services.CustomerService;
+import com.telecom.billing.services.ServiceInfoService;
 import com.telecom.billing.services.UserService;
 
 /**
@@ -46,6 +55,9 @@ public class CustomerController {
 	@Autowired
 	@Qualifier("customerService")
 	public CustomerService customerService;
+	@Autowired
+	@Qualifier("serviceInfoService")
+	public ServiceInfoService serviceInfoService;
 
 	@ModelAttribute
 	public void currentPage(WebRequest request, Model model) {
@@ -66,13 +78,14 @@ public class CustomerController {
 		Integer totalPage = 0;
 		Integer totalCount = 0;
 		if (SysConstant.ROLE_ADMIN.equalsIgnoreCase(user.getRole())) {
-			customerList = customerService.findAllCustomerByUser(start-1, size,
-					orderBy, orderType, user.getId(), 2);
-			totalCount = customerService.countAllCustomerByUser(user.getId());
+			customerList = customerService.findAllCustomerByUser(start - 1,
+					size, orderBy, orderType, user.getId(), 2);
+			totalCount = customerService.countAllCustomerByAdmin();
+		
 		} else if (SysConstant.ROLE_SALESREP.equalsIgnoreCase(user.getRole())) {
 			customerList = customerService.findAllCustomerByUser(start, size,
 					orderBy, orderType, user.getId(), 1);
-			totalCount = customerService.countAllCustomerByAdmin();
+			totalCount = customerService.countAllCustomerByUser(user.getId());
 		} else {
 			customerList = new ArrayList<Customer>();
 		}
@@ -109,7 +122,44 @@ public class CustomerController {
 	}
 
 	@RequestMapping(value = { "/create", "/create/" }, method = RequestMethod.GET)
-	public String createCustomer() {
+	public String createCustomer(Model model,HttpSession session) throws JsonGenerationException,
+			JsonMappingException, IOException {
+		List<ServiceInfo> serviceInfoList = serviceInfoService.findAll();
+		// put serviceInfos into groups according to serviceType;
+		Map<String, ArrayList<ServiceInfo>> map = new HashMap<String, ArrayList<ServiceInfo>>();
+		Iterator<ServiceInfo> i = serviceInfoList.iterator();
+		while (i.hasNext()) {
+			ServiceInfo si = i.next();
+			ArrayList<ServiceInfo> list = map.get(si.getServviceType());
+			if (list == null) {
+				list = new ArrayList<ServiceInfo>();
+			}
+			list.add(si);
+			map.put(si.getServviceType(), (ArrayList<ServiceInfo>) list);
+
+		}
+		Iterator<String> mi = map.keySet().iterator();
+		while (mi.hasNext()) {
+			ArrayList<ServiceInfo> infoList = map.get(mi.next());
+			Collections.sort(infoList, new Comparator<ServiceInfo>() {
+				public int compare(ServiceInfo o1, ServiceInfo o2) {
+					return o1.getCountryInfo().getCountryCode()
+							.compareTo(o2.getCountryInfo().getCountryCode());
+				}
+			});
+		}
+
+		List<String> keys = new ArrayList<String>(map.keySet());
+		// Sorting
+		Collections.sort(keys);
+       if(session.getAttribute("createCustomerMsg")!=null){
+    	   model.addAttribute("createCustomerMsg", session.getAttribute("createCustomerMsg"));
+       }
+		model.addAttribute("serviceKeys", keys);
+		model.addAttribute("serviceKeysJSON",
+				new ObjectMapper().writeValueAsString(keys));
+		model.addAttribute("serviceInfoJSON",
+				new ObjectMapper().writeValueAsString(map));
 		return "admin/createCustomer";
 
 	}
@@ -131,7 +181,7 @@ public class CustomerController {
 			customer.setSalesRepID(user.getId());
 			customer.setJoinDate(new Date());
 			customerService.save(customer);
-			request.getSession().setAttribute("message", "Successfully!");
+			request.getSession().setAttribute("createCustomerMsg", "Successfully!");
 		} else {
 			// reset
 			request.getSession().setAttribute("customer", new Customer());

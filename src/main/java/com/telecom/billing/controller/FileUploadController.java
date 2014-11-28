@@ -45,7 +45,7 @@ public class FileUploadController {
 		int result = saveFile(file);
 		if (result == 1) {
 			request.getSession().setAttribute(
-					"message",
+					"uploadMessage",
 					"File '" + file.getOriginalFilename()
 							+ "' uploaded successfully");
 		} else {
@@ -56,6 +56,8 @@ public class FileUploadController {
 		sb.append(request.getContextPath());
 		if (function.equalsIgnoreCase("updateRates")) {
 			sb.append("/admin/rates/updateRates");
+		}else if(function.equalsIgnoreCase("processCallDetails")){
+			sb.append("/admin/callDetails/upload");
 		} else {
 			sb.append("/admin/");
 		}
