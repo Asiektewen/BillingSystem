@@ -87,15 +87,15 @@
 					<ul class="nav" id="side-menu">
 						<c:if test="${user.role == 'ROLE_ADMIN'}">
 
-							<li><a href="index.html"><i
+							<li><a href="${adminContextPath}"><i
 									class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
 							<li <c:if test="${currentPage == 'rates'}"> class="active"</c:if>><a
 								href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Rates<span
 									class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
-									<li><a href="${adminContextPath}/rates/expCurrent">Current
-											Rates</a></li>
-									<li><a href="${adminContextPath}">Rates History</a></li>
+<%-- 									<li><a href="${adminContextPath}/rates/expCurrent">Current --%>
+<!-- 											Rates</a></li> -->
+<%-- 									<li><a href="${adminContextPath}">Rates History</a></li> --%>
 									<li><a href="${adminContextPath}/rates/updateRates">Update
 											Rates</a></li>
 									<li><a href="${adminContextPath}/rates/expSheet">Export
@@ -121,13 +121,13 @@
 									<li><a href="${adminContextPath}/customer/genBill">Generate
 											Bill</a></li>
 								</ul> <!-- /.nav-second-level --></li>
-							<li <c:if test="${currentPage == 'sales'}"> class="active"</c:if>><a
-								href="#"><i class="fa fa-sitemap fa-fw"></i> Sales
-									Reprentatives<span class="fa arrow"></span></a>
-								<ul class="nav nav-second-level">
-									<li><a href="#">Sales Representatives List</a></li>
-									<li><a href="#">Create Sales Representative</a></li>
-								</ul> <!-- /.nav-second-level --></li>
+<%-- 							<li <c:if test="${currentPage == 'sales'}"> class="active"</c:if>><a --%>
+<!-- 								href="#"><i class="fa fa-sitemap fa-fw"></i> Sales -->
+<!-- 									Reprentatives<span class="fa arrow"></span></a> -->
+<!-- 								<ul class="nav nav-second-level"> -->
+<!-- 									<li><a href="#">Sales Representatives List</a></li> -->
+<!-- 									<li><a href="#">Create Sales Representative</a></li> -->
+<!-- 								</ul> /.nav-second-level</li> -->
 						</c:if>
 						<c:if test="${user.role == 'ROLE_SALESREP'}">
 
