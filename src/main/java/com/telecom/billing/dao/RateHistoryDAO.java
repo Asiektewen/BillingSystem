@@ -11,7 +11,7 @@ import com.telecom.billing.model.RateHistory;
  * @author Eric
  * 
  */
-public interface RateHistoryDAO {
+public interface RateHistoryDAO extends GenericDAO<RateHistory>{
 
 	public void importRates(List<RateHistory> rateList);
 

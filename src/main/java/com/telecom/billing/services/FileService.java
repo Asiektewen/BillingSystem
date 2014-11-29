@@ -49,14 +49,16 @@ public interface FileService {
 	/**
 	 * @param callFile:File in excel format
 	 * @return CallDetail list;
+	 * @throws Exception 
 	 */
-	public List<CallDetail> readCallFile(File callFile);
+	public List<CallDetail> readCallFile(File callFile) throws Exception;
 	
 	/**
 	 * 
 	 * @param rateFile
 	 * @return RateHistory list
+	 * @throws Exception 
 	 */
 	
-	public List<RateHistory>readRateFile(File rateFile);
+	public List<RateHistory>readRateFile(File rateFile) throws Exception;
 }

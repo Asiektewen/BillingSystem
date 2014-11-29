@@ -5,26 +5,37 @@ package com.telecom.billing.dao.impl;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.telecom.billing.dao.RateHistoryDAO;
 import com.telecom.billing.model.RateHistory;
 
 /**
  * @author Eric
- *
+ * 
  */
-public class RateHistoryDAOImpl implements RateHistoryDAO {
+@Repository("rateHistoryDAO")
+public class RateHistoryDAOImpl extends GenericDAOImpl<RateHistory> implements
+		RateHistoryDAO {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.telecom.billing.dao.RateHistoryDAO#importRates(java.util.List)
 	 */
 	@Override
 	public void importRates(List<RateHistory> rateList) {
-		// TODO Auto-generated method stub
+		for (RateHistory rate : rateList) {
+			this.save(rate);
+		}
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.telecom.billing.dao.RateHistoryDAO#fetchRates(java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.telecom.billing.dao.RateHistoryDAO#fetchRates(java.lang.String,
+	 * java.lang.String)
 	 */
 	@Override
 	public List<RateHistory> fetchRates(String srcCty, String service) {

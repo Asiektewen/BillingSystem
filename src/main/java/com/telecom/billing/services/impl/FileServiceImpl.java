@@ -9,10 +9,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.telecom.billing.Utils.ExcelUtils;
 import com.telecom.billing.Utils.PdfUtils;
+import com.telecom.billing.dao.CallDetailDAO;
+import com.telecom.billing.dao.RateHistoryDAO;
 import com.telecom.billing.model.Bill;
 import com.telecom.billing.model.CallDetail;
 import com.telecom.billing.model.RateHistory;
@@ -24,7 +28,15 @@ import com.telecom.billing.services.FileService;
  */
 @Service("fileService")
 public class FileServiceImpl implements FileService {
-
+	
+	@Autowired
+	@Qualifier("rateHistoryDAO")
+	public RateHistoryDAO rateHistoryDAO;
+	
+	@Autowired
+	@Qualifier("callDetailDAO")
+	public CallDetailDAO callDetailDAO;
+	
 	@Override
 	public String generateMonthlyBill(String fileName) throws Exception {
 		// TODO Auto-generated method stub
@@ -63,14 +75,16 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public List<CallDetail> readCallFile(File callFile) {
-		// TODO Auto-generated method stub
+	public List<CallDetail> readCallFile(File callFile) throws Exception {
+		List<CallDetail> callData = ExcelUtils.readExcelFile(callFile, ExcelUtils.CALL_FILE_TYPE);
+		callDetailDAO.importCallDetail(callData);
 		return null;
 	}
 
 	@Override
-	public List<RateHistory> readRateFile(File rateFile) {
-		// TODO Auto-generated method stub
+	public List<RateHistory> readRateFile(File rateFile) throws Exception {
+		List<RateHistory> rates =  ExcelUtils.readExcelFile(rateFile, ExcelUtils.CALL_FILE_TYPE);
+		rateHistoryDAO.importRates(rates);
 		return null;
 	}
 
