@@ -57,7 +57,7 @@ public class LogController {
 			Map<String, Object> model, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		User user = userService.getUserByUsername(username);
-		if (user.getPassword().equalsIgnoreCase(password)) {
+		if (user != null && user.getPassword().equalsIgnoreCase(password)) {
 			// model.put("user", user);
 			request.getSession().setAttribute("user", user);
 			StringBuilder sb = new StringBuilder();
