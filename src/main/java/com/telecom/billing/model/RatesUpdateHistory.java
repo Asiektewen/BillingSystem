@@ -39,6 +39,16 @@ public class RatesUpdateHistory {
 	@Type(type = "date")
 	@DateTimeFormat(pattern = "dd-mm-yyyy")
 	public Date effectDate;
+	@Column(name = "status")
+	public String status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public Date getEffectDate() {
 		return effectDate;

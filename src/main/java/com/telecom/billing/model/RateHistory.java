@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -31,19 +32,26 @@ public class RateHistory {
 	public String servviceType;
 	@Column(name = "src_country")
 	public String srcCountry;
-	@Column(name = "dest_country_id")
+	@Column(name = "dest_country")
 	public Integer destCountryId;
-	@Column(name = "start_time")
-	public Date startTime;
-	@Column(name = "end_time")
+	@Column(name = "effective_time")
 	@Type(type = "date")
-	@DateTimeFormat(pattern = "dd-mm-yyyy")
+	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
+	public Date startTime;
+	@Column(name = "expire_time")
+	@Type(type = "date")
+	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
 	public Date endTime;
-	@Column(name = "peak_rate")
+	@Column(name = "peak")
 	public Double peakRate;
-	@Column(name = "offpeak_rate")
+	@Column(name = "offpeak")
 	public Double offpeakRate;
+	@Transient
 	public String destCountry;
+	@Column(name = "rate_import_time ")
+	@Type(type = "date")
+	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
+	public Date rateImportDate;
 
 	/**
 	 * @return the peakRate

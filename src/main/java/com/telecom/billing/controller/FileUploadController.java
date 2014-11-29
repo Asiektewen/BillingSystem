@@ -28,7 +28,7 @@ import com.telecom.billing.util.AjaxUtils;
 public class FileUploadController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(FileUploadController.class);
-	public String storeFilePath = ExcelUtils.getInPutDir();
+	public String storeFilePath = "";
 
 	@Autowired
 	public FileService fileService;
@@ -83,6 +83,9 @@ public class FileUploadController {
 				byte[] bytes = file.getBytes();
 
 				// Creating the directory to store file
+				if (storeFilePath.equalsIgnoreCase("")) {
+					storeFilePath = ExcelUtils.getInPutDir();
+				}
 				String rootPath = storeFilePath;
 				File dir = new File(rootPath + File.separator);
 				if (!dir.exists())
