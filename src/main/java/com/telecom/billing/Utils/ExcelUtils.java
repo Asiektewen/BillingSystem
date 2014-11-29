@@ -169,7 +169,8 @@ public class ExcelUtils {
 	}
 
 	public static String getOutPutDir() {
-		String path = System.getProperty("user.dir") + "\\output\\";
+		String path = ExcelUtils.class.getClassLoader().getResource("/").getPath();
+		path = path.substring(0,path.length()-9) + "\\output\\";
 		File dir = new File(path);
 		if (!dir.exists()) {
 			dir.mkdir();

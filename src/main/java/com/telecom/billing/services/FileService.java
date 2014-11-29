@@ -20,9 +20,10 @@ public interface FileService {
 	 *  file format: pdf
 	 * @param fileName (format: Bill_srcPhoneNo_date)
 	 * @return full path of the file
+	 * @throws Exception 
 	 */
 	
-	public String generateMonthlyBill(String fileName);
+	public String generateMonthlyBill(String fileName) throws Exception;
 	/**
 	 * file format : pdf
 	 * @param fileName (format: Rate_service_srccty_date )
