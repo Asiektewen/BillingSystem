@@ -178,6 +178,16 @@ public class ExcelUtils {
 		return path;
 	}
 
+	public static String getInPutDir() {
+		String path = ExcelUtils.class.getClassLoader().getResource("/").getPath();
+		path = path.substring(0,path.length()-9) + "\\input\\";
+		File dir = new File(path);
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
+		return path;
+	}	
+	
 	/**
 	 * @param args
 	 * @throws Exception
