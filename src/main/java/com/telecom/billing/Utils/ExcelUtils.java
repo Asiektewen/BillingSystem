@@ -6,7 +6,6 @@ package com.telecom.billing.Utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -74,34 +73,43 @@ public class ExcelUtils {
 		Workbook wb = new HSSFWorkbook(new FileInputStream(file));
 		if (fileType.equals(CALL_FILE_TYPE)) {
 			Sheet sheet = wb.getSheetAt(0);
-			for (int i = sheet.getFirstRowNum()+1; i < sheet.getLastRowNum() + 1; i++) {
-				Row row  = sheet.getRow(i);
+			for (int i = sheet.getFirstRowNum() + 1; i < sheet.getLastRowNum() + 1; i++) {
+				Row row = sheet.getRow(i);
 				CallDetail cd = new CallDetail();
 				cd.setSrcCountryId((int) row.getCell(0).getNumericCellValue());
 				cd.setDestCountryId((int) row.getCell(1).getNumericCellValue());
-				cd.setSrcPhoneNumber(Integer.toString((int) row.getCell(2).getNumericCellValue()));
-				cd.setDestPhoneNumber(Integer.toString((int) row.getCell(3).getNumericCellValue()));
+				cd.setSrcPhoneNumber(Integer.toString((int) row.getCell(2)
+						.getNumericCellValue()));
+				cd.setDestPhoneNumber(Integer.toString((int) row.getCell(3)
+						.getNumericCellValue()));
 				cd.setDuration((int) row.getCell(4).getNumericCellValue());
-				cd.setCallDate(new Date((long) row.getCell(5).getNumericCellValue()));
-				cd.setCallTime(Integer.toString((int) row.getCell(6).getNumericCellValue()));
+				cd.setCallDate(new Date((long) row.getCell(5)
+						.getNumericCellValue()));
+				cd.setCallTime(Integer.toString((int) row.getCell(6)
+						.getNumericCellValue()));
 				objList.add(cd);
 			}
 		} else {
 			String partName = file.getName().split("_")[1];
-			Date date = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH).parse(partName.substring(0, partName.length()-4));
+			Date date = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH)
+					.parse(partName.substring(0, partName.length() - 4));
 			for (int k = 0; k < wb.getNumberOfSheets(); k++) {
-				if (null != wb.getSheetAt(k) ) {
+				if (null != wb.getSheetAt(k)) {
 					Sheet sheet = wb.getSheetAt(k);
-					RateHistory rh= new RateHistory();
-					for (int i = sheet.getFirstRowNum()+1; i < sheet.getLastRowNum() + 1; i++) {
+					RateHistory rh = new RateHistory();
+					for (int i = sheet.getFirstRowNum() + 1; i < sheet
+							.getLastRowNum() + 1; i++) {
 						String sheetName = sheet.getSheetName();
-						Row row  = sheet.getRow(i);
+						Row row = sheet.getRow(i);
 						rh.setStartTime(date);
 						rh.setServviceType(sheetName.split("_")[0]);
 						rh.setSrcCountry(sheetName.split("_")[1]);
-						rh.setDestCountryId((int) row.getCell(0).getNumericCellValue());
-						rh.setPeakRate(new Double(row.getCell(1).getNumericCellValue()));
-						rh.setOffpeakRate(new Double(row.getCell(2).getNumericCellValue()));
+						rh.setDestCountryId((int) row.getCell(0)
+								.getNumericCellValue());
+						rh.setPeakRate(new Double(row.getCell(1)
+								.getNumericCellValue()));
+						rh.setOffpeakRate(new Double(row.getCell(2)
+								.getNumericCellValue()));
 						objList.add(rh);
 					}
 				}
@@ -169,8 +177,9 @@ public class ExcelUtils {
 	}
 
 	public static String getOutPutDir() {
-		String path = ExcelUtils.class.getClassLoader().getResource("/").getPath();
-		path = path.substring(0,path.length()-9) + "\\output\\";
+		String path = ExcelUtils.class.getClassLoader().getResource("/")
+				.getPath();
+		path = path.substring(0, path.length() - 9) + "\\output\\";
 		File dir = new File(path);
 		if (!dir.exists()) {
 			dir.mkdir();
@@ -179,15 +188,16 @@ public class ExcelUtils {
 	}
 
 	public static String getInPutDir() {
-		String path = ExcelUtils.class.getClassLoader().getResource("/").getPath();
-		path = path.substring(0,path.length()-9) + "\\input\\";
+		String path = ExcelUtils.class.getClassLoader().getResource("/")
+				.getPath();
+		path = path.substring(0, path.length() - 9) + "\\input\\";
 		File dir = new File(path);
 		if (!dir.exists()) {
 			dir.mkdir();
 		}
 		return path;
-	}	
-	
+	}
+
 	/**
 	 * @param args
 	 * @throws Exception
@@ -196,43 +206,45 @@ public class ExcelUtils {
 		Map map = new HashMap();
 		List arrList = new ArrayList();
 		// generate the traffic summary;
-//		for(int i =0;i<50;i++){
-//			TrafficSummary traffic = new TrafficSummary();
-//			traffic.setServiceName("serveice"+i);
-//			traffic.setFromCtyName("from cty"+i);
-//			traffic.setToCtyName("to CTY"+i);
-//			traffic.setTotalMinsOfCalls((double) i);
-//			arrList.add(traffic);
-//		}
-//		map.put("TrafficSummary", (Collection) arrList);
-//		ExcelUtils.generateExcelFile("TrafficSummary_201411",
-//				TRAFFIC_SUMMARY_HEADER, map);
-//		
-//		// generate the rates sheets ;
-//		Map ratesMap = new HashMap();
-//		List rateList = new ArrayList();
-//		for(int i =0;i<50;i++){
-//			RateHistory rate = new RateHistory();
-//			rate.setDestCountry("dest Cty"+i);
-//			rate.setPeakRate((double) i*10);;
-//			rate.setOffpeakRate((double) (i*5));
-//			rateList.add(rate);
-//		}
-//		ratesMap.put("Spectra_USA", (Collection) rateList);
-//		ratesMap.put("Deluxe_USA", (Collection) rateList);
-//		ratesMap.put("GACB_France", (Collection) rateList);
-//		
-//		ExcelUtils.generateExcelFile("Rates_201411",
-//				RATES_HEADER, ratesMap);	
-//		System.getProperty("user.dir") + "\\output\\";
-		File callFile = new File(System.getProperty("user.dir") + "\\input\\Calls_Nov2013.xls");
-		List callList = readExcelFile(callFile,CALL_FILE_TYPE);
+		// for(int i =0;i<50;i++){
+		// TrafficSummary traffic = new TrafficSummary();
+		// traffic.setServiceName("serveice"+i);
+		// traffic.setFromCtyName("from cty"+i);
+		// traffic.setToCtyName("to CTY"+i);
+		// traffic.setTotalMinsOfCalls((double) i);
+		// arrList.add(traffic);
+		// }
+		// map.put("TrafficSummary", (Collection) arrList);
+		// ExcelUtils.generateExcelFile("TrafficSummary_201411",
+		// TRAFFIC_SUMMARY_HEADER, map);
+		//
+		// // generate the rates sheets ;
+		// Map ratesMap = new HashMap();
+		// List rateList = new ArrayList();
+		// for(int i =0;i<50;i++){
+		// RateHistory rate = new RateHistory();
+		// rate.setDestCountry("dest Cty"+i);
+		// rate.setPeakRate((double) i*10);;
+		// rate.setOffpeakRate((double) (i*5));
+		// rateList.add(rate);
+		// }
+		// ratesMap.put("Spectra_USA", (Collection) rateList);
+		// ratesMap.put("Deluxe_USA", (Collection) rateList);
+		// ratesMap.put("GACB_France", (Collection) rateList);
+		//
+		// ExcelUtils.generateExcelFile("Rates_201411",
+		// RATES_HEADER, ratesMap);
+		// System.getProperty("user.dir") + "\\output\\";
+		File callFile = new File(System.getProperty("user.dir")
+				+ "\\input\\Calls_Nov2013.xls");
+		List callList = readExcelFile(callFile, CALL_FILE_TYPE);
 		System.out.println(callList.size());
-		
-		File ratefile = new File(System.getProperty("user.dir") + "\\input\\Rates_20130901.xls");
-		List rateList = readExcelFile(ratefile,RATES_FILE_TYPE);
+
+		File ratefile = new File(System.getProperty("user.dir")
+				+ "\\input\\Rates_20130901.xls");
+		List rateList = readExcelFile(ratefile, RATES_FILE_TYPE);
 		System.out.println(rateList.size());
-		
+
 		System.out.println("done!");
 	}
 

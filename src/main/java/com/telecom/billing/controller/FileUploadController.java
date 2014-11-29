@@ -3,7 +3,6 @@ package com.telecom.billing.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.telecom.billing.Utils.ExcelUtils;
 import com.telecom.billing.services.FileService;
 import com.telecom.billing.util.AjaxUtils;
 
@@ -29,7 +28,7 @@ import com.telecom.billing.util.AjaxUtils;
 public class FileUploadController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(FileUploadController.class);
-	public String storeFilePath = "D:/tmp/";
+	public String storeFilePath = ExcelUtils.getInPutDir();
 
 	@Autowired
 	public FileService fileService;
@@ -47,7 +46,7 @@ public class FileUploadController {
 	public String processUpload(@RequestParam MultipartFile file,
 			String function, String param, Model model,
 			HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
+			throws Exception {
 		File result = saveFile(file);
 		if (result != null) {
 			request.getSession().setAttribute(
@@ -85,7 +84,7 @@ public class FileUploadController {
 
 				// Creating the directory to store file
 				String rootPath = storeFilePath;
-				File dir = new File(rootPath + File.separator + "tmpFiles");
+				File dir = new File(rootPath + File.separator);
 				if (!dir.exists())
 					dir.mkdirs();
 
