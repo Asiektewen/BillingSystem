@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.telecom.billing.services.FileService;
 import com.telecom.billing.util.AjaxUtils;
 
 @Controller
@@ -27,6 +30,9 @@ public class FileUploadController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(FileUploadController.class);
 	public String storeFilePath = "D:/tmp/";
+
+	@Autowired
+	public FileService fileService;
 
 	@ModelAttribute
 	public void ajaxAttribute(WebRequest request, Model model) {
@@ -42,12 +48,18 @@ public class FileUploadController {
 			String function, String param, Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		int result = saveFile(file);
-		if (result == 1) {
+		File result = saveFile(file);
+		if (result != null) {
 			request.getSession().setAttribute(
 					"uploadMessage",
 					"File '" + file.getOriginalFilename()
 							+ "' uploaded successfully");
+			if (function.equalsIgnoreCase("updateRates")) {
+				fileService.readRateFile(result);
+			} else {
+				fileService.readCallFile(result);
+
+			}
 		} else {
 			model.addAttribute("message", "File '" + file.getOriginalFilename()
 					+ "' uploaded unsuccessfully");
@@ -56,7 +68,7 @@ public class FileUploadController {
 		sb.append(request.getContextPath());
 		if (function.equalsIgnoreCase("updateRates")) {
 			sb.append("/admin/rates/updateRates");
-		}else if(function.equalsIgnoreCase("processCallDetails")){
+		} else if (function.equalsIgnoreCase("processCallDetails")) {
 			sb.append("/admin/callDetails/upload");
 		} else {
 			sb.append("/admin/");
@@ -65,7 +77,7 @@ public class FileUploadController {
 		return null;
 	}
 
-	public int saveFile(MultipartFile file) {
+	public File saveFile(MultipartFile file) {
 		String name = file.getOriginalFilename();
 		if (!file.isEmpty()) {
 			try {
@@ -89,16 +101,16 @@ public class FileUploadController {
 						+ serverFile.getAbsolutePath());
 
 				// return "You successfully uploaded file=" + name;
-				return 1;
+				return serverFile;
 			} catch (Exception e) {
 				// return "You failed to upload " + name + " => " +
 				// e.getMessage();
-				return -1;
+				return null;
 			}
 		} else {
 			// return "You failed to upload " + name
 			// + " because the file was empty.";
-			return 0;
+			return null;
 		}
 
 	}

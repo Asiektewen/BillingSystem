@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
+import com.telecom.billing.services.FileService;
 import com.telecom.billing.services.UserService;
 
 /**
@@ -39,6 +40,8 @@ public class BillingController {
 	}
 
 	@Autowired
+	public FileService fileService;
+	@Autowired
 	@Qualifier("userService")
 	public UserService userService;
 
@@ -49,8 +52,10 @@ public class BillingController {
 
 	@RequestMapping(value = { "/gen", "/gen/" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Map<String, String> genMonthlyBill(
-			@RequestParam String month, Model model) {
+			@RequestParam String month, Model model) throws Exception {
 		logger.debug("Generate Bills:Month is " + month);
+		String result = fileService.generateMonthlyBill("Bill_" + month);
+		logger.debug("genMonthlyBill:result=" + result);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("result", "success");
 		map.put("content", month);

@@ -16,8 +16,7 @@ public class Bill {
 	private String callTime;
 	private double costOfCall;
 	private double amtDue;
-	
-	
+
 	public String getDestPhoneNo() {
 		return destPhoneNo;
 	}
@@ -49,7 +48,6 @@ public class Bill {
 	public void setDuration(double duration) {
 		this.duration = duration;
 	}
-
 
 	public String getCallTime() {
 		return callTime;

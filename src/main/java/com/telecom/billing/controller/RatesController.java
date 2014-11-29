@@ -4,9 +4,11 @@
 package com.telecom.billing.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -33,6 +35,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.WebRequest;
 
 import com.telecom.billing.model.ServiceInfo;
+import com.telecom.billing.services.FileService;
 import com.telecom.billing.services.ServiceInfoService;
 import com.telecom.billing.services.UserService;
 
@@ -52,6 +55,8 @@ public class RatesController {
 	@Autowired
 	@Qualifier("serviceInfoService")
 	public ServiceInfoService serviceInfoService;
+	@Autowired
+	public FileService fileService;
 
 	@ModelAttribute
 	public void currentPage(WebRequest request, Model model) {
@@ -131,6 +136,7 @@ public class RatesController {
 	public @ResponseBody Map<String, String> genTraffic(
 			@RequestParam String month, Model model) {
 		logger.debug("Generate Bills:Month is " + month);
+		String result = fileService.generateTrafficSummary(month);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("result", "success");
 		map.put("content", month);
@@ -144,6 +150,10 @@ public class RatesController {
 			@RequestParam String countryCode, Model model) {
 		logger.debug("Export Rate Sheet: @serviceType =" + serviceType
 				+ " @CountryCode=" + countryCode);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		String today = sdf.format(new Date());
+		String result = fileService.generateRateSheet("Rate_" + serviceType
+				+ "_" + countryName + "_" + today);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("result", "success");
 		map.put("content", "Export Rate Sheet for " + serviceType + "_"
