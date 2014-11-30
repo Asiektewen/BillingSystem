@@ -75,17 +75,17 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public List<CallDetail> readCallFile(File callFile) throws Exception {
+	public boolean readCallFile(File callFile) throws Exception {
 		List<CallDetail> callData = ExcelUtils.readExcelFile(callFile, ExcelUtils.CALL_FILE_TYPE);
 		callDetailDAO.importCallDetail(callData);
-		return null;
+		return true;
 	}
 
 	@Override
-	public List<RateHistory> readRateFile(File rateFile) throws Exception {
-		List<RateHistory> rates =  ExcelUtils.readExcelFile(rateFile, ExcelUtils.CALL_FILE_TYPE);
+	public boolean readRateFile(File rateFile) throws Exception {
+		List<RateHistory> rates =  ExcelUtils.readExcelFile(rateFile, ExcelUtils.RATES_FILE_TYPE);
 		rateHistoryDAO.importRates(rates);
-		return null;
+		return true;
 	}
 
 }

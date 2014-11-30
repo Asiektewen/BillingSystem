@@ -5,6 +5,7 @@ package com.telecom.billing.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.telecom.billing.dao.RateHistoryDAO;
@@ -28,7 +29,9 @@ public class RateHistoryDAOImpl extends GenericDAOImpl<RateHistory> implements
 		for (RateHistory rate : rateList) {
 			this.save(rate);
 		}
-
+		Query query = this.getCurrentSession().createSQLQuery(
+				"CALL update_rate()");
+				List result = query.list();
 	}
 
 	/*

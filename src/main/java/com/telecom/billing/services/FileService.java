@@ -51,7 +51,7 @@ public interface FileService {
 	 * @return CallDetail list;
 	 * @throws Exception 
 	 */
-	public List<CallDetail> readCallFile(File callFile) throws Exception;
+	public boolean readCallFile(File callFile) throws Exception;
 	
 	/**
 	 * 
@@ -60,5 +60,5 @@ public interface FileService {
 	 * @throws Exception 
 	 */
 	
-	public List<RateHistory>readRateFile(File rateFile) throws Exception;
+	public boolean readRateFile(File rateFile) throws Exception;
 }
