@@ -27,6 +27,7 @@ RateHistoryTempDAO {
 	@Override
 	public void importRates(List<RateHistoryTemp> rateList) {
 		for (RateHistoryTemp rate : rateList) {
+			System.out.println(rate.getSrcCountry());;
 			this.save(rate);
 		}
 		Query query = this.getCurrentSession().createSQLQuery(

@@ -47,10 +47,9 @@ public class RateHistoryTemp {
 	
 	@Column(name = "offpeak")
 	public Double offpeakRate;
-	@Transient
-	public String destCountry;
-	@Column(name = "rate_import_time ")
-	@Type(type = "date")
+
+
+	
 
 
 	/**
@@ -159,11 +158,4 @@ public class RateHistoryTemp {
 	}
 
 
-	public String getDestCountry() {
-		return destCountry;
-	}
-
-	public void setDestCountry(String destCountry) {
-		this.destCountry = destCountry;
-	}
 }
