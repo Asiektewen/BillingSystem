@@ -20,4 +20,6 @@ public interface CustomerDAO extends GenericDAO<Customer> {
 
 	public List<Customer> findAllCustomerByUser(int start, int size,
 			String orderBy, String orderType, long userID, int type);
+
+	public List<Customer>  findAllCustomer();
 }

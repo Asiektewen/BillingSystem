@@ -28,6 +28,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.telecom.billing.model.CallDetail;
 import com.telecom.billing.model.RateHistory;
+import com.telecom.billing.model.RateHistoryTemp;
 import com.telecom.billing.model.TrafficSummary;
 
 /**
@@ -96,7 +97,7 @@ public class ExcelUtils {
 			for (int k = 0; k < wb.getNumberOfSheets(); k++) {
 				if (null != wb.getSheetAt(k)) {
 					Sheet sheet = wb.getSheetAt(k);
-					RateHistory rh = new RateHistory();
+					RateHistoryTemp rh = new RateHistoryTemp();
 					for (int i = sheet.getFirstRowNum() + 1; i < sheet
 							.getLastRowNum() + 1; i++) {
 						String sheetName = sheet.getSheetName();

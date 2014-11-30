@@ -4,7 +4,6 @@
 package com.telecom.billing.services.impl;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,48 +15,60 @@ import org.springframework.stereotype.Service;
 import com.telecom.billing.Utils.ExcelUtils;
 import com.telecom.billing.Utils.PdfUtils;
 import com.telecom.billing.dao.CallDetailDAO;
-import com.telecom.billing.dao.RateHistoryDAO;
-import com.telecom.billing.model.Bill;
+import com.telecom.billing.dao.CustomerDAO;
+import com.telecom.billing.dao.RateHistoryTempDAO;
 import com.telecom.billing.model.CallDetail;
-import com.telecom.billing.model.RateHistory;
+import com.telecom.billing.model.Customer;
+import com.telecom.billing.model.RateHistoryTemp;
 import com.telecom.billing.services.FileService;
 
 /**
  * @author Eric
- *
+ * 
  */
 @Service("fileService")
 public class FileServiceImpl implements FileService {
-	
+
 	@Autowired
-	@Qualifier("rateHistoryDAO")
-	public RateHistoryDAO rateHistoryDAO;
-	
+	@Qualifier("rateHistoryTempDAO")
+	public RateHistoryTempDAO rateHistoryTempDAO;
+
 	@Autowired
 	@Qualifier("callDetailDAO")
 	public CallDetailDAO callDetailDAO;
-	
+
+	@Autowired
+	@Qualifier("customerDAO")
+	public CustomerDAO customerDAO;
+
 	@Override
-	public String generateMonthlyBill(String fileName) throws Exception {
-		// TODO Auto-generated method stub
-		Map billMap = new HashMap();
-		List callList = new ArrayList();
-		for (int i = 0; i < 60; i++) {
-			Bill bill = new Bill();
-		    bill.setDestPhoneNo("000000000"+i);
-		    bill.setDestCtyName("cty"+i);
-		    bill.setCallTime("02120"+i);
-		    bill.setDuration(i+1);
-		    bill.setCostOfCall((i+1)+10);
-			callList.add(bill);
+	public String generateMonthlyBills(String month) throws Exception {
+		List customers = customerDAO.findAllCustomer();
+		for (int i = 0; i < customers.size(); i++) {
+			Customer customer = (Customer) customers.get(i);
+			String phoneNO = customer.getPhoneNumber();
+			Map billMap = new HashMap();
+			// TODO:
+			billMap.put("Bill_data", "");
+			PdfUtils.generateMonthlyBill("Bill_" + phoneNO + "_" + month,
+					billMap);
 		}
-		billMap.put("Bill_data", callList);
-		billMap.put("due_amt", "$"+38200);
-		return PdfUtils.generateMonthlyBill(fileName, billMap);
+		return ExcelUtils.getOutPutDir() + "\\" + month;
 	}
 
 	@Override
-	public String generateRateSheet(String fileName) {
+	public String generateRateSheet(String fileName) throws Exception {
+		Map dataMap = new HashMap();
+		String date= fileName.split("_")[3];
+		String service = fileName.split("_")[1];
+		String srcCty = fileName.split("_")[2];
+		dataMap.put("Rate_data","");
+		PdfUtils.generateRateSheet(fileName, dataMap);
+		return ExcelUtils.getOutPutDir() + "\\" +date;
+	}
+	
+	@Override
+	public String createRateSheet(String fileName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -68,24 +79,22 @@ public class FileServiceImpl implements FileService {
 		return null;
 	}
 
-	@Override
-	public String generateRateSheets(String fileName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public boolean readCallFile(File callFile) throws Exception {
-		List<CallDetail> callData = ExcelUtils.readExcelFile(callFile, ExcelUtils.CALL_FILE_TYPE);
+		List<CallDetail> callData = ExcelUtils.readExcelFile(callFile,
+				ExcelUtils.CALL_FILE_TYPE);
 		callDetailDAO.importCallDetail(callData);
 		return true;
 	}
 
 	@Override
 	public boolean readRateFile(File rateFile) throws Exception {
-		List<RateHistory> rates =  ExcelUtils.readExcelFile(rateFile, ExcelUtils.RATES_FILE_TYPE);
-		rateHistoryDAO.importRates(rates);
+		List<RateHistoryTemp> rates = ExcelUtils.readExcelFile(rateFile,
+				ExcelUtils.RATES_FILE_TYPE);
+		rateHistoryTempDAO.importRates(rates);
 		return true;
 	}
+
 
 }

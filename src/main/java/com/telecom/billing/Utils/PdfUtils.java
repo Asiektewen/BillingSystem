@@ -139,12 +139,13 @@ public class PdfUtils {
 	}
 
 	// file name is in format (service_srcCty)
-	public static String generateRateSheet(String fileName, Map dataMap)
+	public static void generateRateSheet(String fileName, Map dataMap)
 			throws Exception {
 		List dataCollection = (List) dataMap.get("Rate_data");
 		Map contentdata = new HashMap();
 		contentdata.put("service", fileName.split("_")[1]);
 		contentdata.put("srcCty", fileName.split("_")[2]);
+		String date= fileName.split("_")[3];
 		contentdata.put("pecktime", dataMap.get("pecktime"));
 		contentdata.put("offpecktime", dataMap.get("offpecktime"));
 
@@ -163,25 +164,25 @@ public class PdfUtils {
 			contentdata.put("content", content);
 			createOnepageRate(dataCollection, contentdata, doc);
 		}
-		String path = ExcelUtils.getOutPutDir() + "\\" + fileName + ".pdf";
+		String path = ExcelUtils.getOutPutDir() + "\\" +date+"\\"+ fileName + ".pdf";
 		File dir = new File(path);
 		if (dir.exists()) {
 			dir.delete();
 		}
 		doc.save(path);
-		return path;
+
 
 	}
 
-	public static String generateMonthlyBill(String fileName, Map dataMap)
+	public static void generateMonthlyBill(String fileName, Map dataMap)
 			throws Exception {
 		List dataCollection = (List) dataMap.get("Bill_data");
 		Map contentdata = new HashMap();
 		contentdata.put("phone", fileName.split("_")[1]);
 		contentdata.put("bill_data", fileName.split("_")[2]);
+		String outputFolder = fileName.split("_")[3];
 		
-		contentdata.put("due_amt", dataMap.get("due_amt"));
-
+        double dueAmt=0;
 		PDDocument doc = new PDDocument();
 		for (int i = 0; i < dataCollection.size() / 25 + 1; i++) {
 			String[][] content = new String[25][3];
@@ -195,18 +196,18 @@ public class PdfUtils {
 						Double.toString(bill.getDuration()),
 						bill.getCallTime(),
 						Double.toString(bill.getCostOfCall()) };
+				dueAmt+=bill.getCostOfCall();
 			}
 			contentdata.put("content", content);
+			contentdata.put("due_amt", dueAmt);
 			createOnepageBill(dataCollection, contentdata, doc);
 		}
-		String path = ExcelUtils.getOutPutDir() + "\\" + fileName + ".pdf";
+		String path = ExcelUtils.getOutPutDir() + "\\" +outputFolder+"\\" +fileName + ".pdf";
 		File dir = new File(path);
 		if (dir.exists()) {
 			dir.delete();
 		}
 		doc.save(path);
-		return path;
-
 	}
 
 	private static void createOnepageBill(List dataCollection, Map contentdata,

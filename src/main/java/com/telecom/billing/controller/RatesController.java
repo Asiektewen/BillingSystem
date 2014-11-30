@@ -147,7 +147,7 @@ public class RatesController {
 	@RequestMapping(value = { "/expRateSheet", "/expRateSheet/" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Map<String, String> expRateSheet(
 			@RequestParam String serviceType, @RequestParam String countryName,
-			@RequestParam String countryCode, Model model) {
+			@RequestParam String countryCode, Model model) throws Exception {
 		logger.debug("Export Rate Sheet: @serviceType =" + serviceType
 				+ " @CountryCode=" + countryCode);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");

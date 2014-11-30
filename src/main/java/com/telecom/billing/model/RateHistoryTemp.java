@@ -21,8 +21,8 @@ import org.springframework.format.annotation.DateTimeFormat;
  *
  */
 @Entity
-@Table(name = "t_rate_history")
-public class RateHistory {
+@Table(name = "t_rate_history_temp")
+public class RateHistoryTemp {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,33 +30,28 @@ public class RateHistory {
 
 	@Column(name = "service_type")
 	public String servviceType;
-	@Column(name = "src_country_code")
-	public Integer srcCountryId;
+	
 	@Column(name = "src_country_name")
 	public String srcCountry;
 	
 	@Column(name = "dest_country_code")
 	public Integer destCountryId;
-
-	@Column(name = "dest_country_name")
-	public String destCountry;
 	
 	@Column(name = "effective_time")
 	@Type(type = "date")
 	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
 	public Date startTime;
-	@Column(name = "expire_time")
-	@Type(type = "date")
-	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
-	public Date endTime;
+
 	@Column(name = "peak")
 	public Double peakRate;
+	
 	@Column(name = "offpeak")
 	public Double offpeakRate;
+	@Transient
+	public String destCountry;
 	@Column(name = "rate_import_time ")
 	@Type(type = "date")
-	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
-	public Date rateImportDate;
+
 
 	/**
 	 * @return the peakRate
@@ -71,13 +66,6 @@ public class RateHistory {
 	 */
 	public void setPeakRate(Double peakRate) {
 		this.peakRate = peakRate;
-	}
-	public Integer getSrcCountryId() {
-		return srcCountryId;
-	}
-
-	public void setSrcCountryId(Integer srcCountryId) {
-		this.srcCountryId = srcCountryId;
 	}
 
 	/**
@@ -170,20 +158,6 @@ public class RateHistory {
 		this.startTime = startTime;
 	}
 
-	/**
-	 * @return the endTime
-	 */
-	public Date getEndTime() {
-		return endTime;
-	}
-
-	/**
-	 * @param endTime
-	 *            the endTime to set
-	 */
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
 
 	public String getDestCountry() {
 		return destCountry;

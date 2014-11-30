@@ -23,14 +23,15 @@ public interface FileService {
 	 * @throws Exception 
 	 */
 	
-	public String generateMonthlyBill(String fileName) throws Exception;
+	public String generateMonthlyBills(String month) throws Exception;
 	/**
 	 * file format : pdf
 	 * @param fileName (format: Rate_service_srccty_date )
 	 * @return full path of the file
+	 * @throws Exception 
 	 */
 
-	public String generateRateSheet(String fileName);
+	public String generateRateSheet(String fileName) throws Exception;
 	
 	/**
 	 * file format : single sheet Excel
@@ -44,7 +45,7 @@ public interface FileService {
 	 * @param fileName (format: Rates_201411)
 	 * @return full path of the file
 	 */
-	public String generateRateSheets(String fileName);
+	public String createRateSheet(String fileName);
 	
 	/**
 	 * @param callFile:File in excel format

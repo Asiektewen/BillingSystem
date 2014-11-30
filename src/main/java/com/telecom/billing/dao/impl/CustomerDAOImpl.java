@@ -83,4 +83,12 @@ public class CustomerDAOImpl extends GenericDAOImpl<Customer> implements
 
 		return DataAccessUtils.intResult(query.list());
 	}
+
+	@Override
+	public List<Customer> findAllCustomer() {
+		Query query = getCurrentSession().createQuery(
+				"select * from Customer c ");
+		List<Customer> customerList = query.list();
+		return customerList;
+	}
 }
