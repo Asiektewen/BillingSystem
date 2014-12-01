@@ -34,35 +34,43 @@ public class RateHistory {
 	public Integer srcCountryId;
 	@Column(name = "src_country_name")
 	public String srcCountry;
-	
+
 	@Column(name = "dest_country_code")
 	public Integer destCountryId;
 
 	@Column(name = "dest_country_name")
 	public String destCountry;
-	
+
 	@Column(name = "effective_time")
 	@Type(type = "date")
 	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
 	public Date startTime;
-	@Column(name = "expire_time")
+	@Column(name = "expire_time",columnDefinition = "datetime default '12/31/9999 23:59:59.997'")
 	@Type(type = "date")
 	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
 	public Date endTime;
 	@Column(name = "peak")
 	public Double peakRate;
-	@Column(name = "offpeak")
+	@Column(name = "off_peak")
 	public Double offpeakRate;
-	@Column(name = "rate_import_time ")
+	@Column(name = "rate_import_time ", columnDefinition = "datetime default GETDATE()")
 	@Type(type = "date")
 	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
-	public Date rateImportDate;
+	public Date rateImportDate = new Date();
 
 	/**
 	 * @return the peakRate
 	 */
 	public Double getPeakRate() {
 		return peakRate;
+	}
+
+	public Date getRateImportDate() {
+		return rateImportDate;
+	}
+
+	public void setRateImportDate(Date rateImportDate) {
+		this.rateImportDate = rateImportDate;
 	}
 
 	/**
@@ -72,6 +80,7 @@ public class RateHistory {
 	public void setPeakRate(Double peakRate) {
 		this.peakRate = peakRate;
 	}
+
 	public Integer getSrcCountryId() {
 		return srcCountryId;
 	}
