@@ -6,6 +6,7 @@ package com.telecom.billing.dao.impl;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.telecom.billing.dao.RateHistoryTempDAO;
@@ -26,13 +27,16 @@ RateHistoryTempDAO {
 	 */
 	@Override
 	public void importRates(List<RateHistoryTemp> rateList) {
+
 		for (RateHistoryTemp rate : rateList) {
-			System.out.println(rate.getSrcCountry());;
 			this.save(rate);
 		}
-		Query query = this.getCurrentSession().createSQLQuery(
-				"CALL update_rate()");
-				List result = query.list();
+		getCurrentSession().flush();
+		getCurrentSession().clear();
+		
+//		Query query = this.getCurrentSession().createSQLQuery(
+//				"update_rate");
+//				List result = query.list();
 	}
 
 	/*
