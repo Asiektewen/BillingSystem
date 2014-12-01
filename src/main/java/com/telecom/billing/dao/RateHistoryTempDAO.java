@@ -14,7 +14,6 @@ import com.telecom.billing.model.RateHistoryTemp;
 public interface RateHistoryTempDAO extends GenericDAO<RateHistoryTemp>{
 
 	public void importRates(List<RateHistoryTemp> rateList);
-
-	public List<RateHistoryTemp> fetchRates(String srcCty, String service);
+	public void processRateUpdate();
 
 }

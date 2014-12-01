@@ -11,11 +11,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.telecom.billing.Utils.ExcelUtils;
 import com.telecom.billing.Utils.PdfUtils;
 import com.telecom.billing.dao.CallDetailDAO;
 import com.telecom.billing.dao.CustomerDAO;
+import com.telecom.billing.dao.RateHistoryDAO;
 import com.telecom.billing.dao.RateHistoryTempDAO;
 import com.telecom.billing.model.CallDetail;
 import com.telecom.billing.model.Customer;
@@ -34,6 +36,10 @@ public class FileServiceImpl implements FileService {
 	public RateHistoryTempDAO rateHistoryTempDAO;
 
 	@Autowired
+	@Qualifier("rateHistoryDAO")
+	public RateHistoryDAO rateHistoryDAO;
+
+	@Autowired
 	@Qualifier("callDetailDAO")
 	public CallDetailDAO callDetailDAO;
 
@@ -42,6 +48,7 @@ public class FileServiceImpl implements FileService {
 	public CustomerDAO customerDAO;
 
 	@Override
+	@Transactional
 	public String generateMonthlyBills(String month) throws Exception {
 		List customers = customerDAO.findAllCustomer();
 		for (int i = 0; i < customers.size(); i++) {
@@ -57,16 +64,18 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
+	@Transactional
 	public String generateRateSheet(String fileName) throws Exception {
 		Map dataMap = new HashMap();
-		String date= fileName.split("_")[3];
+		String date = fileName.split("_")[3];
 		String service = fileName.split("_")[1];
 		String srcCty = fileName.split("_")[2];
-		dataMap.put("Rate_data","");
+		List rateList = rateHistoryDAO.fetchRates(srcCty, service);
+		dataMap.put("Rate_data", rateList);
 		PdfUtils.generateRateSheet(fileName, dataMap);
-		return ExcelUtils.getOutPutDir() + "\\" +date;
+		return ExcelUtils.getOutPutDir() + "\\" + date;
 	}
-	
+
 	@Override
 	public String createRateSheet(String fileName) {
 		// TODO Auto-generated method stub
@@ -79,8 +88,8 @@ public class FileServiceImpl implements FileService {
 		return null;
 	}
 
-
 	@Override
+	@Transactional
 	public boolean readCallFile(File callFile) throws Exception {
 		List<CallDetail> callData = ExcelUtils.readExcelFile(callFile,
 				ExcelUtils.CALL_FILE_TYPE);
@@ -89,6 +98,7 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
+	@Transactional
 	public boolean readRateFile(File rateFile) throws Exception {
 		List<RateHistoryTemp> rates = ExcelUtils.readExcelFile(rateFile,
 				ExcelUtils.RATES_FILE_TYPE);
@@ -96,5 +106,10 @@ public class FileServiceImpl implements FileService {
 		return true;
 	}
 
+	@Override
+	@Transactional
+	public void processRateUpdate() {
+		rateHistoryTempDAO.processRateUpdate();
+	}
 
 }

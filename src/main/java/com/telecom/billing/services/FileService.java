@@ -62,4 +62,8 @@ public interface FileService {
 	 */
 	
 	public boolean readRateFile(File rateFile) throws Exception;
+	
+	
+	
+	public void processRateUpdate();
 }

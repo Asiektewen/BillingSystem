@@ -34,11 +34,15 @@ public class UserServiceImplTest extends ServiceImplTestBase {
 	// }
 
 	@Test
-	@Transactional
 	public void testRateHistory() throws Exception {
 		File ratefile = new File( "C:\\input\\Rates_20130901.xls");
 		fileService.readRateFile(ratefile);
 
+	}
+	
+	
+	public void processRateUpdate(){
+		fileService.processRateUpdate();	
 	}
 	
 //	@Ignore

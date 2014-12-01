@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.telecom.billing.dao.RateHistoryTempDAO;
+import com.telecom.billing.model.Customer;
 import com.telecom.billing.model.RateHistoryTemp;
 
 /**
@@ -17,8 +18,8 @@ import com.telecom.billing.model.RateHistoryTemp;
  * 
  */
 @Repository("rateHistoryTempDAO")
-public class RateHistoryTempDAOImpl extends GenericDAOImpl<RateHistoryTemp> implements
-RateHistoryTempDAO {
+public class RateHistoryTempDAOImpl extends GenericDAOImpl<RateHistoryTemp>
+		implements RateHistoryTempDAO {
 
 	/*
 	 * (non-Javadoc)
@@ -32,23 +33,12 @@ RateHistoryTempDAO {
 			this.save(rate);
 		}
 		getCurrentSession().flush();
-		getCurrentSession().clear();
-		
-//		Query query = this.getCurrentSession().createSQLQuery(
-//				"update_rate");
-//				List result = query.list();
+
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.telecom.billing.dao.RateHistoryDAO#fetchRates(java.lang.String,
-	 * java.lang.String)
-	 */
-	@Override
-	public List<RateHistoryTemp> fetchRates(String srcCty, String service) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public void processRateUpdate() {
+		Query query = this.getCurrentSession().createSQLQuery("update_rate");
+		List result = query.list();
 
+	}
 }
