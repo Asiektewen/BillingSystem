@@ -33,7 +33,7 @@ public class CountryInfoDAOImpl extends GenericDAOImpl<CountryInfo> implements
 
 	@Override
 	public CountryInfo findCOuntryInfoByCountryName(String countryName) {
-		String sql = "FROM CountryInfo  c WHERE c.countryNname= ? ";
+		String sql = "FROM CountryInfo  c WHERE c.countryName= ? ";
 		Query query = getCurrentSession().createQuery(sql);
 		query.setParameter(0, countryName);
 		List<CountryInfo> results = query.list();

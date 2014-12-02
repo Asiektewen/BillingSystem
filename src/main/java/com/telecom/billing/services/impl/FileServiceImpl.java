@@ -4,12 +4,15 @@
 package com.telecom.billing.services.impl;
 
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,12 +22,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.telecom.billing.Utils.ExcelUtils;
 import com.telecom.billing.Utils.PdfUtils;
 import com.telecom.billing.dao.CallDetailDAO;
+import com.telecom.billing.dao.CountryInfoDAO;
 import com.telecom.billing.dao.CustomerDAO;
 import com.telecom.billing.dao.RateHistoryDAO;
 import com.telecom.billing.dao.RateHistoryTempDAO;
+import com.telecom.billing.dao.RatesUpdateHistoryDAO;
+import com.telecom.billing.dao.ServiceInfoDAO;
 import com.telecom.billing.model.CallDetail;
+import com.telecom.billing.model.CountryInfo;
 import com.telecom.billing.model.Customer;
 import com.telecom.billing.model.RateHistoryTemp;
+import com.telecom.billing.model.RatesUpdateHistory;
+import com.telecom.billing.model.ServiceInfo;
 import com.telecom.billing.services.FileService;
 
 /**
@@ -49,7 +58,21 @@ public class FileServiceImpl implements FileService {
 	@Autowired
 	@Qualifier("customerDAO")
 	public CustomerDAO customerDAO;
+	
+	
+	@Autowired
+	@Qualifier("ratesUpdateHistoryDAO")
+	public RatesUpdateHistoryDAO ratesUpdateHistoryDAO;
+	
+	
+	@Autowired
+	@Qualifier("serviceInfoDAO")
+	public ServiceInfoDAO serviceInfoDAO;
 
+	@Autowired
+	@Qualifier("countryInfoDAO")
+	public CountryInfoDAO countryInfoDAO;
+	
 	@Override
 	@Transactional
 	public String generateMonthlyBills(String month) throws Exception {
@@ -117,7 +140,50 @@ public class FileServiceImpl implements FileService {
 		List<RateHistoryTemp> rates = ExcelUtils.readExcelFile(rateFile,
 				ExcelUtils.RATES_FILE_TYPE);
 		rateHistoryTempDAO.importRates(rates);
+		RatesUpdateHistory history = updateRateHistory(rateFile);
+		Map serviceMap = new HashMap();
+		for (int i=0;i<rates.size();i++){
+			RateHistoryTemp rate = rates.get(i);
+			String srcCty = rate.getSrcCountry();
+			String service = rate.getServviceType();
+			String key = srcCty +"_"+service;
+			if(!serviceMap.containsKey("key")){
+				ServiceInfo serviceInfo = new ServiceInfo();
+				serviceInfo.setServviceType(service);
+				serviceInfo.setUpdateHistoryID(history.getId().toString());
+				CountryInfo ctyInfo = countryInfoDAO.findCOuntryInfoByCountryName(srcCty);
+				serviceInfo.setCountryInfo(ctyInfo);
+				serviceMap.put(key, serviceInfo);
+			}
+		}
+       if(!serviceMap.isEmpty()){
+    	     updateServiceInfo(serviceMap);  
+       }
+		
 		return true;
+	}
+
+	private void updateServiceInfo(Map serviceMap) {
+		Iterator it = serviceMap.entrySet().iterator();
+		while(it.hasNext()){
+			Entry paris = (Entry) it.next();
+			ServiceInfo ser= (ServiceInfo) paris.getValue();
+			
+			serviceInfoDAO.save(ser);
+		}
+		
+		
+	}
+
+	private RatesUpdateHistory updateRateHistory(File rateFile) throws ParseException {
+		RatesUpdateHistory history = new RatesUpdateHistory();
+		String partName = rateFile.getName().split("_")[1];
+		Date date = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH)
+				.parse(partName.substring(0, partName.length() - 4));
+		history.setFileName(rateFile.getName());
+		history.setEffectDate(date);
+		history.setUpdateTime(new Date());
+		return ratesUpdateHistoryDAO.save(history);
 	}
 
 	@Override
