@@ -33,7 +33,11 @@ public class UserServiceImplTest extends ServiceImplTestBase {
 	// assertNull(user3);
 	// }
 
+<<<<<<< Upstream, based on origin/develop
 
+=======
+	
+>>>>>>> 6ca8359 file service .
 	public void testRateHistory() throws Exception {
 		File ratefile = new File( "C:\\input\\Rates_20130901.xls");
 		fileService.readRateFile(ratefile);

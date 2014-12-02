@@ -44,8 +44,9 @@ public interface FileService {
 	 * file format : multiple sheets Excel
 	 * @param fileName (format: Rates_201411)
 	 * @return full path of the file
+	 * @throws Exception 
 	 */
-	public String createRateSheet(String fileName);
+	public String createRateSheet(String fileName) throws Exception;
 	
 	/**
 	 * @param callFile:File in excel format

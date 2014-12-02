@@ -48,7 +48,7 @@ public class ExcelUtils {
 			String[] sheetHeader, Map<String, Collection> data)
 			throws Exception {
 		// create the workbook;
-
+		String date = fileName.split("_")[3];
 		Workbook wb = new HSSFWorkbook();
 		Iterator<Entry<String, Collection>> it = data.entrySet().iterator();
 		while (it.hasNext()) {
@@ -58,7 +58,7 @@ public class ExcelUtils {
 			createSingleSheet(wb, sheetHeader, sheetName, sheetData);
 		}
 
-		String path = getOutPutDir() + fileName + ".xls";
+		String path = ExcelUtils.getOutPutDir() + "\\excel\\" + date+"\\"+fileName + ".xls";
 		FileOutputStream fos = new FileOutputStream(path);
 		wb.write(fos);
 		if (null != fos) {

@@ -77,9 +77,16 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public String createRateSheet(String fileName) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public String createRateSheet(String fileName) throws Exception {
+		Map dataMap = new HashMap();
+		String date = fileName.split("_")[3];
+		String service = fileName.split("_")[1];
+		String srcCty = fileName.split("_")[2];
+		List rateList = rateHistoryDAO.fetchRates(srcCty, service);
+		dataMap.put(service+"_"+srcCty, rateList);
+		ExcelUtils.generateExcelFile(fileName, ExcelUtils.RATES_HEADER, dataMap);
+		return ExcelUtils.getOutPutDir() + "\\excel\\" + date;
 	}
 
 	@Override
