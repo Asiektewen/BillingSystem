@@ -125,7 +125,7 @@ public class PdfUtils {
 		contentStream.moveTextPositionByAmount(
 				margin > tableWidth + 20 ? (margin - (tableWidth + 20))
 						: margin, texty);
-		contentStream.drawString("* peak statring time:"
+		contentStream.drawString("* peak starting time:"
 				+ contentdata.get("pecktime"));
 		contentStream.endText();
 		texty = y - 15 - rowHeight * 28;
@@ -133,7 +133,7 @@ public class PdfUtils {
 		contentStream.moveTextPositionByAmount(
 				margin > tableWidth + 20 ? (margin - (tableWidth + 20))
 						: margin, texty);
-		contentStream.drawString("* off peak statring time:"
+		contentStream.drawString("* off peak starting time:"
 				+ contentdata.get("offpecktime"));
 		contentStream.endText();
 	}
@@ -170,7 +170,10 @@ public class PdfUtils {
 			dir.delete();
 		}
 		doc.save(path);
-		doc.close();
+		if(null != doc){
+			doc.close();
+		}
+
 
 
 	}
@@ -209,7 +212,9 @@ public class PdfUtils {
 			dir.delete();
 		}
 		doc.save(path);
-		doc.close();
+		if(null != doc){
+			doc.close();
+		}
 	}
 
 	private static void createOnepageBill(List dataCollection, Map contentdata,

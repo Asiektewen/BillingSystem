@@ -50,7 +50,7 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
 
 	@Transactional
 	public T save(T entity) {
-		getCurrentSession().persist(entity);
+		getCurrentSession().saveOrUpdate(entity);
 		this.entity = entity;
 		return entity;
 	}
