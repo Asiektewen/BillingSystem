@@ -37,7 +37,8 @@ public class RateHistoryTempDAOImpl extends GenericDAOImpl<RateHistoryTemp>
 	}
 
 	public void processRateUpdate() {
-		Query query = this.getCurrentSession().createSQLQuery("update_rate");
+		
+		Query query = this.getCurrentSession().createSQLQuery("{call update_rate()}");
 		List result = query.list();
 
 	}
