@@ -86,6 +86,7 @@ public class FileUploadController {
 				fileService.readCallFile(result);
 
 			}
+			fileService.processRateUpdate();
 		} else {
 			model.addAttribute("message", "File '" + file.getOriginalFilename()
 					+ "' uploaded unsuccessfully");
