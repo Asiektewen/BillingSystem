@@ -102,6 +102,10 @@ public class FileServiceImpl implements FileService {
 //		String date = df.format(new Date());
 		List rateList = rateHistoryDAO.fetchRates(srcCty, service,new Date());
 		dataMap.put("Rate_data", rateList);
+		CountryInfo ctyInfo = countryInfoDAO.findCOuntryInfoByCountryName(srcCty);		
+		ServiceInfo serviceInfo = serviceInfoDAO.findServiceInoByCountryService(service, ctyInfo);
+		dataMap.put("pecktime", serviceInfo.getPeakStartTime());
+		dataMap.put("offpecktime", serviceInfo.getOffpeakStartTime());
 		PdfUtils.generateRateSheet(fileName, dataMap);
 		System.out.println("path=" + ExcelUtils.getOutPutDir(date) );
 		return ExcelUtils.getOutPutDir(date)+"\\"+fileName +".pdf";
@@ -159,6 +163,8 @@ public class FileServiceImpl implements FileService {
 				ServiceInfo serviceInfo = new ServiceInfo();
 				serviceInfo.setServviceType(service);
 				serviceInfo.setUpdateHistoryID(history.getId().toString());
+				serviceInfo.setPeakStartTime("10:00");
+				serviceInfo.setOffpeakStartTime("22:00");
 				CountryInfo ctyInfo = countryInfoDAO.findCOuntryInfoByCountryName(srcCty);
 				serviceInfo.setCountryInfo(ctyInfo);
 				serviceMap.put(key, serviceInfo);
