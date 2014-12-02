@@ -170,7 +170,10 @@ public class PdfUtils {
 			dir.delete();
 		}
 		doc.save(path);
-		doc.close();
+		if(null != doc){
+			doc.close();
+		}
+
 
 
 	}
@@ -209,7 +212,9 @@ public class PdfUtils {
 			dir.delete();
 		}
 		doc.save(path);
-		doc.close();
+		if(null != doc){
+			doc.close();
+		}
 	}
 
 	private static void createOnepageBill(List dataCollection, Map contentdata,
