@@ -29,7 +29,7 @@ public class RateHistoryDAOImpl extends GenericDAOImpl<RateHistory> implements
 	 */
 	@Override
 	public List<RateHistory> fetchRates(String srcCty, String service,Date date) {
-		String SQL_QUERY = " from RateHistory c where c.srcCountry=? and c.servviceType=? and c.startTime <=? and endTime>=?";
+		String SQL_QUERY = " from RateHistory c where c.srcCountry=? and c.servviceType=? and c.startTime <=? and endTime>=? order by c.destCountry ";
 		Query query = getCurrentSession().createQuery(SQL_QUERY);
 		query.setParameter(0, srcCty);
 		query.setParameter(1, service);
