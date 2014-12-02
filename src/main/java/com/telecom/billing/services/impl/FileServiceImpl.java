@@ -104,27 +104,27 @@ public class FileServiceImpl implements FileService {
 		dataMap.put("Rate_data", rateList);
 		PdfUtils.generateRateSheet(fileName, dataMap);
 		System.out.println("path=" + ExcelUtils.getOutPutDir(date) );
-		return ExcelUtils.getOutPutDir(date) ;
+		return ExcelUtils.getOutPutDir(date)+"\\"+fileName +".pdf";
 	}
 
 	@Override
 	@Transactional
 	public String createRateSheet(String fileName) throws Exception {
 		Map dataMap = new HashMap();
-		//String date = fileName.split("_")[3];
+		String date = fileName.split("_")[3];
 		String service = fileName.split("_")[1];
 		String srcCty = fileName.split("_")[2];
 //		Date relDate =  new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
 //		.parse(new Date());
 		
-		SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
-		String date = df.format(new Date());
+//		SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+//		String date = df.format(new Date());
 		
 		List rateList = rateHistoryDAO.fetchRates(srcCty, service,new Date());
 		dataMap.put(service+"_"+srcCty, rateList);
 		ExcelUtils.generateExcelFile(fileName, ExcelUtils.RATES_HEADER, dataMap);
 		System.out.println("path =" + ExcelUtils.getOutPutDir(date));
-		return ExcelUtils.getOutPutDir(date);
+		return ExcelUtils.getOutPutDir(date)+"\\"+fileName+".xls";
 	}
 
 	@Override

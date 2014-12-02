@@ -42,9 +42,7 @@
 								</div>
 							</div>
 						</div>
-					  <div class="form-group" style="margin-top: 15px">
-							<div class="row" id="result">
-							</div>
+					  <div class="form-group" style="margin-top: 15px" id="result">
 						</div>
 					</div>
 					<!-- /.col-lg-6 (nested) -->
@@ -118,9 +116,8 @@
 										countryName:countryName
 									},
 									success : function(data) {
-												$('#result').html(
-														"<div class='panel panel-info'><div class='panel-heading'>Result</div><div class='panel-body'>"
-																+ data.content + "</div><a href='${adminContextPath}/file/download?fileID='"+data.file+">"+data.fileName+"</a></div>");
+										$('#result').html("<div class='panel panel-info '><div class='panel-heading'>Result</div><div class='panel-body'>"
+												+ data.content + "<a href='${adminContextPath}/file/download?fileID="+data.file+"'>"+data.fileName+"</a></div></div>");
 									}
 								});
 						      

@@ -190,7 +190,7 @@ public class RatesController {
 			HttpServletRequest request) throws Exception {
 		logger.debug("Export Rate Sheet: @serviceType =" + serviceType
 				+ " @CountryCode=" + countryCode);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-yyyy");
 		String today = sdf.format(new Date());
 		String name = "Rate_" + serviceType + "_" + countryName + "_" + today;
 		String result = fileService.generateRateSheet(name);
@@ -216,7 +216,7 @@ public class RatesController {
 			HttpServletRequest request) throws Exception {
 		logger.debug("Export Rate Excel: @serviceType =" + serviceType
 				+ " @CountryCode=" + countryCode);
-		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-yyyy");
 		String today = sdf.format(new Date());
 		String name = "Rate_" + serviceType + "_" + countryName + "_" + today;
 		String result = fileService.createRateSheet(name);
