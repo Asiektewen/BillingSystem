@@ -58,7 +58,7 @@ public class ExcelUtils {
 			createSingleSheet(wb, sheetHeader, sheetName, sheetData);
 		}
 
-		String path = ExcelUtils.getOutPutDir(date) +fileName + ".xls";
+		String path = ExcelUtils.getOutPutDir(date) +"\\"+fileName + ".xls";
 		FileOutputStream fos = new FileOutputStream(path);
 		wb.write(fos);
 		if (null != fos) {
