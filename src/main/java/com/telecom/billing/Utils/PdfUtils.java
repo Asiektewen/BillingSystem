@@ -164,7 +164,7 @@ public class PdfUtils {
 			contentdata.put("content", content);
 			createOnepageRate(dataCollection, contentdata, doc);
 		}
-		String path = ExcelUtils.getOutPutDir() + "\\" +date+"\\"+ fileName + ".pdf";
+		String path = ExcelUtils.getOutPutDir(date) + "\\"+ fileName + ".pdf";
 		File dir = new File(path);
 		if (dir.exists()) {
 			dir.delete();
@@ -202,7 +202,7 @@ public class PdfUtils {
 			contentdata.put("due_amt", dueAmt);
 			createOnepageBill(dataCollection, contentdata, doc);
 		}
-		String path = ExcelUtils.getOutPutDir() + "\\" +outputFolder+"\\" +fileName + ".pdf";
+		String path = ExcelUtils.getOutPutDir(outputFolder)+"\\" +fileName + ".pdf";
 		File dir = new File(path);
 		if (dir.exists()) {
 			dir.delete();

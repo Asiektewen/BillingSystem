@@ -58,7 +58,7 @@ public class ExcelUtils {
 			createSingleSheet(wb, sheetHeader, sheetName, sheetData);
 		}
 
-		String path = ExcelUtils.getOutPutDir() + "\\excel\\" + date+"\\"+fileName + ".xls";
+		String path = ExcelUtils.getOutPutDir(date) +fileName + ".xls";
 		FileOutputStream fos = new FileOutputStream(path);
 		wb.write(fos);
 		if (null != fos) {
@@ -177,10 +177,8 @@ public class ExcelUtils {
 
 	}
 
-	public static String getOutPutDir() {
-		String path = ExcelUtils.class.getClassLoader().getResource("/")
-				.getPath();
-		path = path.substring(0, path.length() - 9) + "\\output\\";
+	public static String getOutPutDir(String date) {
+		String path = "D:\\tmp\\output\\"+date;
 		File dir = new File(path);
 		if (!dir.exists()) {
 			dir.mkdir();
@@ -188,10 +186,8 @@ public class ExcelUtils {
 		return path;
 	}
 
-	public static String getInPutDir() {
-		String path = ExcelUtils.class.getClassLoader().getResource("/")
-				.getPath();
-		path = path.substring(0, path.length() - 9) + "\\input\\";
+	public static String getInPutDir(String date) {
+		String path = "D:\\tmp\\input\\"+date;
 		File dir = new File(path);
 		if (!dir.exists()) {
 			dir.mkdir();
