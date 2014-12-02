@@ -73,8 +73,8 @@ public class FileServiceImpl implements FileService {
 		String date = fileName.split("_")[3];
 		String service = fileName.split("_")[1];
 		String srcCty = fileName.split("_")[2];
-		Date relDate =  new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH)
-		.parse(date);
+		Date relDate =  new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+		.parse("30-"+date);
 		List rateList = rateHistoryDAO.fetchRates(srcCty, service,relDate);
 		dataMap.put("Rate_data", rateList);
 		PdfUtils.generateRateSheet(fileName, dataMap);
@@ -88,8 +88,8 @@ public class FileServiceImpl implements FileService {
 		String date = fileName.split("_")[3];
 		String service = fileName.split("_")[1];
 		String srcCty = fileName.split("_")[2];
-		Date relDate =  new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH)
-		.parse(date);
+		Date relDate =  new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+		.parse("30-"+date);
 		List rateList = rateHistoryDAO.fetchRates(srcCty, service,relDate);
 		dataMap.put(service+"_"+srcCty, rateList);
 		ExcelUtils.generateExcelFile(fileName, ExcelUtils.RATES_HEADER, dataMap);

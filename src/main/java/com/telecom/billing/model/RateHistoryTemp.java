@@ -45,7 +45,7 @@ public class RateHistoryTemp {
 	@Column(name = "peak")
 	public Double peakRate;
 	
-	@Column(name = "offpeak")
+	@Column(name = "off_peak")
 	public Double offpeakRate;
 
 
