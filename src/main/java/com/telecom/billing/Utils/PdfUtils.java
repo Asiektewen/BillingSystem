@@ -215,7 +215,7 @@ public class PdfUtils {
 		PDPage page = new PDPage();
 		doc.addPage(page);
 		PDXObjectImage ximage = null;
-		String image = PdfUtils.class.getClassLoader().getResource("/img/logo-bill.jpg").getPath();
+		String image = "D:/tmp/input/img/logo-bill.jpg";
 		if (image.toLowerCase().endsWith(".jpg")) {
 			ximage = new PDJpeg(doc, new FileInputStream(image));
 		} else if (image.toLowerCase().endsWith(".tif")
@@ -332,8 +332,7 @@ public class PdfUtils {
 		PDXObjectImage ximage = null;
 		// String image=
 		// PdfUtils.class.getClass().getResource("/resources/img/logo-bill.jpg").toString();
-		String image =null ==PdfUtils.class.getClassLoader().getResource("/img/logo.jpg")? 
-				System.getProperty("user.dir") + "/input/logo.jpg":PdfUtils.class.getClassLoader().getResource("/img/logo.jpg").getPath();
+		String image ="D:/tmp/input/img/logo.jpg";
 		//String image = System.getProperty("user.dir") + "/input/logo.jpg";
 		if (image.toLowerCase().endsWith(".jpg")) {
 			ximage = new PDJpeg(doc, new FileInputStream(image));
