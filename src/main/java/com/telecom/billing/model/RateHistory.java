@@ -51,7 +51,7 @@ public class RateHistory {
 	public Date endTime;
 	@Column(name = "peak")
 	public Double peakRate;
-	@Column(name = "offpeak")
+	@Column(name = "off_peak")
 	public Double offpeakRate;
 	@Column(name = "rate_import_time ")
 	@Type(type = "date")
