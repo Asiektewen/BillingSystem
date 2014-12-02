@@ -93,14 +93,17 @@ public class FileServiceImpl implements FileService {
 	@Transactional
 	public String generateRateSheet(String fileName) throws Exception {
 		Map dataMap = new HashMap();
-		String date = fileName.split("_")[3];
+		//String date = fileName.split("_")[3];
 		String service = fileName.split("_")[1];
 		String srcCty = fileName.split("_")[2];
-		Date relDate =  new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
-		.parse("30-"+date);
-		List rateList = rateHistoryDAO.fetchRates(srcCty, service,relDate);
+//		Date relDate =  new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+//		.parse("30-"+date);
+		SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+		String date = df.format(new Date());
+		List rateList = rateHistoryDAO.fetchRates(srcCty, service,new Date());
 		dataMap.put("Rate_data", rateList);
 		PdfUtils.generateRateSheet(fileName, dataMap);
+		System.out.println("path=" + ExcelUtils.getOutPutDir() + "\\" + date);
 		return ExcelUtils.getOutPutDir() + "\\" + date;
 	}
 
@@ -108,14 +111,19 @@ public class FileServiceImpl implements FileService {
 	@Transactional
 	public String createRateSheet(String fileName) throws Exception {
 		Map dataMap = new HashMap();
-		String date = fileName.split("_")[3];
+		//String date = fileName.split("_")[3];
 		String service = fileName.split("_")[1];
 		String srcCty = fileName.split("_")[2];
-		Date relDate =  new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
-		.parse("30-"+date);
-		List rateList = rateHistoryDAO.fetchRates(srcCty, service,relDate);
+//		Date relDate =  new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+//		.parse(new Date());
+		
+		SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+		String date = df.format(new Date());
+		
+		List rateList = rateHistoryDAO.fetchRates(srcCty, service,new Date());
 		dataMap.put(service+"_"+srcCty, rateList);
 		ExcelUtils.generateExcelFile(fileName, ExcelUtils.RATES_HEADER, dataMap);
+		System.out.println("path =" + ExcelUtils.getOutPutDir() + "\\excel\\" + date);
 		return ExcelUtils.getOutPutDir() + "\\excel\\" + date;
 	}
 
