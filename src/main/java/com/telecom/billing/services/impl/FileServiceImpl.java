@@ -4,8 +4,11 @@
 package com.telecom.billing.services.impl;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +73,9 @@ public class FileServiceImpl implements FileService {
 		String date = fileName.split("_")[3];
 		String service = fileName.split("_")[1];
 		String srcCty = fileName.split("_")[2];
-		List rateList = rateHistoryDAO.fetchRates(srcCty, service);
+		Date relDate =  new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH)
+		.parse(date);
+		List rateList = rateHistoryDAO.fetchRates(srcCty, service,relDate);
 		dataMap.put("Rate_data", rateList);
 		PdfUtils.generateRateSheet(fileName, dataMap);
 		return ExcelUtils.getOutPutDir() + "\\" + date;
@@ -83,7 +88,9 @@ public class FileServiceImpl implements FileService {
 		String date = fileName.split("_")[3];
 		String service = fileName.split("_")[1];
 		String srcCty = fileName.split("_")[2];
-		List rateList = rateHistoryDAO.fetchRates(srcCty, service);
+		Date relDate =  new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH)
+		.parse(date);
+		List rateList = rateHistoryDAO.fetchRates(srcCty, service,relDate);
 		dataMap.put(service+"_"+srcCty, rateList);
 		ExcelUtils.generateExcelFile(fileName, ExcelUtils.RATES_HEADER, dataMap);
 		return ExcelUtils.getOutPutDir() + "\\excel\\" + date;

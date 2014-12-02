@@ -3,6 +3,7 @@
  */
 package com.telecom.billing.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -27,7 +28,7 @@ public class RateHistoryDAOImpl extends GenericDAOImpl<RateHistory> implements
 	 * java.lang.String)
 	 */
 	@Override
-	public List<RateHistory> fetchRates(String srcCty, String service) {
+	public List<RateHistory> fetchRates(String srcCty, String service,Date date) {
 		String SQL_QUERY = " from RateHistory c where c.srcCountry=? and c.servviceType=?";
 		Query query = getCurrentSession().createQuery(SQL_QUERY);
 		query.setParameter(0, srcCty);

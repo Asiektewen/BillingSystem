@@ -97,9 +97,9 @@ public class ExcelUtils {
 			for (int k = 0; k < wb.getNumberOfSheets(); k++) {
 				if (null != wb.getSheetAt(k)) {
 					Sheet sheet = wb.getSheetAt(k);
-					RateHistoryTemp rh = new RateHistoryTemp();
 					for (int i = sheet.getFirstRowNum() + 1; i < sheet
 							.getLastRowNum() + 1; i++) {
+						RateHistoryTemp rh = new RateHistoryTemp();
 						String sheetName = sheet.getSheetName();
 						Row row = sheet.getRow(i);
 						rh.setStartTime(date);

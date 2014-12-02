@@ -3,6 +3,7 @@
  */
 package com.telecom.billing.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.telecom.billing.model.RateHistory;
@@ -12,6 +13,6 @@ import com.telecom.billing.model.RateHistory;
  *
  */
 public interface RateHistoryDAO {
-	public List<RateHistory> fetchRates(String srcCty, String service);
+	public List<RateHistory> fetchRates(String srcCty, String service, Date date);
 
 }
