@@ -16,6 +16,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -72,6 +73,49 @@ public class RatesController {
 
 	}
 
+	@RequestMapping(value = { "/createCurrentRates", "/createCurrentRates/" }, method = RequestMethod.GET)
+	public String currentRates(HttpServletRequest request, Model model)
+			throws JsonGenerationException, JsonMappingException, IOException {
+		List<ServiceInfo> serviceInfoList = serviceInfoService.findAll();
+		// put serviceInfos into groups according to serviceType;
+		Map<String, ArrayList<ServiceInfo>> map = new HashMap<String, ArrayList<ServiceInfo>>();
+		Iterator<ServiceInfo> i = serviceInfoList.iterator();
+		while (i.hasNext()) {
+			ServiceInfo si = i.next();
+			ArrayList<ServiceInfo> list = map.get(si.getServviceType());
+			if (list == null) {
+				list = new ArrayList<ServiceInfo>();
+			}
+			list.add(si);
+			map.put(si.getServviceType(), (ArrayList<ServiceInfo>) list);
+
+		}
+		Iterator<String> mi = map.keySet().iterator();
+		while (mi.hasNext()) {
+			ArrayList<ServiceInfo> infoList = map.get(mi.next());
+			Collections.sort(infoList, new Comparator<ServiceInfo>() {
+				public int compare(ServiceInfo o1, ServiceInfo o2) {
+					return o1.getCountryInfo().getCountryCode()
+							.compareTo(o2.getCountryInfo().getCountryCode());
+				}
+			});
+		}
+
+		List<String> keys = new ArrayList<String>(map.keySet());
+		// Sorting
+		Collections.sort(keys);
+
+		model.addAttribute("serviceKeys", keys);
+		model.addAttribute("serviceKeysJSON",
+				new ObjectMapper().writeValueAsString(keys));
+		model.addAttribute("serviceInfoJSON",
+				new ObjectMapper().writeValueAsString(map));
+		model.addAttribute("serviceInfoListMap", map);
+		model.addAttribute("serviceInfoList", serviceInfoList);
+
+		return "admin/createCurrentRates";
+	}
+
 	@ModelAttribute("serviceInfo")
 	public ServiceInfo createFormBean() {
 		return new ServiceInfo();
@@ -120,12 +164,6 @@ public class RatesController {
 
 	}
 
-	@RequestMapping(value = { "/expCurrent", "/expCurrent/" }, method = RequestMethod.GET)
-	public String expCurrent() {
-		return "admin/exportCurrentRates";
-
-	}
-
 	@RequestMapping(value = { "/expTraffic", "/expTraffic/" }, method = RequestMethod.GET)
 	public String expTraffic() {
 		return "admin/exportTrafficSummary";
@@ -140,6 +178,7 @@ public class RatesController {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("result", "success");
 		map.put("content", month);
+		map.put("filePath", result);
 		return map;
 
 	}
@@ -147,17 +186,51 @@ public class RatesController {
 	@RequestMapping(value = { "/expRateSheet", "/expRateSheet/" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Map<String, String> expRateSheet(
 			@RequestParam String serviceType, @RequestParam String countryName,
-			@RequestParam String countryCode, Model model) throws Exception {
+			@RequestParam String countryCode, Model model,
+			HttpServletRequest request) throws Exception {
 		logger.debug("Export Rate Sheet: @serviceType =" + serviceType
 				+ " @CountryCode=" + countryCode);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		String today = sdf.format(new Date());
-		String result = fileService.generateRateSheet("Rate_" + serviceType
-				+ "_" + countryName + "_" + today);
+		String name = "Rate_" + serviceType + "_" + countryName + "_" + today;
+		String result = fileService.generateRateSheet(name);
+		String pathMd5 = "";
+		if (result != null && !result.equalsIgnoreCase("")) {
+			pathMd5 = DigestUtils.md5Hex(result.getBytes("UTF-8"));
+			request.getSession().setAttribute(pathMd5, result);
+		}
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("result", "success");
 		map.put("content", "Export Rate Sheet for " + serviceType + "_"
 				+ countryName + "_" + countryCode);
+		map.put("file", pathMd5);
+		map.put("fileName", name);
+		return map;
+
+	}
+
+	@RequestMapping(value = { "/expCurrentRate", "/expCurrentRate/" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Map<String, String> expCurrentRates(
+			@RequestParam String serviceType, @RequestParam String countryName,
+			@RequestParam String countryCode, Model model,
+			HttpServletRequest request) throws Exception {
+		logger.debug("Export Rate Excel: @serviceType =" + serviceType
+				+ " @CountryCode=" + countryCode);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		String today = sdf.format(new Date());
+		String name = "Rate_" + serviceType + "_" + countryName + "_" + today;
+		String result = fileService.createRateSheet(name);
+		String pathMd5 = "";
+		if (result != null && !result.equalsIgnoreCase("")) {
+			pathMd5 = DigestUtils.md5Hex(result.getBytes("UTF-8"));
+			request.getSession().setAttribute(pathMd5, result);
+		}
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("result", "success");
+		map.put("content", "Export Rate Excel for " + serviceType + "_"
+				+ countryName + "_" + countryCode);
+		map.put("file", pathMd5);
+		map.put("fileName", name);
 		return map;
 
 	}

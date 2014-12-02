@@ -2,8 +2,12 @@ package com.telecom.billing.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,6 +44,29 @@ public class FileUploadController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public void fileUploadForm() {
+	}
+
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	public void downloadFile(@RequestParam String fileID,
+			HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		String filePath = (String) request.getSession().getAttribute(fileID);
+		File file = new File(filePath);
+		String fileName = file.getName();
+		InputStream fis = new FileInputStream(file);
+		response.setContentType("application/octet-stream");
+		response.setContentLength((int) file.length());
+		response.setHeader("Content-Disposition", "attachment; filename=\""
+				+ fileName + "\"");
+		ServletOutputStream os = response.getOutputStream();
+		byte[] bufferData = new byte[1024];
+		int read = 0;
+		while ((read = fis.read(bufferData)) != -1) {
+			os.write(bufferData, 0, read);
+		}
+		os.flush();
+		os.close();
+		fis.close();
 	}
 
 	@RequestMapping(value = "/fileupload", method = RequestMethod.POST)

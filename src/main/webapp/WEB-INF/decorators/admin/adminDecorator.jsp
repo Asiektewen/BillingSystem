@@ -89,7 +89,7 @@
 
 							<li><a href="${adminContextPath}"><i
 									class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
-							<li <c:if test="${currentPage == 'rates'}"> class="active"</c:if>><a
+							<li <c:if test="${currentPage == 'rates'}"> class="active" </c:if>><a
 								href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Rates<span
 									class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
@@ -100,12 +100,14 @@
 											Rates</a></li>
 									<li><a href="${adminContextPath}/rates/expSheet">Export
 											Rates Sheet</a></li>
+									<li><a href="${adminContextPath}/rates/createCurrentRates">Create Current
+											Rates</a></li>
 									<li><a href="${adminContextPath}/rates/expTraffic">Export
 											Traffic Summary</a></li>
 								</ul> <!-- /.nav-second-level --></li>
 							<li
 								<c:if test="${currentPage == 'callDetails'}"> class="active"</c:if>><a
-								href="tables.html"><i class="fa fa-table fa-fw"></i> Call
+								href="#"><i class="fa fa-table fa-fw"></i> Call
 									Details<span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
 									<li><a href="${adminContextPath}/callDetails/upload/">Upload
@@ -113,7 +115,7 @@
 								</ul> <!-- /.nav-second-level --></li>
 							<li
 								<c:if test="${currentPage == 'customer'}"> class="active"</c:if>><a
-								href="tables.html"><i class="fa fa-child fa-fw"></i>
+								href="#"><i class="fa fa-child fa-fw"></i>
 									Customers<span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
 									<li><a href="${adminContextPath }/customer/list/">Customer List</a></li>

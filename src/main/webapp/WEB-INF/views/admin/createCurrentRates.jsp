@@ -12,7 +12,7 @@
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-default">
-			<div class="panel-heading">Export Current Rates Sheet</div>
+			<div class="panel-heading">Create Current Rates Excel</div>
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-6">
@@ -110,7 +110,7 @@
 						      var countryCode = $("#country option:selected").val();
 						      var countryName= $("#country option:selected").text();
 								$.ajax({
-									url : '${adminContextPath}/rates/expRateSheet',
+									url : '${adminContextPath}/rates/expCurrentRate',
 									type : "post",
 									data : {
 										serviceType :serviceType,
@@ -118,9 +118,9 @@
 										countryName:countryName
 									},
 									success : function(data) {
-												$('#result').html(
-														"<div class='panel panel-info'><div class='panel-heading'>Result</div><div class='panel-body'>"
-																+ data.content + "</div><a href='${adminContextPath}/file/download?fileID='"+data.file+">"+data.fileName+"</a></div>");
+										$('#result').html(
+												"<div class='panel panel-info'><div class='panel-heading'>Result</div><div class='panel-body'>"
+														+ data.content + "</div><a href='${adminContextPath}/file/download?fileID='"+data.file+">"+data.fileName+"</a></div>");
 									}
 								});
 						      

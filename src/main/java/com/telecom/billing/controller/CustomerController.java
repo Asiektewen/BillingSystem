@@ -81,7 +81,7 @@ public class CustomerController {
 			customerList = customerService.findAllCustomerByUser(start - 1,
 					size, orderBy, orderType, user.getId(), 2);
 			totalCount = customerService.countAllCustomerByAdmin();
-		
+
 		} else if (SysConstant.ROLE_SALESREP.equalsIgnoreCase(user.getRole())) {
 			customerList = customerService.findAllCustomerByUser(start, size,
 					orderBy, orderType, user.getId(), 1);
@@ -122,8 +122,8 @@ public class CustomerController {
 	}
 
 	@RequestMapping(value = { "/create", "/create/" }, method = RequestMethod.GET)
-	public String createCustomer(Model model,HttpSession session) throws JsonGenerationException,
-			JsonMappingException, IOException {
+	public String createCustomer(Model model, HttpSession session)
+			throws JsonGenerationException, JsonMappingException, IOException {
 		List<ServiceInfo> serviceInfoList = serviceInfoService.findAll();
 		// put serviceInfos into groups according to serviceType;
 		Map<String, ArrayList<ServiceInfo>> map = new HashMap<String, ArrayList<ServiceInfo>>();
@@ -152,14 +152,16 @@ public class CustomerController {
 		List<String> keys = new ArrayList<String>(map.keySet());
 		// Sorting
 		Collections.sort(keys);
-       if(session.getAttribute("createCustomerMsg")!=null){
-    	   model.addAttribute("createCustomerMsg", session.getAttribute("createCustomerMsg"));
-       }
+		if (session.getAttribute("createCustomerMsg") != null) {
+			model.addAttribute("createCustomerMsg",
+					session.getAttribute("createCustomerMsg"));
+		}
 		model.addAttribute("serviceKeys", keys);
 		model.addAttribute("serviceKeysJSON",
 				new ObjectMapper().writeValueAsString(keys));
 		model.addAttribute("serviceInfoJSON",
 				new ObjectMapper().writeValueAsString(map));
+		model.addAttribute("currentPage", "customer");
 		return "admin/createCustomer";
 
 	}
@@ -181,7 +183,8 @@ public class CustomerController {
 			customer.setSalesRepID(user.getId());
 			customer.setJoinDate(new Date());
 			customerService.save(customer);
-			request.getSession().setAttribute("createCustomerMsg", "Successfully!");
+			request.getSession().setAttribute("createCustomerMsg",
+					"Successfully!");
 		} else {
 			// reset
 			request.getSession().setAttribute("customer", new Customer());

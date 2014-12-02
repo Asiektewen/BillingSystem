@@ -48,15 +48,14 @@ public class CustomerDAOImpl extends GenericDAOImpl<Customer> implements
 		if (type == 1) {
 			// salesRep
 			query = getCurrentSession().createQuery(
-					"FROM Customer  c where c.salesRepID= :salesRepId order by :orderBy "
+					"FROM Customer  c where c.salesRepID= :salesRepId"
 							+ orderType);
 			query.setParameter("salesRepId", userID);
 		} else {
 			// admin
-			query = getCurrentSession().createQuery(
-					"FROM Customer  c order by :orderBy " + orderType);
+			query = getCurrentSession().createQuery("FROM Customer  c");
 		}
-		query.setString("orderBy", orderBy);
+		// query.setString("orderBy", orderBy);
 
 		query.setFirstResult(start);
 		query.setMaxResults(size);

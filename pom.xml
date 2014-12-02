@@ -18,6 +18,7 @@
 		<mysql-version>5.1.27</mysql-version>
 		<apache-connection-pooling-version>1.4</apache-connection-pooling-version>
 		<org.slf4j-version>1.6.1</org.slf4j-version>
+		<spring-integration-kafka.version>1.0.0.BUILD-SNAPSHOT</spring-integration-kafka.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -25,6 +26,53 @@
 			<artifactId>sqljdbc4</artifactId>
 			<version>4.0</version>
 		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.apache.kafka</groupId> -->
+<!-- 			<artifactId>kafka_2.9.2</artifactId> -->
+<!-- 			<version>0.8.1.1</version> -->
+<!-- 			<scope>compile</scope> -->
+<!-- 			<exclusions> -->
+<!-- 				<exclusion> -->
+<!-- 					<artifactId>jmxri</artifactId> -->
+<!-- 					<groupId>com.sun.jmx</groupId> -->
+<!-- 				</exclusion> -->
+<!-- 				<exclusion> -->
+<!-- 					<artifactId>jms</artifactId> -->
+<!-- 					<groupId>javax.jms</groupId> -->
+<!-- 				</exclusion> -->
+<!-- 				<exclusion> -->
+<!-- 					<artifactId>jmxtools</artifactId> -->
+<!-- 					<groupId>com.sun.jdmk</groupId> -->
+<!-- 				</exclusion> -->
+<!-- 			</exclusions> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.scala-lang</groupId> -->
+<!-- 			<artifactId>scala-library</artifactId> -->
+<!-- 			<version>2.8.0</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.yammer.metrics</groupId> -->
+<!-- 			<artifactId>metrics-core</artifactId> -->
+<!-- 			<version>2.2.0</version> -->
+<!-- 			<exclusions> -->
+<!-- 				<exclusion> -->
+<!-- 					<artifactId>slf4j-api</artifactId> -->
+<!-- 					<groupId>org.slf4j</groupId> -->
+<!-- 				</exclusion> -->
+<!-- 			</exclusions> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.integration</groupId> -->
+<!-- 			<artifactId>spring-integration-kafka</artifactId> -->
+<!-- 			<version>${spring-integration-kafka.version}</version> -->
+<!-- 			<exclusions> -->
+<!-- 				<exclusion> -->
+<!-- 					<groupId>log4j</groupId> -->
+<!-- 					<artifactId>log4j</artifactId> -->
+<!-- 				</exclusion> -->
+<!-- 			</exclusions> -->
+<!-- 		</dependency> -->
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
