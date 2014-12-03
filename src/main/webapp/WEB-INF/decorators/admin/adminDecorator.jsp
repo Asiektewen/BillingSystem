@@ -149,8 +149,6 @@
 								<ul class="nav nav-second-level">
 									<li><a href="${adminContextPath }/customer/list/">Customer List</a></li>
 									<li><a href="${adminContextPath}/customer/create/">Create Customer</a></li>
-									<li><a href="${adminContextPath}/customer/genBill">Generate
-											Bill</a></li>
 								</ul> <!-- /.nav-second-level --></li>
 						</c:if>
 					</ul>

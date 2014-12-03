@@ -121,7 +121,11 @@ public class SalesRepController {
 				orderType);
 
 		totalCount = userService.countAllUserNotAdmin();
-		totalPage = (totalCount / size) + 1;
+		if (totalCount % size == 0) {
+			totalPage = (totalCount / size);
+		} else {
+			totalPage = (totalCount / size) + 1;
+		}
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		int n = page / 5;
