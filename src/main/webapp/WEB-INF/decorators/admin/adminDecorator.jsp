@@ -116,6 +116,7 @@
 					    	<li <c:if test="${currentPage == 'salesrep'}"> class="active"</c:if>><a
 								href="#"><i class="fa fa-sitemap fa-fw"></i> Sales Representative<span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
+											<li><a href="${adminContextPath}/salesrep/list/">List Sales Representative</a></li>
 											<li><a href="${adminContextPath}/salesrep/create/">Create Sales Representative</a></li>
 									<li><a href="${adminContextPath}/salesrep/exportCommission/">Export Commission</a></li>
 								</ul> <!-- /.nav-second-level --></li>

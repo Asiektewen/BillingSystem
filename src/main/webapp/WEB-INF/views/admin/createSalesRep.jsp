@@ -10,7 +10,7 @@
 			<div class="panel panel-success">
 				<div class="panel-heading"></div>
 				<div class="panel-body">
-					Create Customer
+					Create Sales Representative
 					<c:out value="${createSalesRepMsg}" />
 				</div>
 			</div>
@@ -25,7 +25,7 @@
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-default">
-			<div class="panel-heading">Add Customer</div>
+			<div class="panel-heading">Add Sales Representative</div>
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-3"></div>
@@ -34,7 +34,7 @@
 							action="${adminContextPath}/salesrep/save/" method="POST">
 
 							<!-- Form Name -->
-							<legend>New Customer</legend>
+							<legend>New Sales Representative</legend>
 
 							<!-- Text input-->
 							<div class="control-group">
@@ -59,6 +59,14 @@
 								<label class="control-label" for="phoneNumber"></label>
 								<form:input id="phoneNumber" name="phoneNumber" type="text"
 									path="phoneNumber" placeholder="phoneNumber" class="form-control"
+									required="" />
+
+							</div>
+														<!-- Text input-->
+							<div class="control-group">
+								<label class="control-label" for="username"></label>
+								<form:input id="username" name="username" type="text"
+									path="username" placeholder="username" class="form-control"
 									required="" />
 
 							</div>
