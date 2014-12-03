@@ -248,7 +248,11 @@ public class PdfUtils {
 	private static void drawBillTable(PDPage page,
 			PDPageContentStream contentStream, float y, float margin,
 			Map contentdata) throws IOException {
+
 		String[][] content = (String[][]) contentdata.get("content");
+		if(null != content && content.length>0){
+			
+		
 		final int rows = content.length < 25 ? content.length + 2 : 26;
 		final int cols = content[0].length;
 		final float rowHeight = 20f;
@@ -337,6 +341,7 @@ public class PdfUtils {
 		 : margin, texty);
 		 contentStream.drawString("* For more information please visit www.telecom.com");
 		 contentStream.endText();
+		}
 
 	}
 
