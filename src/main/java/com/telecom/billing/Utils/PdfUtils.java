@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -185,7 +186,7 @@ public class PdfUtils {
 		contentdata.put("phone", fileName.split("_")[1]);
 		contentdata.put("bill_data", fileName.split("_")[2]);
 		String outputFolder = fileName.split("_")[2];
-		
+		DecimalFormat    df   = new DecimalFormat("######0.00");   
         double dueAmt=0;
 		PDDocument doc = new PDDocument();
 		for (int i = 0; i < dataCollection.size() / 25 + 1; i++) {
@@ -195,10 +196,10 @@ public class PdfUtils {
 			}
 			for (int j = i * 25; j < (i + 1) * 25 && j < dataCollection.size(); j++) {
 				Bill bill = (Bill) dataCollection.get(j);
-				String amt = Double.toString(bill.getCostOfCall());
-				if(amt.length()>12){
-					amt=amt.substring(0, 11);
-				}
+				
+				String amt = df.format(bill.getCostOfCall()).toString();
+				
+	
 				content[j - 25 * i] = new String[] { bill.getDestPhoneNo(),
 						bill.getDestCtyName(),
 						Double.toString(bill.getDuration()),
@@ -207,7 +208,7 @@ public class PdfUtils {
 				dueAmt+=bill.getCostOfCall();
 			}
 			contentdata.put("content", content);
-			contentdata.put("due_amt", dueAmt);
+			contentdata.put("due_amt", df.format(dueAmt));
 			createOnepageBill(dataCollection, contentdata, doc);
 		}
 		String path = ExcelUtils.getOutPutDir(outputFolder)+"\\" +fileName + ".pdf";
