@@ -101,10 +101,11 @@ public class FileServiceImpl implements FileService {
 			String phoneNO = customer.getPhoneNumber();
 			Map billMap = new HashMap();
 			List billData = billDAO.getBillListbySrcPhone(phoneNO);
-
-			billMap.put("Bill_data", billData);
-			PdfUtils.generateMonthlyBill("Bill_" + phoneNO + "_" + month,
-					billMap);
+			if(billData.size()>0){
+				billMap.put("Bill_data", billData);
+				PdfUtils.generateMonthlyBill("Bill_" + phoneNO + "_" + month,
+						billMap);
+			}
 		}
 		return ExcelUtils.getOutPutDir(month);
 	}
