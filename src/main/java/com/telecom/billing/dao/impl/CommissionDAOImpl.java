@@ -18,7 +18,7 @@ public class CommissionDAOImpl extends GenericDAOImpl<Commission> implements
 		Query query = this
 				.getCurrentSession()
 				.createSQLQuery(
-						"{call  get_service_summary(:start_date,:end_date)}")
+						"{call  get_commission_detail(:start_date,:end_date)}")
 				.setParameter("start_date", startTime)
 				.setParameter("end_date", endTime);
 		List result = query.list();
