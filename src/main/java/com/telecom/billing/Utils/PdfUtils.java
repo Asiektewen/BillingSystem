@@ -269,7 +269,7 @@ public class PdfUtils {
 		contentStream.moveTextPositionByAmount(margin + cellMargin, y);
 		contentStream.drawString("Phone number :" + contentdata.get("phone")+ "  Bill Data: " + contentdata.get("bill_data"));
 		contentStream.endText();
-
+		contentStream.setFont(PDType1Font.COURIER, 1);
 		// draw the rows
 		y = y - 5f;
 		float nexty = y;
@@ -342,6 +342,8 @@ public class PdfUtils {
 		 : margin, texty);
 		 contentStream.drawString("* For more information please visit www.telecom.com");
 		 contentStream.endText();
+		}else {
+			
 		}
 
 	}

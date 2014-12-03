@@ -21,12 +21,12 @@
 		<spring-integration-kafka.version>1.0.0.BUILD-SNAPSHOT</spring-integration-kafka.version>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>sqljdbc4</artifactId>
-			<version>4.0</version>
-		</dependency>
 <!-- 		<dependency> -->
+<!-- 			<groupId>com.microsoft.sqlserver</groupId> -->
+<!-- 			<artifactId>sqljdbc4</artifactId> -->
+<!-- 			<version>4.0</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> --> 
 <!-- 			<groupId>org.apache.kafka</groupId> -->
 <!-- 			<artifactId>kafka_2.9.2</artifactId> -->
 <!-- 			<version>0.8.1.1</version> -->
