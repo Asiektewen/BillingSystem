@@ -4,6 +4,7 @@
 package com.telecom.billing.services.impl;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -117,8 +118,10 @@ public class FileServiceImpl implements FileService {
 
 		Date startDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
 				.parse("01-" + month);
-		billDAO.generateMonthlyBill(startDate.toLocaleString(),
-				endDate.toLocaleString());
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+			
+		billDAO.generateMonthlyBill(df.format(startDate),
+				df.format(endDate));
 
 	}
 
@@ -176,7 +179,8 @@ public class FileServiceImpl implements FileService {
 
 		Date startDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
 		.parse("01-" + month);
-		trafficSummaryDAO.processMonthlyTrafic(startDate.toLocaleString(), endDate.toLocaleString());;
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		trafficSummaryDAO.processMonthlyTrafic(df.format(startDate), df.format(endDate));;
 	}
 	
 	
@@ -239,7 +243,6 @@ public class FileServiceImpl implements FileService {
 		while (it.hasNext()) {
 			Entry paris = (Entry) it.next();
 			ServiceInfo ser = (ServiceInfo) paris.getValue();
-
 			serviceInfoDAO.save(ser);
 		}
 
