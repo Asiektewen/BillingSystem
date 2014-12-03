@@ -3,6 +3,7 @@ package com.telecom.billing.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.telecom.billing.dao.CommissionDAO;
@@ -13,16 +14,22 @@ public class CommissionDAOImpl extends GenericDAOImpl<Commission> implements
 		CommissionDAO {
 
 	@Override
-	public List<Commission> getMonthlyCommission(String month) {
-		List co = new ArrayList();
-		for (int i = 0; i < 50; i++) {
-			Commission com= new Commission();
-			com.setSalsRep("sales"+i);
-			com.setTotalCommission("100"+i);
-			co.add(com);
-		}
+	public void processCommissionBatch(String startTime,String endTime) {
+		Query query = this
+				.getCurrentSession()
+				.createSQLQuery(
+						"{call  get_service_summary(:start_date,:end_date)}")
+				.setParameter("start_date", startTime)
+				.setParameter("end_date", endTime);
+		List result = query.list();
 
-		return co;
+		
+	}
+
+	@Override
+	public List<Commission> getMonthlyCommission() {
+		Query query = getCurrentSession().createQuery("from Commission ");
+		return query.list();
 	}
 
 }

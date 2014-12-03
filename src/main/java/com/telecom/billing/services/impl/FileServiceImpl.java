@@ -264,12 +264,25 @@ public class FileServiceImpl implements FileService {
 	}
 
 
+	
+	@Override
+	@Transactional
+	public void processCommissionBatch(String fileName) throws ParseException {
+		String month = fileName.split("_")[3];
+		Date endDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+		.parse("30-" + month);
+
+		Date startDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+		.parse("01-" + month);
+		commissionDAO.processCommissionBatch(startDate.toLocaleString(), endDate.toLocaleString());;
+	}
+	
 	@Override
 	@Transactional
 	public String generateMonthCommissions(String fileName) throws Exception {
 		Map dataMap = new HashMap();
 		String month = fileName.split("_")[3];
-		List traffics = commissionDAO.getMonthlyCommission(month);
+		List traffics = commissionDAO.getMonthlyCommission();
 		dataMap.put("Monthly_Commission" + month, traffics);
 		ExcelUtils.generateExcelFile(fileName,
 				ExcelUtils.COMMISSION, dataMap);

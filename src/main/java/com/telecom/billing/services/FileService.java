@@ -30,6 +30,7 @@ public interface FileService {
 	public void processBillBatch(String fileName) throws ParseException ;
 	public String generateRateSheet(String fileName) throws Exception;
 	public void processTrafficBatch(String fileName) throws ParseException;
+	public void processCommissionBatch(String fileName) throws ParseException;
 	
 	/**
 	 * file format : single sheet Excel

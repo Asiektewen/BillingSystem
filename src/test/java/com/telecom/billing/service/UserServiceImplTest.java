@@ -39,9 +39,9 @@ public class UserServiceImplTest extends ServiceImplTestBase {
 	public void processRateUpdate() throws Exception{
 		//fileService.generateRateSheet("Rate_Spectra_USA_11-2014");
 		
-		//fileService.processBillBatch("BIll_12-2013");
+		fileService.processBillBatch("BIll_12-2013");
 		//fileService.generateMonthlyBills("BIll_09-2013");
-		fileService.processTrafficBatch("Traffic_Summary_for_11-2014");
+		//fileService.processTrafficBatch("Traffic_Summary_for_11-2014");
 		//fileService.generateTrafficSummary("Traffic_Summary_for_11-2014");
 		//fileService.generateMonthCommissions("monthly_commisison_for_11-2014");
 		
