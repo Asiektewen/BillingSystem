@@ -27,6 +27,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import com.telecom.billing.model.CallDetail;
+import com.telecom.billing.model.Commission;
 import com.telecom.billing.model.RateHistory;
 import com.telecom.billing.model.RateHistoryTemp;
 import com.telecom.billing.model.TrafficSummary;
@@ -162,7 +163,18 @@ public class ExcelUtils {
 				rowNo++;
 			}
 
-		} else {
+		} else if(sheetName.startsWith("Monthly_Commission")){
+			while (it.hasNext()) {
+				Commission tr = (Commission) it.next();
+				row = sheet.createRow(rowNo);
+				Cell cell = row.createCell(0);
+				cell.setCellValue(tr.getSalsRep());
+				cell = row.createCell(1);
+				cell.setCellValue(tr.getTotalCommission());
+				rowNo++;
+			}
+			
+		}else {
 			while (it.hasNext()) {
 				RateHistory tr = (RateHistory) it.next();
 				row = sheet.createRow(rowNo);

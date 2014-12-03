@@ -23,6 +23,7 @@ import com.telecom.billing.Utils.ExcelUtils;
 import com.telecom.billing.Utils.PdfUtils;
 import com.telecom.billing.dao.BillDAO;
 import com.telecom.billing.dao.CallDetailDAO;
+import com.telecom.billing.dao.CommissionDAO;
 import com.telecom.billing.dao.CountryInfoDAO;
 import com.telecom.billing.dao.CustomerDAO;
 import com.telecom.billing.dao.RateHistoryDAO;
@@ -81,6 +82,11 @@ public class FileServiceImpl implements FileService {
 	@Qualifier("trafficSummaryDAO")
 	public TrafficSummaryDAO trafficSummaryDAO;
 
+	@Autowired
+	@Qualifier("commissionDAO")
+	public CommissionDAO commissionDAO;	
+	
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	@Transactional
@@ -248,11 +254,11 @@ public class FileServiceImpl implements FileService {
 	@Transactional
 	public String generateMonthCommissions(String fileName) throws Exception {
 		Map dataMap = new HashMap();
-		String month = fileName.split("_")[1];
-		List traffics = trafficSummaryDAO.getMonthlyTraffics(month);
-		dataMap.put("Traffic_Summary" + month, traffics);
+		String month = fileName.split("_")[3];
+		List traffics = commissionDAO.getMonthlyCommission(month);
+		dataMap.put("Monthly_Commission" + month, traffics);
 		ExcelUtils.generateExcelFile(fileName,
-				ExcelUtils.TRAFFIC_SUMMARY_HEADER, dataMap);
+				ExcelUtils.COMMISSION, dataMap);
 		System.out.println("path =" + ExcelUtils.getOutPutDir(month));
 		return ExcelUtils.getOutPutDir(month) + "\\" + fileName + ".xls";
 
