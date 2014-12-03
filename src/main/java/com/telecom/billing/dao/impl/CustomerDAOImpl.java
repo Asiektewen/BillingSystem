@@ -86,7 +86,7 @@ public class CustomerDAOImpl extends GenericDAOImpl<Customer> implements
 	@Override
 	public List<Customer> findAllCustomer() {
 		Query query = getCurrentSession().createQuery(
-				"select * from Customer c ");
+				"FROM Customer ");
 		List<Customer> customerList = query.list();
 		return customerList;
 	}

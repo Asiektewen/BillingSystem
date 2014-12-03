@@ -3,6 +3,8 @@
  */
 package com.telecom.billing.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * @author Eric
@@ -21,90 +26,249 @@ public class Bill {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long id;
+	public int id;
+	
+	@Column(name="full_name")
+	private String fullName;
 	
 	@Column(name = "src_phone_num")
 	private String srcPhoneNo;
 	
-	@Column(name = "des_phone_num")
+	@Column(name = "dest_phone_num")
 	private String destPhoneNo;
 	
-	@Column(name = "des_country_name")
+	
+	@Column(name="service_type")
+	private String serviceType;
+	
+	
+	@Column(name="src_country_code")
+	private int srcCtyCode;	
+	
+	
+	@Column(name="src_country_name")
+	private String srcCtyName;
+	
+	
+	@Column(name="dest_country_code")
+	private int desCtyCode;	
+	
+	@Column(name = "dest_country_name")
 	private String destCtyName;
 	
+	
 	@Column(name = "duration")
-	private double duration;
+	private int duration;
 
+
+	@Column(name = "call_date")
+	@Type(type = "date")
+	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
+	public Date callDate;
+	
+	
 	@Column(name = "call_time")
-	private String callTime;
+	private int callTime;
+	
+	@Column(name = "off_peak_time")
+	private int offPeakTime;
+	
+	@Column(name = "peak_time")
+	private int peakTime;
+
+	@Column(name = "peak")
+	private float peak;
+	
+	@Column(name = "off_peak")
+	private float offPeak;
+
 	
 	@Column(name = "cost")
-	private double costOfCall;
+	private float costOfCall;
+
 	
 	@Transient
 	private double amtDue;
-	
-	public Long getId() {
+
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+
+	public void setId(int id) {
 		this.id = id;
 	}
-	public String getDestPhoneNo() {
-		return destPhoneNo;
+
+
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setDestPhoneNo(String destPhoneNo) {
-		this.destPhoneNo = destPhoneNo;
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
+
 
 	public String getSrcPhoneNo() {
 		return srcPhoneNo;
 	}
 
+
 	public void setSrcPhoneNo(String srcPhoneNo) {
 		this.srcPhoneNo = srcPhoneNo;
 	}
+
+
+	public String getDestPhoneNo() {
+		return destPhoneNo;
+	}
+
+
+	public void setDestPhoneNo(String destPhoneNo) {
+		this.destPhoneNo = destPhoneNo;
+	}
+
+
+	public String getServiceType() {
+		return serviceType;
+	}
+
+
+	public void setServiceType(String serviceType) {
+		this.serviceType = serviceType;
+	}
+
+
+	public int getSrcCtyCode() {
+		return srcCtyCode;
+	}
+
+
+	public void setSrcCtyCode(int srcCtyCode) {
+		this.srcCtyCode = srcCtyCode;
+	}
+
+
+	public String getSrcCtyName() {
+		return srcCtyName;
+	}
+
+
+	public void setSrcCtyName(String srcCtyName) {
+		this.srcCtyName = srcCtyName;
+	}
+
+
+	public int getDesCtyCode() {
+		return desCtyCode;
+	}
+
+
+	public void setDesCtyCode(int desCtyCode) {
+		this.desCtyCode = desCtyCode;
+	}
+
 
 	public String getDestCtyName() {
 		return destCtyName;
 	}
 
+
 	public void setDestCtyName(String destCtyName) {
 		this.destCtyName = destCtyName;
 	}
 
-	public double getDuration() {
+
+	public int getDuration() {
 		return duration;
 	}
 
-	public void setDuration(double duration) {
+
+	public void setDuration(int duration) {
 		this.duration = duration;
 	}
 
-	public String getCallTime() {
+
+	public Date getCallDate() {
+		return callDate;
+	}
+
+
+	public void setCallDate(Date callDate) {
+		this.callDate = callDate;
+	}
+
+
+	public int getCallTime() {
 		return callTime;
 	}
 
-	public void setCallTime(String callTime) {
+
+	public void setCallTime(int callTime) {
 		this.callTime = callTime;
 	}
 
-	public double getCostOfCall() {
+
+	public int getOffPeakTime() {
+		return offPeakTime;
+	}
+
+
+	public void setOffPeakTime(int offPeakTime) {
+		this.offPeakTime = offPeakTime;
+	}
+
+
+	public int getPeakTime() {
+		return peakTime;
+	}
+
+
+	public void setPeakTime(int peakTime) {
+		this.peakTime = peakTime;
+	}
+
+
+	public float getPeak() {
+		return peak;
+	}
+
+
+	public void setPeak(float peak) {
+		this.peak = peak;
+	}
+
+
+	public float getOffPeak() {
+		return offPeak;
+	}
+
+
+	public void setOffPeak(float offPeak) {
+		this.offPeak = offPeak;
+	}
+
+
+	public float getCostOfCall() {
 		return costOfCall;
 	}
 
-	public void setCostOfCall(double costOfCall) {
+
+	public void setCostOfCall(float costOfCall) {
 		this.costOfCall = costOfCall;
 	}
+
 
 	public double getAmtDue() {
 		return amtDue;
 	}
 
+
 	public void setAmtDue(double amtDue) {
 		this.amtDue = amtDue;
 	}
+	
 
 }

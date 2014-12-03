@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.telecom.billing.Utils.ExcelUtils;
 import com.telecom.billing.Utils.PdfUtils;
+import com.telecom.billing.dao.BillDAO;
 import com.telecom.billing.dao.CallDetailDAO;
 import com.telecom.billing.dao.CountryInfoDAO;
 import com.telecom.billing.dao.CustomerDAO;
@@ -58,13 +59,11 @@ public class FileServiceImpl implements FileService {
 	@Autowired
 	@Qualifier("customerDAO")
 	public CustomerDAO customerDAO;
-	
-	
+
 	@Autowired
 	@Qualifier("ratesUpdateHistoryDAO")
 	public RatesUpdateHistoryDAO ratesUpdateHistoryDAO;
-	
-	
+
 	@Autowired
 	@Qualifier("serviceInfoDAO")
 	public ServiceInfoDAO serviceInfoDAO;
@@ -72,21 +71,44 @@ public class FileServiceImpl implements FileService {
 	@Autowired
 	@Qualifier("countryInfoDAO")
 	public CountryInfoDAO countryInfoDAO;
-	
+
+	@Autowired
+	@Qualifier("billDAO")
+	public BillDAO billDAO;
+
+	@SuppressWarnings("deprecation")
 	@Override
 	@Transactional
-	public String generateMonthlyBills(String month) throws Exception {
+	public String generateMonthlyBills(String fileName) throws Exception {
 		List customers = customerDAO.findAllCustomer();
+		//String month = processBillBatch(fileName);
+		String month = fileName.split("_")[1];
+
 		for (int i = 0; i < customers.size(); i++) {
 			Customer customer = (Customer) customers.get(i);
 			String phoneNO = customer.getPhoneNumber();
 			Map billMap = new HashMap();
-			// TODO:
-			billMap.put("Bill_data", "");
+			List billData = billDAO.getBillListbySrcPhone(phoneNO);
+
+			billMap.put("Bill_data", billData);
 			PdfUtils.generateMonthlyBill("Bill_" + phoneNO + "_" + month,
 					billMap);
 		}
 		return ExcelUtils.getOutPutDir(month);
+	}
+	
+	@Override
+	@Transactional
+	public void processBillBatch(String fileName) throws ParseException {
+		String month = fileName.split("_")[1];
+		Date endDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+				.parse("30-" + month);
+
+		Date startDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+				.parse("01-" + month);
+		billDAO.generateMonthlyBill(startDate.toLocaleString(),
+				endDate.toLocaleString());
+
 	}
 
 	@Override
@@ -96,19 +118,21 @@ public class FileServiceImpl implements FileService {
 		String date = fileName.split("_")[3];
 		String service = fileName.split("_")[1];
 		String srcCty = fileName.split("_")[2];
-//		Date relDate =  new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
-//		.parse("30-"+date);
-//		SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
-//		String date = df.format(new Date());
-		List rateList = rateHistoryDAO.fetchRates(srcCty, service,new Date());
+		// Date relDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+		// .parse("30-"+date);
+		// SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+		// String date = df.format(new Date());
+		List rateList = rateHistoryDAO.fetchRates(srcCty, service, new Date());
 		dataMap.put("Rate_data", rateList);
-		CountryInfo ctyInfo = countryInfoDAO.findCOuntryInfoByCountryName(srcCty);		
-		ServiceInfo serviceInfo = serviceInfoDAO.findServiceInoByCountryService(service, ctyInfo);
+		CountryInfo ctyInfo = countryInfoDAO
+				.findCOuntryInfoByCountryName(srcCty);
+		ServiceInfo serviceInfo = serviceInfoDAO
+				.findServiceInoByCountryService(service, ctyInfo);
 		dataMap.put("pecktime", serviceInfo.getPeakStartTime());
 		dataMap.put("offpecktime", serviceInfo.getOffpeakStartTime());
 		PdfUtils.generateRateSheet(fileName, dataMap);
-		System.out.println("path=" + ExcelUtils.getOutPutDir(date) );
-		return ExcelUtils.getOutPutDir(date)+"\\"+fileName +".pdf";
+		System.out.println("path=" + ExcelUtils.getOutPutDir(date));
+		return ExcelUtils.getOutPutDir(date) + "\\" + fileName + ".pdf";
 	}
 
 	@Override
@@ -118,17 +142,18 @@ public class FileServiceImpl implements FileService {
 		String date = fileName.split("_")[3];
 		String service = fileName.split("_")[1];
 		String srcCty = fileName.split("_")[2];
-//		Date relDate =  new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
-//		.parse(new Date());
-		
-//		SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
-//		String date = df.format(new Date());
-		
-		List rateList = rateHistoryDAO.fetchRates(srcCty, service,new Date());
-		dataMap.put(service+"_"+srcCty, rateList);
-		ExcelUtils.generateExcelFile(fileName, ExcelUtils.RATES_HEADER, dataMap);
+		// Date relDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+		// .parse(new Date());
+
+		// SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+		// String date = df.format(new Date());
+
+		List rateList = rateHistoryDAO.fetchRates(srcCty, service, new Date());
+		dataMap.put(service + "_" + srcCty, rateList);
+		ExcelUtils
+				.generateExcelFile(fileName, ExcelUtils.RATES_HEADER, dataMap);
 		System.out.println("path =" + ExcelUtils.getOutPutDir(date));
-		return ExcelUtils.getOutPutDir(date)+"\\"+fileName+".xls";
+		return ExcelUtils.getOutPutDir(date) + "\\" + fileName + ".xls";
 	}
 
 	@Override
@@ -154,42 +179,43 @@ public class FileServiceImpl implements FileService {
 		rateHistoryTempDAO.importRates(rates);
 		RatesUpdateHistory history = updateRateHistory(rateFile);
 		Map serviceMap = new HashMap();
-		for (int i=0;i<rates.size();i++){
+		for (int i = 0; i < rates.size(); i++) {
 			RateHistoryTemp rate = rates.get(i);
 			String srcCty = rate.getSrcCountry();
 			String service = rate.getServviceType();
-			String key = srcCty +"_"+service;
-			if(!serviceMap.containsKey("key")){
+			String key = srcCty + "_" + service;
+			if (!serviceMap.containsKey("key")) {
 				ServiceInfo serviceInfo = new ServiceInfo();
 				serviceInfo.setServviceType(service);
 				serviceInfo.setUpdateHistoryID(history.getId().toString());
-				serviceInfo.setPeakStartTime("10:00");
-				serviceInfo.setOffpeakStartTime("22:00");
-				CountryInfo ctyInfo = countryInfoDAO.findCOuntryInfoByCountryName(srcCty);
+				serviceInfo.setPeakStartTime("1000");
+				serviceInfo.setOffpeakStartTime("2200");
+				CountryInfo ctyInfo = countryInfoDAO
+						.findCOuntryInfoByCountryName(srcCty);
 				serviceInfo.setCountryInfo(ctyInfo);
 				serviceMap.put(key, serviceInfo);
 			}
 		}
-       if(!serviceMap.isEmpty()){
-    	     updateServiceInfo(serviceMap);  
-       }
+		if (!serviceMap.isEmpty()) {
+			updateServiceInfo(serviceMap);
+		}
 
 		return true;
 	}
 
 	private void updateServiceInfo(Map serviceMap) {
 		Iterator it = serviceMap.entrySet().iterator();
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			Entry paris = (Entry) it.next();
-			ServiceInfo ser= (ServiceInfo) paris.getValue();
-			
+			ServiceInfo ser = (ServiceInfo) paris.getValue();
+
 			serviceInfoDAO.save(ser);
 		}
-		
-		
+
 	}
 
-	private RatesUpdateHistory updateRateHistory(File rateFile) throws ParseException {
+	private RatesUpdateHistory updateRateHistory(File rateFile)
+			throws ParseException {
 		RatesUpdateHistory history = new RatesUpdateHistory();
 		String partName = rateFile.getName().split("_")[1];
 		Date date = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH)

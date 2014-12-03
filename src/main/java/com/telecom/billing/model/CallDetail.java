@@ -28,9 +28,9 @@ public class CallDetail {
 	public Long id;
 	@Column(name = "service_type")
 	public String servviceType;
-	@Column(name = "src_country_id")
+	@Column(name = "src_country_code")
 	public Integer srcCountryId;
-	@Column(name = "dest_country_id")
+	@Column(name = "dest_country_code")
 	public Integer destCountryId;
 	@Column(name = "src_phone_num")
 	public String srcPhoneNumber;

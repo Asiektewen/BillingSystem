@@ -4,6 +4,7 @@
 package com.telecom.billing.services;
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.List;
 
 import com.telecom.billing.model.CallDetail;
@@ -30,7 +31,7 @@ public interface FileService {
 	 * @return full path of the file
 	 * @throws Exception 
 	 */
-
+	public void processBillBatch(String fileName) throws ParseException ;
 	public String generateRateSheet(String fileName) throws Exception;
 	
 	/**

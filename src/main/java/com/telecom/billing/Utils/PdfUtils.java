@@ -184,7 +184,7 @@ public class PdfUtils {
 		Map contentdata = new HashMap();
 		contentdata.put("phone", fileName.split("_")[1]);
 		contentdata.put("bill_data", fileName.split("_")[2]);
-		String outputFolder = fileName.split("_")[3];
+		String outputFolder = fileName.split("_")[2];
 		
         double dueAmt=0;
 		PDDocument doc = new PDDocument();
@@ -195,11 +195,15 @@ public class PdfUtils {
 			}
 			for (int j = i * 25; j < (i + 1) * 25 && j < dataCollection.size(); j++) {
 				Bill bill = (Bill) dataCollection.get(j);
+				String amt = Double.toString(bill.getCostOfCall());
+				if(amt.length()>12){
+					amt=amt.substring(0, 11);
+				}
 				content[j - 25 * i] = new String[] { bill.getDestPhoneNo(),
 						bill.getDestCtyName(),
 						Double.toString(bill.getDuration()),
-						bill.getCallTime(),
-						Double.toString(bill.getCostOfCall()) };
+						Integer.toString(bill.getCallTime()),
+						"$"+amt};
 				dueAmt+=bill.getCostOfCall();
 			}
 			contentdata.put("content", content);
@@ -318,7 +322,11 @@ public class PdfUtils {
 			contentStream.endText();
 			contentStream.beginText();
 			contentStream.moveTextPositionByAmount(textx+4*colWidth, texty);
-			contentStream.drawString(contentdata.get("due_amt").toString());
+			String dueAmt =contentdata.get("due_amt").toString();
+			if(dueAmt.length()>12){
+				dueAmt= dueAmt.substring(0,11);
+			}
+			contentStream.drawString("$"+dueAmt);
 			contentStream.endText();
 		}
 		contentStream.setFont(PDType1Font.COURIER, 10);
@@ -391,7 +399,7 @@ public class PdfUtils {
 			Bill bill = new Bill();
 		    bill.setDestPhoneNo("000000000"+i);
 		    bill.setDestCtyName("cty"+i);
-		    bill.setCallTime("02120"+i);
+		    bill.setCallTime(i);
 		    bill.setDuration(i+1);
 		    bill.setCostOfCall((i+1)+10);
 			callList.add(bill);

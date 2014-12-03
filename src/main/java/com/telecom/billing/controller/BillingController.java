@@ -54,6 +54,7 @@ public class BillingController {
 	public @ResponseBody Map<String, String> genMonthlyBill(
 			@RequestParam String month, Model model) throws Exception {
 		logger.debug("Generate Bills:Month is " + month);
+		fileService.processBillBatch("Bill_" + month);
 		String result = fileService.generateMonthlyBills("Bill_" + month);
 		logger.debug("genMonthlyBill:result=" + result);
 		Map<String, String> map = new HashMap<String, String>();
