@@ -6,6 +6,7 @@ package com.telecom.billing.Utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -147,6 +148,7 @@ public class ExcelUtils {
 		}
 		Iterator it = sheetData.iterator();
 		int rowNo = 1;
+		DecimalFormat    df   = new DecimalFormat("######0.00");   
 		if (sheetName.startsWith(TRAFFIC_SUMMARY)) {
 			while (it.hasNext()) {
 				TrafficSummary tr = (TrafficSummary) it.next();
@@ -169,7 +171,7 @@ public class ExcelUtils {
 				Cell cell = row.createCell(0);
 				cell.setCellValue(tr.getSalsRep());
 				cell = row.createCell(1);
-				cell.setCellValue(tr.getTotalCommission());
+				cell.setCellValue(df.format(tr.getTotalCommission()));
 				rowNo++;
 			}
 			

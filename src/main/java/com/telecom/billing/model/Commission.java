@@ -35,8 +35,6 @@ public class Commission {
 	@Column(name="commission_level")
 	private float commissioinLevel;
 	
-	@Column(name="cost")
-	private float cost;
 	
 	@Column(name="commission")
 	private float totalCommission;
@@ -81,13 +79,6 @@ public class Commission {
 		this.commissioinLevel = commissioinLevel;
 	}
 
-	public float getCost() {
-		return cost;
-	}
-
-	public void setCost(float cost) {
-		this.cost = cost;
-	}
 
 	public float getTotalCommission() {
 		return totalCommission;
