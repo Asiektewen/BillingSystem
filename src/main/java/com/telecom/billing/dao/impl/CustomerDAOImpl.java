@@ -48,9 +48,8 @@ public class CustomerDAOImpl extends GenericDAOImpl<Customer> implements
 		if (type == 1) {
 			// salesRep
 			query = getCurrentSession().createQuery(
-					"FROM Customer  c where c.salesRepID= :salesRepId"
-							+ orderType);
-			query.setParameter("salesRepId", userID);
+					"FROM Customer  c where c.salesRepID="+userID );
+//			query.setParameter(0, userID);
 		} else {
 			// admin
 			query = getCurrentSession().createQuery("FROM Customer  c");
@@ -85,8 +84,7 @@ public class CustomerDAOImpl extends GenericDAOImpl<Customer> implements
 
 	@Override
 	public List<Customer> findAllCustomer() {
-		Query query = getCurrentSession().createQuery(
-				"FROM Customer ");
+		Query query = getCurrentSession().createQuery("FROM Customer ");
 		List<Customer> customerList = query.list();
 		return customerList;
 	}

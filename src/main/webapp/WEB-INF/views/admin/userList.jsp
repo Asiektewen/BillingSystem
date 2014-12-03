@@ -26,8 +26,7 @@
 							<tr>
 								<th>ID</th>
 								<th>Full Name</th>
-								<th>Street</th>
-								<th>City</th>
+								<th>Address</th>
 								<th>Username</th>
 							</tr>
 						</thead>
@@ -36,8 +35,7 @@
 								<tr>
 									<td><c:out value="${user.id}" /></td>
 									<td><c:out value="${user.fullName}" /></td>
-									<td><c:out value="${user.street}" /></td>
-									<td><c:out value="${user.city}" /></td>
+									<td><c:out value="${user.address}" /></td>
 									<td><c:out value="${user.username}" /></td>
 								</tr>
 							</c:forEach>

@@ -20,7 +20,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "t_user_info")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User {
 	@Id
 	@Column(name = "id")

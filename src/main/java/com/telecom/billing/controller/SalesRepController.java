@@ -78,7 +78,8 @@ public class SalesRepController {
 			throws Exception {
 		logger.debug("Export Commission for month =" + month);
 		String name = "monthly_commission_of_" + month;
-		String result = fileService.createRateSheet(name);
+		fileService.processCommissionBatch(name);
+		String result = fileService.generateMonthCommissions(name);
 		String pathMd5 = "";
 		if (result != null && !result.equalsIgnoreCase("")) {
 			pathMd5 = DigestUtils.md5Hex(result.getBytes("UTF-8"));

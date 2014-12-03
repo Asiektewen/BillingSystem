@@ -6,6 +6,9 @@ package com.telecom.billing.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,15 +55,22 @@ public class BillingController {
 
 	@RequestMapping(value = { "/gen", "/gen/" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Map<String, String> genMonthlyBill(
-			@RequestParam String month, Model model) throws Exception {
+			@RequestParam String month, Model model, HttpServletRequest request)
+			throws Exception {
 		logger.debug("Generate Bills:Month is " + month);
 		fileService.processBillBatch("Bill_" + month);
 		String result = fileService.generateMonthlyBills("Bill_" + month);
-		logger.debug("genMonthlyBill:result=" + result);
+		String name = "Bill_" + month;
+		// String pathMd5 = "";
+		// if (result != null && !result.equalsIgnoreCase("")) {
+		// pathMd5 = DigestUtils.md5Hex(result.getBytes("UTF-8"));
+		// request.getSession().setAttribute(pathMd5, result);
+		// }
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("result", "success");
-		map.put("content", month);
+		map.put("content", "Bills are generated into Foler: ");
+		map.put("folderName", result);
+		// map.put("fileName", name);
 		return map;
-
 	}
 }

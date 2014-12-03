@@ -66,7 +66,7 @@
 								success : function(data) {
 									$('#result').html(
 											"<div class='panel panel-info'><div class='panel-heading'>Result</div><div class='panel-body'>"
-													+ data.content + "</div></div>");
+													+ data.content+data.folderName + "</div></div>");
 								}
 							});
 
