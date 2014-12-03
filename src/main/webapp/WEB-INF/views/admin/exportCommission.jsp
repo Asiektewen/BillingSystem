@@ -12,7 +12,7 @@
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-default">
-			<div class="panel-heading">Monthly Traffic Summary</div>
+			<div class="panel-heading">Monthly Commission</div>
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-12">
@@ -29,7 +29,7 @@
 							<p class="help-block">Click the button on the right to select
 								month.</p>
 							<button type="button" id="genBtn" class="btn btn-primary">Generate
-								Traffic Summary</button>
+								Commission</button>
 						</div>
 						<div class="form-group col-md-4" id="result"></div>
 					</div>
@@ -57,7 +57,7 @@
 							var month = $("#dtp_input1").val();
 							// 			alert(month);
 							$.ajax({
-								url : '${adminContextPath}/rates/traffic/gen',
+								url : '${adminContextPath}/salesrep/exportCommission',
 								type : "post",
 								data : {
 									"month" : month

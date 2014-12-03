@@ -46,7 +46,7 @@
 									<td><c:out value="${customer.city}" /></td>
 									<td><c:out value="${customer.zipCode}" /></td>
 									<td><c:out value="${customer.phoneNumber}" /></td>
-									<td><c:out value="${customer.countryCode}" /></td>
+									<td><c:out value="${customer.countryName}" /></td>
 									<td><c:out value="${customer.serviceType}" /></td>
 									<td><c:out value="${customer.salesRepID}" /></td>
 									<td><c:out value="${customer.commissionlevel}" /></td>
@@ -167,7 +167,7 @@
 							<ul class="pagination">
 								<li
 									<c:if test="${customerListPageInfo.page==1}"> class="disabled"</c:if>><a
-									href="?page=<c:out value="${page-1}" />"><span
+									href="?page=<c:out value="${customerListPageInfo.page-1}" />"><span
 										aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
 								<c:forEach items="${customerListPageInfo.pageRange}" var="cpage"
 									varStatus="loopCounter">

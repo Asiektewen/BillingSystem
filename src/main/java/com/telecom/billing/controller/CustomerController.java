@@ -35,6 +35,7 @@ import com.telecom.billing.common.SysConstant;
 import com.telecom.billing.model.Customer;
 import com.telecom.billing.model.ServiceInfo;
 import com.telecom.billing.model.User;
+import com.telecom.billing.services.CountryInfoService;
 import com.telecom.billing.services.CustomerService;
 import com.telecom.billing.services.ServiceInfoService;
 import com.telecom.billing.services.UserService;
@@ -58,6 +59,9 @@ public class CustomerController {
 	@Autowired
 	@Qualifier("serviceInfoService")
 	public ServiceInfoService serviceInfoService;
+	@Autowired
+	@Qualifier("countryInfoService")
+	public CountryInfoService countryInfoService;
 
 	@ModelAttribute
 	public void currentPage(WebRequest request, Model model) {
@@ -182,6 +186,9 @@ public class CustomerController {
 			// save
 			customer.setSalesRepID(user.getId());
 			customer.setJoinDate(new Date());
+			customer.setCountryName(countryInfoService
+					.findCountryInfoByCountryNum(customer.getCountryCode())
+					.getCountryName());
 			customerService.save(customer);
 			request.getSession().setAttribute("createCustomerMsg",
 					"Successfully!");

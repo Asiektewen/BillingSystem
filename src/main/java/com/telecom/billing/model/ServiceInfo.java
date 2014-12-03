@@ -40,15 +40,15 @@ public class ServiceInfo {
 	// @DateTimeFormat(pattern = "HHmm")
 	public String offpeakStartTime;
 	@Column(name = "status")
-	public int status;
+	public String status;
 	@Column(name = "update_history_id")
 	public String updateHistoryID;
 
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

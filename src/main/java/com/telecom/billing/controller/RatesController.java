@@ -172,13 +172,22 @@ public class RatesController {
 
 	@RequestMapping(value = { "/traffic/gen", "/traffic/gen/" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Map<String, String> genTraffic(
-			@RequestParam String month, Model model) throws Exception {
+			@RequestParam String month, Model model, HttpServletRequest request)
+			throws Exception {
 		logger.debug("Generate Bills:Month is " + month);
-		String result = fileService.generateTrafficSummary("Traffic_Summary_month_"+month);
+		String result = fileService
+				.generateTrafficSummary("traffic_summary_of_" + month);
+		String name = "traffic_summary_of_" + month;
+		String pathMd5 = "";
+		if (result != null && !result.equalsIgnoreCase("")) {
+			pathMd5 = DigestUtils.md5Hex(result.getBytes("UTF-8"));
+			request.getSession().setAttribute(pathMd5, result);
+		}
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("result", "success");
-		map.put("content", month);
-		map.put("filePath", result);
+		map.put("content", "Export " + name);
+		map.put("file", pathMd5);
+		map.put("fileName", name);
 		return map;
 
 	}

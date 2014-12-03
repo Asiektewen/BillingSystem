@@ -57,6 +57,17 @@ public class Customer extends User {
 	private String city;
 	@Column(name = "country_code")
 	private String countryCode;
+	@Column(name = "country_name")
+	private String countryName;
+
+	public String getCountryName() {
+		return countryName;
+	}
+
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
+	}
+
 	@Column(name = "service_type")
 	private String serviceType;
 	@Column(name = "street")
