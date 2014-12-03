@@ -57,11 +57,10 @@ public class UserDAOImpl extends GenericDAOImpl<User> implements UserDAO {
 	@Override
 	public List<User> findUsersWithoutAdmin(int start, int size,
 			String orderBy, String orderType) {
-		Query query = getCurrentSession().createQuery(
-				"FROM User u where u.role != :role order by :orderBy "
-						+ orderType);
-		query.setString("role", SysConstant.ROLE_ADMIN);
-		query.setString("orderBy", orderBy);
+		Query query = getCurrentSession().createQuery("FROM User u ");
+		// + "' order by u.joinDate");
+		// query.setParameter(0, SysConstant.ROLE_ADMIN);
+		// query.setString("orderBy", orderBy);
 		query.setFirstResult(start);
 		query.setMaxResults(size);
 		List<User> userList = query.list();

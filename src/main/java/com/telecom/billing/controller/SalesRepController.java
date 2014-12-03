@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.WebRequest;
 
-import com.telecom.billing.model.Customer;
+import com.telecom.billing.common.SysConstant;
 import com.telecom.billing.model.User;
 import com.telecom.billing.services.FileService;
 import com.telecom.billing.services.ServiceInfoService;
@@ -96,13 +96,15 @@ public class SalesRepController {
 	@RequestMapping(value = { "/create", "/create/" }, method = RequestMethod.GET)
 	public String createSalesRep(Model model, HttpSession session)
 			throws JsonGenerationException, JsonMappingException, IOException {
-
+		if (session.getAttribute("createSalesRepMsg") != null) {
+			model.addAttribute("createSalesRepMsg",
+					session.getAttribute("createSalesRepMsg"));
+		}
 		return "admin/createSalesRep";
 	}
 
 	@RequestMapping(value = { "/list", "/list/" }, method = RequestMethod.GET)
 	public String listSalesRep(
-			@ModelAttribute User user,
 			@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "size", defaultValue = "10") Integer size,
 			@RequestParam(value = "orderBy", defaultValue = "joinDate") String orderBy,
@@ -140,19 +142,19 @@ public class SalesRepController {
 		map.put("totalPage", totalPage);
 		model.addAttribute("userList", userList);
 		model.addAttribute("customerListPageInfo", map);
-		return "admin/customerList";
+		return "admin/userList";
 	}
 
 	@RequestMapping(value = { "/save", "/save/" }, method = RequestMethod.POST)
-	public String saveRep(@ModelAttribute User user,
-			@ModelAttribute("salesRep") User salesRep, BindingResult result,
-			Model model, HttpServletRequest request,
+	public String saveRep(@ModelAttribute("salesRep") User salesRep,
+			BindingResult result, Model model, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		String submit = request.getParameter("submit");
 		// String reset = request.getParameter("reset");
 		if (submit != null) {
 			// save
 			salesRep.setJoinDate(new Date());
+			salesRep.setRole(SysConstant.ROLE_SALESREP);
 			userService.save(salesRep);
 			request.getSession().setAttribute("createSalesRepMsg",
 					"Successfully!");
