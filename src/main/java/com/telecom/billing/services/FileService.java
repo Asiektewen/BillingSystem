@@ -5,10 +5,6 @@ package com.telecom.billing.services;
 
 import java.io.File;
 import java.text.ParseException;
-import java.util.List;
-
-import com.telecom.billing.model.CallDetail;
-import com.telecom.billing.model.RateHistory;
 
 
 /**
@@ -69,4 +65,7 @@ public interface FileService {
 	
 	
 	public void processRateUpdate();
+	
+	
+	public String generateMonthCommissions(String fileName) throws Exception;
 }

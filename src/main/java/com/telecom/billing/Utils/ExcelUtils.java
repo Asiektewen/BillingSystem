@@ -40,9 +40,10 @@ public class ExcelUtils {
 	public static String[] TRAFFIC_SUMMARY_HEADER = { "Service Name",
 			"From Country Name", "To Country Name", "Total Minutes Of Calls" };
 	public static String[] RATES_HEADER = { "dest", "peak", "offPeak" };
+	public static String[] COMMISSION ={"salseRep","total Commission"};
 	public static String CALL_FILE_TYPE = "call";
 	public static String RATES_FILE_TYPE = "rates";
-	public static String TRAFFIC_SUMMARY = "TrafficSummary";
+	public static String TRAFFIC_SUMMARY = "Traffic_Summary";
 
 	public static String generateExcelFile(String fileName,
 			String[] sheetHeader, Map<String, Collection> data)

@@ -162,11 +162,12 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
+	@Transactional
 	public String generateTrafficSummary(String fileName) throws Exception {
 		Map dataMap = new HashMap();
-		String month = fileName.split("_")[1];
+		String month = fileName.split("_")[3];
 		List traffics = trafficSummaryDAO.getMonthlyTraffics(month);
-		dataMap.put("traffic" + month, traffics);
+		dataMap.put("Traffic_Summary" + month, traffics);
 		ExcelUtils.generateExcelFile(fileName,
 				ExcelUtils.TRAFFIC_SUMMARY_HEADER, dataMap);
 		System.out.println("path =" + ExcelUtils.getOutPutDir(month));
@@ -241,6 +242,20 @@ public class FileServiceImpl implements FileService {
 	@Transactional
 	public void processRateUpdate() {
 		rateHistoryTempDAO.processRateUpdate();
+	}
+
+	@Override
+	@Transactional
+	public String generateMonthCommissions(String fileName) throws Exception {
+		Map dataMap = new HashMap();
+		String month = fileName.split("_")[1];
+		List traffics = trafficSummaryDAO.getMonthlyTraffics(month);
+		dataMap.put("Traffic_Summary" + month, traffics);
+		ExcelUtils.generateExcelFile(fileName,
+				ExcelUtils.TRAFFIC_SUMMARY_HEADER, dataMap);
+		System.out.println("path =" + ExcelUtils.getOutPutDir(month));
+		return ExcelUtils.getOutPutDir(month) + "\\" + fileName + ".xls";
+
 	}
 
 }

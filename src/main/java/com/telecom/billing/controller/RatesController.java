@@ -174,7 +174,7 @@ public class RatesController {
 	public @ResponseBody Map<String, String> genTraffic(
 			@RequestParam String month, Model model) throws Exception {
 		logger.debug("Generate Bills:Month is " + month);
-		String result = fileService.generateTrafficSummary("traffic_"+month);
+		String result = fileService.generateTrafficSummary("Traffic_Summary_month_"+month);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("result", "success");
 		map.put("content", month);
