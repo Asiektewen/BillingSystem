@@ -29,9 +29,9 @@ public class UserServiceImplTest extends ServiceImplTestBase {
 
 	
 	public void testRateHistory() throws Exception {
-		File ratefile = new File("D:\\tmp\\input\\Rates_20131215.xls");
-		//fileService.readRateFile(ratefile);
-		fileService.processRateUpdate();
+		File ratefile = new File("D:\\tmp\\input\\Calls_Dec2013.xls");
+		fileService.readCallFile(ratefile);
+		//fileService.processRateUpdate();
 
 	}
 	
@@ -41,8 +41,10 @@ public class UserServiceImplTest extends ServiceImplTestBase {
 		
 		//fileService.processBillBatch("BIll_12-2013");
 		//fileService.generateMonthlyBills("BIll_09-2013");
+		fileService.processTrafficBatch("Traffic_Summary_for_11-2014");
 		//fileService.generateTrafficSummary("Traffic_Summary_for_11-2014");
-		fileService.generateMonthCommissions("monthly_commisison_for_11-2014");
+		//fileService.generateMonthCommissions("monthly_commisison_for_11-2014");
+		
 	}
 
 	// @Ignore

@@ -169,10 +169,23 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	@Transactional
+	public void processTrafficBatch(String fileName) throws ParseException {
+		String month = fileName.split("_")[3];
+		Date endDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+		.parse("30-" + month);
+
+		Date startDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+		.parse("01-" + month);
+		trafficSummaryDAO.processMonthlyTrafic(startDate.toLocaleString(), endDate.toLocaleString());;
+	}
+	
+	
+	@Override
+	@Transactional
 	public String generateTrafficSummary(String fileName) throws Exception {
 		Map dataMap = new HashMap();
 		String month = fileName.split("_")[3];
-		List traffics = trafficSummaryDAO.getMonthlyTraffics(month);
+		List traffics = trafficSummaryDAO.getMonthlyTraffics();
 		dataMap.put("Traffic_Summary" + month, traffics);
 		ExcelUtils.generateExcelFile(fileName,
 				ExcelUtils.TRAFFIC_SUMMARY_HEADER, dataMap);
@@ -249,6 +262,7 @@ public class FileServiceImpl implements FileService {
 	public void processRateUpdate() {
 		rateHistoryTempDAO.processRateUpdate();
 	}
+
 
 	@Override
 	@Transactional
