@@ -38,8 +38,9 @@ public interface FileService {
 	 * file format : single sheet Excel
 	 * @param fileName (format: TrafficSummary_201411 )
 	 * @return full path of the file
+	 * @throws Exception 
 	 */
-	public String generateTrafficSummary(String fileName);
+	public String generateTrafficSummary(String fileName) throws Exception;
 	
 	/**
 	 * file format : multiple sheets Excel

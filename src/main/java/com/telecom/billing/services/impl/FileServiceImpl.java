@@ -29,6 +29,7 @@ import com.telecom.billing.dao.RateHistoryDAO;
 import com.telecom.billing.dao.RateHistoryTempDAO;
 import com.telecom.billing.dao.RatesUpdateHistoryDAO;
 import com.telecom.billing.dao.ServiceInfoDAO;
+import com.telecom.billing.dao.TrafficSummaryDAO;
 import com.telecom.billing.model.CallDetail;
 import com.telecom.billing.model.CountryInfo;
 import com.telecom.billing.model.Customer;
@@ -76,12 +77,16 @@ public class FileServiceImpl implements FileService {
 	@Qualifier("billDAO")
 	public BillDAO billDAO;
 
+	@Autowired
+	@Qualifier("trafficSummaryDAO")
+	public TrafficSummaryDAO trafficSummaryDAO;
+
 	@SuppressWarnings("deprecation")
 	@Override
 	@Transactional
 	public String generateMonthlyBills(String fileName) throws Exception {
 		List customers = customerDAO.findAllCustomer();
-		//String month = processBillBatch(fileName);
+		// String month = processBillBatch(fileName);
 		String month = fileName.split("_")[1];
 
 		for (int i = 0; i < customers.size(); i++) {
@@ -96,7 +101,7 @@ public class FileServiceImpl implements FileService {
 		}
 		return ExcelUtils.getOutPutDir(month);
 	}
-	
+
 	@Override
 	@Transactional
 	public void processBillBatch(String fileName) throws ParseException {
@@ -157,9 +162,15 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public String generateTrafficSummary(String fileName) {
-		// TODO Auto-generated method stub
-		return null;
+	public String generateTrafficSummary(String fileName) throws Exception {
+		Map dataMap = new HashMap();
+		String month = fileName.split("_")[1];
+		List traffics = trafficSummaryDAO.getMonthlyTraffics(month);
+		dataMap.put("traffic" + month, traffics);
+		ExcelUtils.generateExcelFile(fileName,
+				ExcelUtils.TRAFFIC_SUMMARY_HEADER, dataMap);
+		System.out.println("path =" + ExcelUtils.getOutPutDir(month));
+		return ExcelUtils.getOutPutDir(month) + "\\" + fileName + ".xls";
 	}
 
 	@Override
