@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.telecom.billing.dao.GenericDAO;
 import com.telecom.billing.dao.ServiceInfoDAO;
+import com.telecom.billing.model.CountryInfo;
 import com.telecom.billing.model.ServiceInfo;
 import com.telecom.billing.services.ServiceInfoService;
 
@@ -38,6 +39,14 @@ public class ServiceInfoServiceImpl extends GenericServiceImpl<ServiceInfo>
 	@Override
 	public List<ServiceInfo> findServcieInfoByServiceType(String serviceType) {
 		return serviceInfoDAO.findServcieInfoByServiceType(serviceType);
+	}
+
+	@Override
+	public ServiceInfo findServiceInoByCountryService(String serviceType,
+			String countryName) {
+		// TODO Auto-generated method stub
+		return serviceInfoDAO.findServiceInoByCountryService(serviceType,
+				countryName);
 	}
 
 }

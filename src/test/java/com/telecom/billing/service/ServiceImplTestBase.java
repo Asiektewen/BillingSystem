@@ -9,6 +9,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.telecom.billing.services.CustomerService;
 import com.telecom.billing.services.FileService;
+import com.telecom.billing.services.ServiceInfoService;
 import com.telecom.billing.services.UserService;
 import com.telecom.billing.test.TestBase;
 
@@ -25,11 +26,12 @@ public class ServiceImplTestBase extends TestBase {
 	@Autowired
 	@Qualifier("customerService")
 	protected CustomerService customerService;
-	
+
 	@Autowired
 	@Qualifier("fileService")
 	protected FileService fileService;
-	
-	
-	
+	@Autowired
+	@Qualifier("serviceInfoService")
+	protected ServiceInfoService serviceInfoService;
+
 }

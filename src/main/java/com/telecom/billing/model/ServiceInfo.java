@@ -28,7 +28,7 @@ public class ServiceInfo {
 	public Long id;
 
 	@Column(name = "service_type")
-	public String servviceType;
+	public String serviceType;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "country_code")
 	public CountryInfo countryInfo;
@@ -78,16 +78,16 @@ public class ServiceInfo {
 	/**
 	 * @return the servviceType
 	 */
-	public String getServviceType() {
-		return servviceType;
+	public String getServiceType() {
+		return serviceType;
 	}
 
 	/**
 	 * @param servviceType
 	 *            the servviceType to set
 	 */
-	public void setServviceType(String servviceType) {
-		this.servviceType = servviceType;
+	public void setServviceType(String serviceType) {
+		this.serviceType = serviceType;
 	}
 
 	public CountryInfo getCountryInfo() {

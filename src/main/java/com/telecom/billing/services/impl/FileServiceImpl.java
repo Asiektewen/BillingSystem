@@ -140,7 +140,8 @@ public class FileServiceImpl implements FileService {
 		CountryInfo ctyInfo = countryInfoDAO
 				.findCOuntryInfoByCountryName(srcCty);
 		ServiceInfo serviceInfo = serviceInfoDAO
-				.findServiceInoByCountryService(service, ctyInfo);
+				.findServiceInoByCountryService(service,
+						ctyInfo.getCountryName());
 		dataMap.put("pecktime", serviceInfo.getPeakStartTime());
 		dataMap.put("offpecktime", serviceInfo.getOffpeakStartTime());
 		PdfUtils.generateRateSheet(fileName, dataMap);
@@ -243,11 +244,13 @@ public class FileServiceImpl implements FileService {
 		while (it.hasNext()) {
 			Entry paris = (Entry) it.next();
 			ServiceInfo ser = (ServiceInfo) paris.getValue();
-			// ServiceInfo t =
-			// serviceInfoDAO.findServiceInoByCountryService(ser.getServviceType(),
-			// ser.getCountryInfo());
+			ServiceInfo t = serviceInfoDAO
+					.findServiceInoByCountryService(ser.getServiceType(), ser
+							.getCountryInfo().getCountryName());
+			if (t == null) {
+				serviceInfoDAO.save(ser);
+			}
 
-			serviceInfoDAO.save(ser);
 		}
 
 	}

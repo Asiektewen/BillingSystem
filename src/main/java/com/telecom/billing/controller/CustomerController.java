@@ -137,12 +137,12 @@ public class CustomerController {
 		Iterator<ServiceInfo> i = serviceInfoList.iterator();
 		while (i.hasNext()) {
 			ServiceInfo si = i.next();
-			ArrayList<ServiceInfo> list = map.get(si.getServviceType());
+			ArrayList<ServiceInfo> list = map.get(si.getServiceType());
 			if (list == null) {
 				list = new ArrayList<ServiceInfo>();
 			}
 			list.add(si);
-			map.put(si.getServviceType(), (ArrayList<ServiceInfo>) list);
+			map.put(si.getServiceType(), (ArrayList<ServiceInfo>) list);
 
 		}
 		Iterator<String> mi = map.keySet().iterator();

@@ -9,7 +9,6 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.telecom.billing.dao.ServiceInfoDAO;
-import com.telecom.billing.model.CountryInfo;
 import com.telecom.billing.model.ServiceInfo;
 
 /**
@@ -46,11 +45,11 @@ public class ServiceInfoDAOImpl extends GenericDAOImpl<ServiceInfo> implements
 
 	@Override
 	public ServiceInfo findServiceInoByCountryService(String serviceType,
-			CountryInfo ctyInfo) {
-		String sql = "FROM ServiceInfo  s WHERE s.servviceType= ? and s.countryInfo.countryCode= ?";
+			String countryName) {
+		String sql = "FROM ServiceInfo  s WHERE s.serviceType= ? and s.countryInfo.countryName= ?";
 		Query query = getCurrentSession().createQuery(sql);
 		query.setParameter(0, serviceType);
-		query.setParameter(1, ctyInfo.getCountryCode());
+		query.setParameter(1, countryName);
 		List<ServiceInfo> results = query.list();
 		if (results != null && results.size() > 0) {
 			return results.get(0);

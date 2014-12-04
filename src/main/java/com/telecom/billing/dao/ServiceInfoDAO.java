@@ -16,6 +16,8 @@ public interface ServiceInfoDAO extends GenericDAO<ServiceInfo> {
 	public List<ServiceInfo> findServiceInoByCountry(String CountryNum);
 
 	public List<ServiceInfo> findServcieInfoByServiceType(String serviceType);
-	public ServiceInfo findServiceInoByCountryService(String serviceType,CountryInfo ctyInfo);
-	
+
+	public ServiceInfo findServiceInoByCountryService(String serviceType,
+			String countryName);
+
 }
