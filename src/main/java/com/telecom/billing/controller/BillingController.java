@@ -3,7 +3,11 @@
  */
 package com.telecom.billing.controller;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,22 +58,47 @@ public class BillingController {
 	// }
 
 	@RequestMapping(value = { "/gen", "/gen/" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Map<String, String> genMonthlyBill(
+	public @ResponseBody Map<String, Object> genMonthlyBill(
 			@RequestParam String month, Model model, HttpServletRequest request)
 			throws Exception {
 		logger.debug("Generate Bills:Month is " + month);
 		fileService.processBillBatch("Bill_" + month);
+
 		String result = fileService.generateMonthlyBills("Bill_" + month);
+//		String result = "D:\\tmp\\output\\01-2014";
+		File file = new File(result);
+		File[] files = file.listFiles(new FileFilter() {
+			public boolean accept(File f) {
+				return !f.isDirectory();
+			}
+		});
+		List<HashMap<String, String>> fileList = new ArrayList<HashMap<String, String>>();
+//		int len = files.length;
+		for (File temp : files) {
+			String pathMd5 = "";
+			if (temp != null && temp.getAbsolutePath().indexOf(".pdf") != -1) {
+				pathMd5 = DigestUtils.md5Hex(temp.getAbsolutePath().getBytes(
+						"UTF-8"));
+				request.getSession().setAttribute(pathMd5,
+						temp.getAbsolutePath());
+				HashMap<String, String> mapt = new HashMap<String, String>();
+				mapt.put("path", pathMd5);
+				mapt.put("name", temp.getName());
+				fileList.add(mapt);
+			}
+		}
+
 		String name = "Bill_" + month;
 		// String pathMd5 = "";
 		// if (result != null && !result.equalsIgnoreCase("")) {
 		// pathMd5 = DigestUtils.md5Hex(result.getBytes("UTF-8"));
 		// request.getSession().setAttribute(pathMd5, result);
 		// }
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("result", "success");
 		map.put("content", "Bills are generated into Foler: ");
 		map.put("folderName", result);
+		map.put("fileList", fileList);
 		// map.put("fileName", name);
 		return map;
 	}

@@ -64,9 +64,21 @@
 								},
 
 								success : function(data) {
-									$('#result').html(
-											"<div class='panel panel-info'><div class='panel-heading'>Result</div><div class='panel-body'>"
-													+ data.content+data.folderName + "</div></div>");
+									var t="";
+									t+=	"<div class='panel panel-info'><div class='panel-heading'>Result</div><div class='panel-body'>"
+										+ data.content+data.folderName;
+								    var len = data.fileList.length;
+								    for(var i = 0; i < len; i++ )
+								    	{
+								    	var fileInfo = data.fileList[i];
+								    	t+="<div><a href='${adminContextPath}/file/download?fileID="+fileInfo.path+"'>"+fileInfo.name+"</a></div>";
+								    	
+								    	}
+									t+="</div></div>";
+									$('#result').html(t);
+										
+													
+													
 								}
 							});
 

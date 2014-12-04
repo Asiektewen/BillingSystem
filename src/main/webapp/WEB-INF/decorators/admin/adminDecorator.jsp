@@ -24,13 +24,18 @@
 
 <!-- Custom CSS -->
 <link href="${adminResRoot}/css/sb-admin-2.css" rel="stylesheet">
-
+    <!-- Morris Charts CSS -->
+<link href="${adminResRoot}/css/plugins/morris.css" rel="stylesheet">
 <!-- Custom Fonts -->
 <link href="${adminResRoot}/font-awesome-4.1.0/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
 <link
 	href="${adminResRoot}/datetimepicker/bootstrap-datetimepicker.min.css"
 	media="all" rel="stylesheet" type="text/css" />
+
+
+
+	
 <link href="${adminResRoot}/fileinput/fileinput.min.css" media="all"
 	rel="stylesheet" type="text/css" />
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -89,54 +94,63 @@
 
 							<li><a href="${adminContextPath}"><i
 									class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
-							<li <c:if test="${currentPage == 'rates'}"> class="active" </c:if>><a
+							<li
+								<c:if test="${currentPage == 'rates'}"> class="active" </c:if>><a
 								href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Rates<span
 									class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
-<%-- 									<li><a href="${adminContextPath}/rates/expCurrent">Current --%>
-<!-- 											Rates</a></li> -->
-<%-- 									<li><a href="${adminContextPath}">Rates History</a></li> --%>
+									<%-- 									<li><a href="${adminContextPath}/rates/expCurrent">Current --%>
+									<!-- 											Rates</a></li> -->
+									<%-- 									<li><a href="${adminContextPath}">Rates History</a></li> --%>
 									<li><a href="${adminContextPath}/rates/updateRates">Update
 											Rates</a></li>
 									<li><a href="${adminContextPath}/rates/expSheet">Export
 											Rates Sheet</a></li>
-									<li><a href="${adminContextPath}/rates/createCurrentRates">Create Current
-											Rates</a></li>
+									<li><a href="${adminContextPath}/rates/createCurrentRates">Create
+											Current Rates</a></li>
 									<li><a href="${adminContextPath}/rates/expTraffic">Export
 											Traffic Summary</a></li>
 								</ul> <!-- /.nav-second-level --></li>
 							<li
 								<c:if test="${currentPage == 'callDetails'}"> class="active"</c:if>><a
-								href="#"><i class="fa fa-table fa-fw"></i> Call
-									Details<span class="fa arrow"></span></a>
+								href="#"><i class="fa fa-table fa-fw"></i> Call Details<span
+									class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
 									<li><a href="${adminContextPath}/callDetails/upload/">Upload
 											Call Details</a></li>
 								</ul> <!-- /.nav-second-level --></li>
-					    	<li <c:if test="${currentPage == 'salesrep'}"> class="active"</c:if>><a
-								href="#"><i class="fa fa-sitemap fa-fw"></i> Sales Representative<span class="fa arrow"></span></a>
+							<li
+								<c:if test="${currentPage == 'salesrep'}"> class="active"</c:if>><a
+								href="#"><i class="fa fa-sitemap fa-fw"></i> Sales
+									Representative<span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
-											<li><a href="${adminContextPath}/salesrep/list/">List Sales Representative</a></li>
-											<li><a href="${adminContextPath}/salesrep/create/">Create Sales Representative</a></li>
-									<li><a href="${adminContextPath}/salesrep/exportCommission/">Export Commission</a></li>
+									<li><a href="${adminContextPath}/salesrep/list/">List
+											Sales Representative</a></li>
+									<li><a href="${adminContextPath}/salesrep/create/">Create
+											Sales Representative</a></li>
+									<li><a
+										href="${adminContextPath}/salesrep/exportCommission/">Export
+											Commission</a></li>
 								</ul> <!-- /.nav-second-level --></li>
 							<li
 								<c:if test="${currentPage == 'customer'}"> class="active"</c:if>><a
-								href="#"><i class="fa fa-child fa-fw"></i>
-									Customers<span class="fa arrow"></span></a>
+								href="#"><i class="fa fa-child fa-fw"></i> Customers<span
+									class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
-									<li><a href="${adminContextPath }/customer/list/">Customer List</a></li>
-									<li><a href="${adminContextPath}/customer/create/">Create Customer</a></li>
+									<li><a href="${adminContextPath }/customer/list/">Customer
+											List</a></li>
+									<li><a href="${adminContextPath}/customer/create/">Create
+											Customer</a></li>
 									<li><a href="${adminContextPath}/customer/genBill">Generate
 											Bill</a></li>
 								</ul> <!-- /.nav-second-level --></li>
-<%-- 							<li <c:if test="${currentPage == 'sales'}"> class="active"</c:if>><a --%>
-<!-- 								href="#"><i class="fa fa-sitemap fa-fw"></i> Sales -->
-<!-- 									Reprentatives<span class="fa arrow"></span></a> -->
-<!-- 								<ul class="nav nav-second-level"> -->
-<!-- 									<li><a href="#">Sales Representatives List</a></li> -->
-<!-- 									<li><a href="#">Create Sales Representative</a></li> -->
-<!-- 								</ul> /.nav-second-level</li> -->
+							<%-- 							<li <c:if test="${currentPage == 'sales'}"> class="active"</c:if>><a --%>
+							<!-- 								href="#"><i class="fa fa-sitemap fa-fw"></i> Sales -->
+							<!-- 									Reprentatives<span class="fa arrow"></span></a> -->
+							<!-- 								<ul class="nav nav-second-level"> -->
+							<!-- 									<li><a href="#">Sales Representatives List</a></li> -->
+							<!-- 									<li><a href="#">Create Sales Representative</a></li> -->
+							<!-- 								</ul> /.nav-second-level</li> -->
 						</c:if>
 						<c:if test="${user.role == 'ROLE_SALESREP'}">
 
@@ -144,11 +158,13 @@
 									class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
 							<li
 								<c:if test="${currentPage == 'customer'}"> class="active"</c:if>><a
-								href="#"><i class="fa fa-child fa-fw"></i>
-									Customers<span class="fa arrow"></span></a>
+								href="#"><i class="fa fa-child fa-fw"></i> Customers<span
+									class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
-									<li><a href="${adminContextPath }/customer/list/">Customer List</a></li>
-									<li><a href="${adminContextPath}/customer/create/">Create Customer</a></li>
+									<li><a href="${adminContextPath }/customer/list/">Customer
+											List</a></li>
+									<li><a href="${adminContextPath}/customer/create/">Create
+											Customer</a></li>
 								</ul> <!-- /.nav-second-level --></li>
 						</c:if>
 					</ul>
@@ -169,19 +185,23 @@
 
 
 	<!-- Bootstrap Core JavaScript -->
-	<script src="${adminResRoot}/js/bootstrap.min.js"></script>
+	<script src="${adminResRoot}/js/bootstrap.min.js" type="text/javascript"></script>
 
 	<!-- Metis Menu Plugin JavaScript -->
-	<script src="${adminResRoot}/js/plugins/metisMenu/metisMenu.min.js"></script>
+	<script src="${adminResRoot}/js/plugins/metisMenu/metisMenu.min.js" type="text/javascript"></script>
 
 	<!-- Custom Theme JavaScript -->
-	<script src="${adminResRoot}/js/sb-admin-2.js"></script>
+	<script src="${adminResRoot}/js/sb-admin-2.js" type="text/javascript"></script>
 	<!-- fileinput plugin -->
 	<script src="${adminResRoot}/fileinput/fileinput.min.js"
 		type="text/javascript"></script>
-	<!--  datepicker plugin -->
-	<script
-		src="${adminResRoot}/datetimepicker/bootstrap-datetimepicker.min.js"
+
+	<!-- Morris Charts JavaScript -->s
+	<script src="${adminResRoot}/js/plugins/morris/raphael.min.js" type="text/javascript"></script>
+	<script src="${adminResRoot}/js/plugins/morris/morris.min.js" type="text/javascript"></script>
+	<script src="${adminResRoot}/js/plugins/morris/morris-data.js" type="text/javascript"></script>
+		<!--  datepicker plugin -->
+	<script	src="${adminResRoot}/datetimepicker/bootstrap-datetimepicker.min.js"
 		type="text/javascript"></script>
 </body>
 
