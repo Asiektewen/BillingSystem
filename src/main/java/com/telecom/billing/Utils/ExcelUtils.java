@@ -85,18 +85,27 @@ public class ExcelUtils {
 				String srcphone = Double.toString(
 						row.getCell(2).getNumericCellValue()).replace(".", "");
 				int e = srcphone.indexOf("E");
-				srcphone = srcphone.substring(0, e);
+				if (e > 0) {
+					srcphone = srcphone.substring(0, e);
+				}
 				cd.setSrcPhoneNumber(srcphone);
 				String desphone = Double.toString(
 						row.getCell(3).getNumericCellValue()).replace(".", "");
 				int f = desphone.indexOf("E");
-				desphone = desphone.substring(0, e);
-
+				if (f > 0) {
+					desphone = desphone.substring(0, f);
+				}
 				cd.setDestPhoneNumber(desphone);
 				cd.setDuration((int) row.getCell(4).getNumericCellValue());
-				cd.setCallDate(row.getCell(5).getDateCellValue());
-				cd.setCallTime(Double.toString(row.getCell(6)
-						.getNumericCellValue()));
+				int cellType = row.getCell(5).getCellType();
+				if (cellType == 1) {
+					cd.setCallDate(new Date(row.getCell(5).getStringCellValue()));
+				} else {
+					cd.setCallDate(row.getCell(5).getDateCellValue());
+				}
+
+				cd.setCallTime(String.valueOf((int) (row.getCell(6)
+						.getNumericCellValue())));
 				objList.add(cd);
 			}
 		} else {
