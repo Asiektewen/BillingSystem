@@ -175,9 +175,10 @@ public class RatesController {
 			@RequestParam String month, Model model, HttpServletRequest request)
 			throws Exception {
 		logger.debug("Generate Bills:Month is " + month);
-		String result = fileService
-				.generateTrafficSummary("traffic_summary_of_" + month);
+
 		String name = "traffic_summary_of_" + month;
+		fileService.processTrafficBatch(name);
+		String result = fileService.generateTrafficSummary(name);
 		String pathMd5 = "";
 		if (result != null && !result.equalsIgnoreCase("")) {
 			pathMd5 = DigestUtils.md5Hex(result.getBytes("UTF-8"));

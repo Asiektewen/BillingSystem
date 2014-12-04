@@ -48,15 +48,16 @@ public class CustomerDAOImpl extends GenericDAOImpl<Customer> implements
 		if (type == 1) {
 			// salesRep
 			query = getCurrentSession().createQuery(
-					"FROM Customer  c where c.salesRepID="+userID );
-//			query.setParameter(0, userID);
+					"FROM Customer  c where c.salesRepID= ? ");
+			query.setParameter(0, userID);
+			query.setFirstResult(start - 1);
 		} else {
 			// admin
 			query = getCurrentSession().createQuery("FROM Customer  c");
+			query.setFirstResult(start);
 		}
 		// query.setString("orderBy", orderBy);
 
-		query.setFirstResult(start);
 		query.setMaxResults(size);
 		List<Customer> customerList = query.list();
 		if (customerList != null) {

@@ -53,24 +53,29 @@ public class UserServiceImplTest extends ServiceImplTestBase {
 	//
 	// }
 
-//	@Test
-//	@Transactional
-//	public void testListUser() {
-//		List<User> userList = userService.findAll();
-//		List<User> userNotAdminList1 = userService.findUsersWithoutAdmin(0, 10,
-//				"joinDate", "asc");
-//		for (int i = 0; i < 10; i++) {
-//			User user = createUser();
-//			user = userService.save(user);
-//		}
-//		List<User> userList2 = userService.findAll();
-//		assertEquals(userList2.size(), userList.size() + 10);
-//		List<User> userNotAdminList2 = userService.findUsersWithoutAdmin(0, 10,
-//				"joinDate", "asc");
-////		assertEquals(userNotAdminList2.size(), userNotAdminList1.size() + 10);
-//		Integer allNotAdmin = userService.countAllUserNotAdmin();
-//		assertEquals(userList2.size(), allNotAdmin + 1);
-//
-//	}
+	@Test
+	// @Transactional
+	public void testListUser() {
+		User user = getAdmin();
+		user = userService.save(user);
+		// List<User> userList = userService.findAll();
+		// List<User> userNotAdminList1 = userService.findUsersWithoutAdmin(0,
+		// 10,
+		// "joinDate", "asc");
+		// for (int i = 0; i < 10; i++) {
+		// User user =.createUser();
+		// user = userService.save(user);
+		// }
+		// List<User> userList2 = userService.findAll();
+		// assertEquals(userList2.size(), userList.size() + 10);
+		// List<User> userNotAdminList2 = userService.findUsersWithoutAdmin(0,
+		// 10,
+		// "joinDate", "asc");
+		// // assertEquals(userNotAdminList2.size(), userNotAdminList1.size() +
+		// // 10);
+		// Integer allNotAdmin = userService.countAllUserNotAdmin();
+		// assertEquals(userList2.size(), allNotAdmin + 1);
+
+	}
 
 }

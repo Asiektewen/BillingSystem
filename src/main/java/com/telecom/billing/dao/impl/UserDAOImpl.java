@@ -62,7 +62,7 @@ public class UserDAOImpl extends GenericDAOImpl<User> implements UserDAO {
 //						+ "' order by u.joinDate");
 		// query.setParameter(0, SysConstant.ROLE_ADMIN);
 		// query.setString("orderBy", orderBy);
-		query.setFirstResult(start);
+		query.setFirstResult(start-1);
 		query.setMaxResults(size);
 		List<User> userList = query.list();
 		if (userList != null) {

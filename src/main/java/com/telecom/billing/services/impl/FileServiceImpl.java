@@ -85,9 +85,8 @@ public class FileServiceImpl implements FileService {
 
 	@Autowired
 	@Qualifier("commissionDAO")
-	public CommissionDAO commissionDAO;	
-	
-	
+	public CommissionDAO commissionDAO;
+
 	@SuppressWarnings("deprecation")
 	@Override
 	@Transactional
@@ -101,7 +100,7 @@ public class FileServiceImpl implements FileService {
 			String phoneNO = customer.getPhoneNumber();
 			Map billMap = new HashMap();
 			List billData = billDAO.getBillListbySrcPhone(phoneNO);
-			if(null !=billData &&billData.size()>0){
+			if (null != billData && billData.size() > 0) {
 				billMap.put("Bill_data", billData);
 				PdfUtils.generateMonthlyBill("Bill_" + phoneNO + "_" + month,
 						billMap);
@@ -120,9 +119,8 @@ public class FileServiceImpl implements FileService {
 		Date startDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
 				.parse("01-" + month);
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-			
-		billDAO.generateMonthlyBill(df.format(startDate),
-				df.format(endDate));
+
+		billDAO.generateMonthlyBill(df.format(startDate), df.format(endDate));
 
 	}
 
@@ -176,15 +174,16 @@ public class FileServiceImpl implements FileService {
 	public void processTrafficBatch(String fileName) throws ParseException {
 		String month = fileName.split("_")[3];
 		Date endDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
-		.parse("30-" + month);
+				.parse("30-" + month);
 
 		Date startDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
-		.parse("01-" + month);
+				.parse("01-" + month);
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-		trafficSummaryDAO.processMonthlyTrafic(df.format(startDate), df.format(endDate));;
+		trafficSummaryDAO.processMonthlyTrafic(df.format(startDate),
+				df.format(endDate));
+		;
 	}
-	
-	
+
 	@Override
 	@Transactional
 	public String generateTrafficSummary(String fileName) throws Exception {
@@ -220,7 +219,7 @@ public class FileServiceImpl implements FileService {
 			String srcCty = rate.getSrcCountry();
 			String service = rate.getServviceType();
 			String key = srcCty + "_" + service;
-			if (!serviceMap.containsKey("key")) {
+			if (!serviceMap.containsKey(key)) {
 				ServiceInfo serviceInfo = new ServiceInfo();
 				serviceInfo.setServviceType(service);
 				serviceInfo.setUpdateHistoryID(history.getId().toString());
@@ -244,6 +243,10 @@ public class FileServiceImpl implements FileService {
 		while (it.hasNext()) {
 			Entry paris = (Entry) it.next();
 			ServiceInfo ser = (ServiceInfo) paris.getValue();
+			// ServiceInfo t =
+			// serviceInfoDAO.findServiceInoByCountryService(ser.getServviceType(),
+			// ser.getCountryInfo());
+
 			serviceInfoDAO.save(ser);
 		}
 
@@ -267,20 +270,20 @@ public class FileServiceImpl implements FileService {
 		rateHistoryTempDAO.processRateUpdate();
 	}
 
-
-	
 	@Override
 	@Transactional
 	public void processCommissionBatch(String fileName) throws ParseException {
 		String month = fileName.split("_")[3];
 		Date endDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
-		.parse("30-" + month);
+				.parse("30-" + month);
 
 		Date startDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
-		.parse("01-" + month);
-		commissionDAO.processCommissionBatch(startDate.toLocaleString(), endDate.toLocaleString());;
+				.parse("01-" + month);
+		commissionDAO.processCommissionBatch(startDate.toLocaleString(),
+				endDate.toLocaleString());
+		;
 	}
-	
+
 	@Override
 	@Transactional
 	public String generateMonthCommissions(String fileName) throws Exception {
@@ -288,8 +291,7 @@ public class FileServiceImpl implements FileService {
 		String month = fileName.split("_")[3];
 		List traffics = commissionDAO.getMonthlyCommission();
 		dataMap.put("Monthly_Commission" + month, traffics);
-		ExcelUtils.generateExcelFile(fileName,
-				ExcelUtils.COMMISSION, dataMap);
+		ExcelUtils.generateExcelFile(fileName, ExcelUtils.COMMISSION, dataMap);
 		System.out.println("path =" + ExcelUtils.getOutPutDir(month));
 		return ExcelUtils.getOutPutDir(month) + "\\" + fileName + ".xls";
 

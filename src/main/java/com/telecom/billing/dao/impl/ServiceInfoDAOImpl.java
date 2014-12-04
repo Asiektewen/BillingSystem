@@ -47,10 +47,10 @@ public class ServiceInfoDAOImpl extends GenericDAOImpl<ServiceInfo> implements
 	@Override
 	public ServiceInfo findServiceInoByCountryService(String serviceType,
 			CountryInfo ctyInfo) {
-		String sql = "FROM ServiceInfo  s WHERE s.servviceType= ? and s.countryInfo= ?";
+		String sql = "FROM ServiceInfo  s WHERE s.servviceType= ? and s.countryInfo.countryCode= ?";
 		Query query = getCurrentSession().createQuery(sql);
 		query.setParameter(0, serviceType);
-		query.setParameter(1, ctyInfo);
+		query.setParameter(1, ctyInfo.getCountryCode());
 		List<ServiceInfo> results = query.list();
 		if (results != null && results.size() > 0) {
 			return results.get(0);
