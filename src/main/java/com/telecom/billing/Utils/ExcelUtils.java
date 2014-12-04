@@ -87,7 +87,7 @@ public class ExcelUtils {
 				cd.setDestPhoneNumber(Integer.toString((int) row.getCell(3)
 						.getNumericCellValue()));
 				cd.setDuration((int) row.getCell(4).getNumericCellValue());
-				cd.setCallDate(new Date(row.getCell(5).getStringCellValue()));
+				cd.setCallDate(row.getCell(5).getDateCellValue());
 				cd.setCallTime(Integer.toString((int) row.getCell(6)
 						.getNumericCellValue()));
 				objList.add(cd);
