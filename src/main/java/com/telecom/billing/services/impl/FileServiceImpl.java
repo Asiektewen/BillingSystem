@@ -244,11 +244,16 @@ public class FileServiceImpl implements FileService {
 		while (it.hasNext()) {
 			Entry paris = (Entry) it.next();
 			ServiceInfo ser = (ServiceInfo) paris.getValue();
-			ServiceInfo t = serviceInfoDAO
-					.findServiceInoByCountryService(ser.getServiceType(), ser
-							.getCountryInfo().getCountryName());
-			if (t == null) {
-				serviceInfoDAO.save(ser);
+			if (ser != null) {
+				if (ser.getCountryInfo() != null) {
+					ServiceInfo t = serviceInfoDAO
+							.findServiceInoByCountryService(ser
+									.getServiceType(), ser.getCountryInfo()
+									.getCountryName());
+					if (t == null) {
+						serviceInfoDAO.save(ser);
+					}
+				}
 			}
 
 		}

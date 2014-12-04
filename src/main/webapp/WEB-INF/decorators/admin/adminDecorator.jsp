@@ -154,7 +154,7 @@
 						</c:if>
 						<c:if test="${user.role == 'ROLE_SALESREP'}">
 
-							<li><a href="index.html"><i
+							<li><a  href="${adminContextPath}"><i
 									class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
 							<li
 								<c:if test="${currentPage == 'customer'}"> class="active"</c:if>><a
