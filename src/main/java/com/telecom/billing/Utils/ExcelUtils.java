@@ -200,8 +200,8 @@ public class ExcelUtils {
 		return path;
 	}
 
-	public static String getInPutDir(String date) {
-		String path = "D:\\tmp\\input\\" + date;
+	public static String getInPutDir() {
+		String path = "D:\\tmp\\input\\";
 		File dir = new File(path);
 		if (!dir.exists()) {
 			dir.mkdir();
