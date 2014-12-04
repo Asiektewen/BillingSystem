@@ -82,13 +82,20 @@ public class ExcelUtils {
 				CallDetail cd = new CallDetail();
 				cd.setSrcCountryId((int) row.getCell(0).getNumericCellValue());
 				cd.setDestCountryId((int) row.getCell(1).getNumericCellValue());
-				cd.setSrcPhoneNumber(Integer.toString((int) row.getCell(2)
-						.getNumericCellValue()));
-				cd.setDestPhoneNumber(Integer.toString((int) row.getCell(3)
-						.getNumericCellValue()));
+				String srcphone = Double.toString(row.getCell(2)
+						.getNumericCellValue()).replace(".","");
+				int e= srcphone.indexOf("E");
+				srcphone = srcphone.substring(0, e);
+				cd.setSrcPhoneNumber(srcphone);
+				String desphone = Double.toString(row.getCell(3)
+						.getNumericCellValue()).replace(".","");
+				int f= desphone.indexOf("E");
+				desphone = desphone.substring(0, e);
+				
+				cd.setDestPhoneNumber(desphone);
 				cd.setDuration((int) row.getCell(4).getNumericCellValue());
-				cd.setCallDate(new Date(row.getCell(5).getStringCellValue()));
-				cd.setCallTime(Integer.toString((int) row.getCell(6)
+				cd.setCallDate(row.getCell(5).getDateCellValue());
+				cd.setCallTime(Double.toString( row.getCell(6)
 						.getNumericCellValue()));
 				objList.add(cd);
 			}
