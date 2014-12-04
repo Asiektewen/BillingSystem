@@ -42,7 +42,7 @@ public class ExcelUtils {
 	public static String[] TRAFFIC_SUMMARY_HEADER = { "Service Name",
 			"From Country Name", "To Country Name", "Total Minutes Of Calls" };
 	public static String[] RATES_HEADER = { "dest", "peak", "offPeak" };
-	public static String[] COMMISSION ={"salseRep","total Commission"};
+	public static String[] COMMISSION = { "salseRep", "total Commission" };
 	public static String CALL_FILE_TYPE = "call";
 	public static String RATES_FILE_TYPE = "rates";
 	public static String TRAFFIC_SUMMARY = "Traffic_Summary";
@@ -61,7 +61,7 @@ public class ExcelUtils {
 			createSingleSheet(wb, sheetHeader, sheetName, sheetData);
 		}
 
-		String path = ExcelUtils.getOutPutDir(date) +"\\"+fileName + ".xls";
+		String path = ExcelUtils.getOutPutDir(date) + "\\" + fileName + ".xls";
 		FileOutputStream fos = new FileOutputStream(path);
 		wb.write(fos);
 		if (null != fos) {
@@ -82,13 +82,20 @@ public class ExcelUtils {
 				CallDetail cd = new CallDetail();
 				cd.setSrcCountryId((int) row.getCell(0).getNumericCellValue());
 				cd.setDestCountryId((int) row.getCell(1).getNumericCellValue());
-				cd.setSrcPhoneNumber(Integer.toString((int) row.getCell(2)
-						.getNumericCellValue()));
-				cd.setDestPhoneNumber(Integer.toString((int) row.getCell(3)
-						.getNumericCellValue()));
+				String srcphone = Double.toString(
+						row.getCell(2).getNumericCellValue()).replace(".", "");
+				int e = srcphone.indexOf("E");
+				srcphone = srcphone.substring(0, e);
+				cd.setSrcPhoneNumber(srcphone);
+				String desphone = Double.toString(
+						row.getCell(3).getNumericCellValue()).replace(".", "");
+				int f = desphone.indexOf("E");
+				desphone = desphone.substring(0, e);
+
+				cd.setDestPhoneNumber(desphone);
 				cd.setDuration((int) row.getCell(4).getNumericCellValue());
 				cd.setCallDate(row.getCell(5).getDateCellValue());
-				cd.setCallTime(Integer.toString((int) row.getCell(6)
+				cd.setCallTime(Double.toString(row.getCell(6)
 						.getNumericCellValue()));
 				objList.add(cd);
 			}
@@ -148,7 +155,7 @@ public class ExcelUtils {
 		}
 		Iterator it = sheetData.iterator();
 		int rowNo = 1;
-		DecimalFormat    df   = new DecimalFormat("######0.00");   
+		DecimalFormat df = new DecimalFormat("######0.00");
 		if (sheetName.startsWith(TRAFFIC_SUMMARY)) {
 			while (it.hasNext()) {
 				TrafficSummary tr = (TrafficSummary) it.next();
@@ -164,7 +171,7 @@ public class ExcelUtils {
 				rowNo++;
 			}
 
-		} else if(sheetName.startsWith("Monthly_Commission")){
+		} else if (sheetName.startsWith("Monthly_Commission")) {
 			while (it.hasNext()) {
 				Commission tr = (Commission) it.next();
 				row = sheet.createRow(rowNo);
@@ -174,8 +181,8 @@ public class ExcelUtils {
 				cell.setCellValue(df.format(tr.getTotalCommission()));
 				rowNo++;
 			}
-			
-		}else {
+
+		} else {
 			while (it.hasNext()) {
 				RateHistory tr = (RateHistory) it.next();
 				row = sheet.createRow(rowNo);
