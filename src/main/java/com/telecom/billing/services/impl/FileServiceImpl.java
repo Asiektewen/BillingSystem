@@ -253,6 +253,8 @@ public class FileServiceImpl implements FileService {
 					if (t == null) {
 						serviceInfoDAO.save(ser);
 					}
+				} else {
+					// System.out.print();
 				}
 			}
 

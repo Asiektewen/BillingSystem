@@ -132,8 +132,7 @@
 <script type="text/javascript">
 	var serviceJSON = ${serviceInfoJSON};
 	var serviceKeys = ${serviceKeysJSON};
-	$(document).ready(
-					function() {
+	$(document).ready(function() {
 						var serviceHTML = "";
 						var length = serviceKeys.length;
 						for (var i = 0; i < length; i++) {

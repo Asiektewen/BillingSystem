@@ -146,7 +146,7 @@ public class PdfUtils {
 		Map contentdata = new HashMap();
 		contentdata.put("service", fileName.split("_")[1]);
 		contentdata.put("srcCty", fileName.split("_")[2]);
-		String date= fileName.split("_")[3];
+		String date = fileName.split("_")[3];
 		contentdata.put("pecktime", dataMap.get("pecktime"));
 		contentdata.put("offpecktime", dataMap.get("offpecktime"));
 
@@ -158,24 +158,26 @@ public class PdfUtils {
 			}
 			for (int j = i * 50; j < (i + 1) * 50 && j < dataCollection.size(); j++) {
 				RateHistory rate = (RateHistory) dataCollection.get(j);
-				content[j - 50 * i] = new String[] { rate.getDestCountry(),
+				String destCty = rate.getDestCountry();
+				if (destCty != null && destCty.length() > 13) {
+					destCty = destCty.substring(0, 10);
+				}
+				content[j - 50 * i] = new String[] { destCty,
 						rate.getPeakRate().toString(),
 						rate.getOffpeakRate().toString() };
 			}
 			contentdata.put("content", content);
 			createOnepageRate(dataCollection, contentdata, doc);
 		}
-		String path = ExcelUtils.getOutPutDir(date) + "\\"+ fileName + ".pdf";
+		String path = ExcelUtils.getOutPutDir(date) + "\\" + fileName + ".pdf";
 		File dir = new File(path);
 		if (dir.exists()) {
 			dir.delete();
 		}
 		doc.save(path);
-		if(null != doc){
+		if (null != doc) {
 			doc.close();
 		}
-
-
 
 	}
 
@@ -186,8 +188,8 @@ public class PdfUtils {
 		contentdata.put("phone", fileName.split("_")[1]);
 		contentdata.put("bill_data", fileName.split("_")[2]);
 		String outputFolder = fileName.split("_")[2];
-		DecimalFormat    df   = new DecimalFormat("######0.00");   
-        double dueAmt=0;
+		DecimalFormat df = new DecimalFormat("######0.00");
+		double dueAmt = 0;
 		PDDocument doc = new PDDocument();
 		for (int i = 0; i < dataCollection.size() / 25 + 1; i++) {
 			String[][] content = new String[25][3];
@@ -196,28 +198,27 @@ public class PdfUtils {
 			}
 			for (int j = i * 25; j < (i + 1) * 25 && j < dataCollection.size(); j++) {
 				Bill bill = (Bill) dataCollection.get(j);
-				
+
 				String amt = df.format(bill.getCostOfCall()).toString();
-				
-	
+
 				content[j - 25 * i] = new String[] { bill.getDestPhoneNo(),
 						bill.getDestCtyName(),
 						Double.toString(bill.getDuration()),
-						Integer.toString(bill.getCallTime()),
-						"$"+amt};
-				dueAmt+=bill.getCostOfCall();
+						Integer.toString(bill.getCallTime()), "$" + amt };
+				dueAmt += bill.getCostOfCall();
 			}
 			contentdata.put("content", content);
 			contentdata.put("due_amt", df.format(dueAmt));
 			createOnepageBill(dataCollection, contentdata, doc);
 		}
-		String path = ExcelUtils.getOutPutDir(outputFolder)+"\\" +fileName + ".pdf";
+		String path = ExcelUtils.getOutPutDir(outputFolder) + "\\" + fileName
+				+ ".pdf";
 		File dir = new File(path);
 		if (dir.exists()) {
 			dir.delete();
 		}
 		doc.save(path);
-		if(null != doc){
+		if (null != doc) {
 			doc.close();
 		}
 	}
@@ -251,99 +252,105 @@ public class PdfUtils {
 			Map contentdata) throws IOException {
 
 		String[][] content = (String[][]) contentdata.get("content");
-		if(null != content && content.length>0){
-			
-		
-		final int rows = content.length < 25 ? content.length + 2 : 26;
-		final int cols = content[0].length;
-		final float rowHeight = 20f;
-		final float tableWidth = 500f;
-		final float tableHeight = rowHeight * rows;
-		final float colWidth = tableWidth / (float) cols;
-		final float cellMargin = 1f;
-		// now add the text
-		contentStream.setFont(PDType1Font.COURIER_BOLD, 13);
+		if (null != content && content.length > 0) {
 
-		// draw the header
-		contentStream.beginText();
-		contentStream.moveTextPositionByAmount(margin + cellMargin, y);
-		contentStream.drawString("Phone number :" + contentdata.get("phone")+ "  Bill Data: " + contentdata.get("bill_data"));
-		contentStream.endText();
-		//contentStream.setFont(PDType1Font.COURIER, 1);
-		// draw the rows
-		y = y - 5f;
-		float nexty = y;
-		for (int i = 0; i <= rows; i++) {
-			contentStream.drawLine(margin, nexty, margin + tableWidth, nexty);
-			nexty -= rowHeight;
-		}
-
-		// draw the columns
-		float nextx = margin;
-		for (int i = 0; i <= cols; i++) {
-			contentStream.drawLine(nextx, y, nextx, (content.length < 25)&&(i<cols-1&&i!=0)?y - tableHeight+rowHeight: y - tableHeight);
-			nextx += colWidth;
-		}
-
-		float textx = margin + cellMargin;
-		float texty = y - 15;
-		// draw the header.
-		String[] header = { "Phone No", "Dest Country", "Duration", "time",
-				"Cost/$" };
-		for (int i = 0; i < 5; i++) {
-			contentStream.beginText();
-			contentStream.moveTextPositionByAmount(textx, texty);
-			contentStream.drawString(header[i]);
-			contentStream.endText();
-			textx += colWidth;
-			if (i == 2)
-				textx += 20;
-		}
-
-		// fill the contents;
-		contentStream.setFont(PDType1Font.COURIER, 12);
-		textx = margin + cellMargin;
-		texty = y - 15 - rowHeight;
-		for (int i = 0; i < content.length; i++) {
-
-			for (int j = 0; j < content[i].length; j++) {
-				String text = content[i][j];
-				if (null != text && !"".equals(text)) {
-					contentStream.beginText();
-					contentStream.moveTextPositionByAmount(textx, texty);
-					contentStream.drawString(text);
-					contentStream.endText();
-					textx += colWidth;
-				}
-			}
-			texty -= rowHeight;
-			textx = margin + cellMargin;
-		}
-		if(content.length < 25){
+			final int rows = content.length < 25 ? content.length + 2 : 26;
+			final int cols = content[0].length;
+			final float rowHeight = 20f;
+			final float tableWidth = 500f;
+			final float tableHeight = rowHeight * rows;
+			final float colWidth = tableWidth / (float) cols;
+			final float cellMargin = 1f;
+			// now add the text
 			contentStream.setFont(PDType1Font.COURIER_BOLD, 13);
+
+			// draw the header
 			contentStream.beginText();
-			contentStream.moveTextPositionByAmount(textx, texty);
-			contentStream.drawString("Amount Due");
+			contentStream.moveTextPositionByAmount(margin + cellMargin, y);
+			contentStream.drawString("Phone number :"
+					+ contentdata.get("phone") + "  Bill Data: "
+					+ contentdata.get("bill_data"));
 			contentStream.endText();
-			contentStream.beginText();
-			contentStream.moveTextPositionByAmount(textx+4*colWidth, texty);
-			String dueAmt =contentdata.get("due_amt").toString();
-			if(dueAmt.length()>12){
-				dueAmt= dueAmt.substring(0,11);
+			// contentStream.setFont(PDType1Font.COURIER, 1);
+			// draw the rows
+			y = y - 5f;
+			float nexty = y;
+			for (int i = 0; i <= rows; i++) {
+				contentStream.drawLine(margin, nexty, margin + tableWidth,
+						nexty);
+				nexty -= rowHeight;
 			}
-			contentStream.drawString("$"+dueAmt);
+
+			// draw the columns
+			float nextx = margin;
+			for (int i = 0; i <= cols; i++) {
+				contentStream.drawLine(nextx, y, nextx, (content.length < 25)
+						&& (i < cols - 1 && i != 0) ? y - tableHeight
+						+ rowHeight : y - tableHeight);
+				nextx += colWidth;
+			}
+
+			float textx = margin + cellMargin;
+			float texty = y - 15;
+			// draw the header.
+			String[] header = { "Phone No", "Dest Country", "Duration", "time",
+					"Cost/$" };
+			for (int i = 0; i < 5; i++) {
+				contentStream.beginText();
+				contentStream.moveTextPositionByAmount(textx, texty);
+				contentStream.drawString(header[i]);
+				contentStream.endText();
+				textx += colWidth;
+				if (i == 2)
+					textx += 20;
+			}
+
+			// fill the contents;
+			contentStream.setFont(PDType1Font.COURIER, 12);
+			textx = margin + cellMargin;
+			texty = y - 15 - rowHeight;
+			for (int i = 0; i < content.length; i++) {
+
+				for (int j = 0; j < content[i].length; j++) {
+					String text = content[i][j];
+					if (null != text && !"".equals(text)) {
+						contentStream.beginText();
+						contentStream.moveTextPositionByAmount(textx, texty);
+						contentStream.drawString(text);
+						contentStream.endText();
+						textx += colWidth;
+					}
+				}
+				texty -= rowHeight;
+				textx = margin + cellMargin;
+			}
+			if (content.length < 25) {
+				contentStream.setFont(PDType1Font.COURIER_BOLD, 13);
+				contentStream.beginText();
+				contentStream.moveTextPositionByAmount(textx, texty);
+				contentStream.drawString("Amount Due");
+				contentStream.endText();
+				contentStream.beginText();
+				contentStream.moveTextPositionByAmount(textx + 4 * colWidth,
+						texty);
+				String dueAmt = contentdata.get("due_amt").toString();
+				if (dueAmt.length() > 12) {
+					dueAmt = dueAmt.substring(0, 11);
+				}
+				contentStream.drawString("$" + dueAmt);
+				contentStream.endText();
+			}
+			contentStream.setFont(PDType1Font.COURIER, 10);
+			texty = y - 15 - rowHeight * 27;
+			contentStream.beginText();
+			contentStream.moveTextPositionByAmount(
+					margin > tableWidth + 20 ? (margin - (tableWidth + 20))
+							: margin, texty);
+			contentStream
+					.drawString("* For more information please visit www.telecom.com");
 			contentStream.endText();
-		}
-		contentStream.setFont(PDType1Font.COURIER, 10);
-		 texty = y - 15 - rowHeight * 27;
-		 contentStream.beginText();
-		 contentStream.moveTextPositionByAmount(
-		 margin > tableWidth + 20 ? (margin - (tableWidth + 20))
-		 : margin, texty);
-		 contentStream.drawString("* For more information please visit www.telecom.com");
-		 contentStream.endText();
-		}else {
-			
+		} else {
+
 		}
 
 	}
@@ -355,8 +362,8 @@ public class PdfUtils {
 		PDXObjectImage ximage = null;
 		// String image=
 		// PdfUtils.class.getClass().getResource("/resources/img/logo-bill.jpg").toString();
-		String image ="D:/tmp/input/img/logo.jpg";
-		//String image = System.getProperty("user.dir") + "/input/logo.jpg";
+		String image = "D:/tmp/input/img/logo.jpg";
+		// String image = System.getProperty("user.dir") + "/input/logo.jpg";
 		if (image.toLowerCase().endsWith(".jpg")) {
 			ximage = new PDJpeg(doc, new FileInputStream(image));
 		} else if (image.toLowerCase().endsWith(".tif")
@@ -382,7 +389,7 @@ public class PdfUtils {
 	 */
 	public static void main(String[] args) throws Exception,
 			COSVisitorException {
-		//generate the ratesheet
+		// generate the ratesheet
 		Map dataMap = new HashMap();
 		List rateList = new ArrayList();
 		for (int i = 0; i < 60; i++) {
@@ -398,24 +405,23 @@ public class PdfUtils {
 		SimpleDateFormat dtf = new SimpleDateFormat("MM-dd-yyyy");
 		String date = dtf.format(new Date());
 		generateRateSheet("Rate_VOIP_USA_" + date, dataMap);
-		
-		
-		//generate the monthly bill
+
+		// generate the monthly bill
 		Map billMap = new HashMap();
 		List callList = new ArrayList();
 		for (int i = 0; i < 60; i++) {
 			Bill bill = new Bill();
-		    bill.setDestPhoneNo("000000000"+i);
-		    bill.setDestCtyName("cty"+i);
-		    bill.setCallTime(i);
-		    bill.setDuration(i+1);
-		    bill.setCostOfCall((i+1)+10);
+			bill.setDestPhoneNo("000000000" + i);
+			bill.setDestCtyName("cty" + i);
+			bill.setCallTime(i);
+			bill.setDuration(i + 1);
+			bill.setCostOfCall((i + 1) + 10);
 			callList.add(bill);
 		}
 		billMap.put("Bill_data", callList);
-		billMap.put("due_amt", "$"+38200);
-		generateMonthlyBill("Bill_5158880190_" + date, billMap);	
-		
+		billMap.put("due_amt", "$" + 38200);
+		generateMonthlyBill("Bill_5158880190_" + date, billMap);
+
 		System.out.println("done!");
 
 	}

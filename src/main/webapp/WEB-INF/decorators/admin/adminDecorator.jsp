@@ -196,7 +196,7 @@
 	<script src="${adminResRoot}/fileinput/fileinput.min.js"
 		type="text/javascript"></script>
 
-	<!-- Morris Charts JavaScript -->s
+	<!-- Morris Charts JavaScript -->
 	<script src="${adminResRoot}/js/plugins/morris/raphael.min.js" type="text/javascript"></script>
 	<script src="${adminResRoot}/js/plugins/morris/morris.min.js" type="text/javascript"></script>
 	<script src="${adminResRoot}/js/plugins/morris/morris-data.js" type="text/javascript"></script>
