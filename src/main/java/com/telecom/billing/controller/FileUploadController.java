@@ -111,11 +111,11 @@ public class FileUploadController {
 				byte[] bytes = file.getBytes();
 
 				// Creating the directory to store file
-//				if (storeFilePath.equalsIgnoreCase("")) {
-//					storeFilePath = ExcelUtils.getInPutDir();
-//				}
-				String rootPath = storeFilePath;
-				File dir = new File(rootPath + File.separator);
+				if (storeFilePath.equalsIgnoreCase("")) {
+					storeFilePath = ExcelUtils.getInPutDir();
+				}
+				// String rootPath = storeFilePath;
+				File dir = new File(storeFilePath + File.separator);
 				if (!dir.exists())
 					dir.mkdirs();
 

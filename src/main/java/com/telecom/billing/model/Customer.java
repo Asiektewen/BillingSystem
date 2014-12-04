@@ -21,7 +21,7 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private long id;
 
-	@Column(name = "role")
+	@Column(name = "role", nullable = true)
 	private String role;
 
 	@Transient
@@ -43,36 +43,36 @@ public class Customer {
 		this.role = role;
 	}
 
-	@Column(name = "full_name")
+	@Column(name = "full_name", nullable = true)
 	private String fullName;
 
-	@Column(name = "birth_date")
+	@Column(name = "birth_date", nullable = true)
 	@Type(type = "date")
 	private Date dob;
 
-	@Column(name = "join_date")
+	@Column(name = "join_date", nullable = true)
 	@Type(type = "date")
 	@DateTimeFormat(pattern = "dd-mm-yyyy")
 	private Date joinDate;
 
-	@Column(name = "gender")
+	@Column(name = "gender", nullable = true)
 	private int gender;
 
-	@Column(name = "username")
+	@Column(name = "username", nullable = true)
 	private String username;
 
-	@Column(name = "password")
+	@Column(name = "password", nullable = true)
 	private String password;
 
 	private String email;
 
-	@Column(name = "phone_num")
+	@Column(name = "phone_num", nullable = true)
 	private String phoneNumber;
 
-	@Column(name = "address")
+	@Column(name = "address", nullable = true)
 	private String address;
 
-	@Column(name = "zipCode")
+	@Column(name = "zipCode", nullable = true)
 	private String zipCode;
 
 	public String getPhoneNumber() {
@@ -210,11 +210,11 @@ public class Customer {
 		this.commissionlevel = commissionlevel;
 	}
 
-	@Column(name = "city")
+	@Column(name = "city", nullable = true)
 	private String city;
-	@Column(name = "country_code")
+	@Column(name = "country_code", nullable = true)
 	private String countryCode;
-	@Column(name = "country_name")
+	@Column(name = "country_name", nullable = true)
 	private String countryName;
 
 	public String getCountryName() {
@@ -225,9 +225,9 @@ public class Customer {
 		this.countryName = countryName;
 	}
 
-	@Column(name = "service_type")
+	@Column(name = "service_type", nullable = true)
 	private String serviceType;
-	@Column(name = "street")
+	@Column(name = "street", nullable = true)
 	private String street;
 
 	public String getStreet() {

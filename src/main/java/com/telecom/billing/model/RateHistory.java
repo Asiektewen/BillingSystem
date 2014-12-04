@@ -28,32 +28,32 @@ public class RateHistory {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 
-	@Column(name = "service_type")
+	@Column(name = "service_type", nullable = true)
 	public String servviceType;
-	@Column(name = "src_country_code")
+	@Column(name = "src_country_code", nullable = true)
 	public Integer srcCountryId;
-	@Column(name = "src_country_name")
+	@Column(name = "src_country_name", nullable = true)
 	public String srcCountry;
 
-	@Column(name = "dest_country_code")
+	@Column(name = "dest_country_code", nullable = true)
 	public Integer destCountryId;
 
-	@Column(name = "dest_country_name")
+	@Column(name = "dest_country_name", nullable = true)
 	public String destCountry;
 
-	@Column(name = "effective_time")
+	@Column(name = "effective_time", nullable = true)
 	@Type(type = "date")
 	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
 	public Date startTime;
-	@Column(name = "expire_time",columnDefinition = "datetime default '12/31/9999 23:59:59.997'")
+	@Column(name = "expire_time",columnDefinition = "datetime default '12/31/9999 23:59:59.997'", nullable = true)
 	@Type(type = "date")
 	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
 	public Date endTime;
-	@Column(name = "peak")
+	@Column(name = "peak", nullable = true)
 	public Double peakRate;
-	@Column(name = "off_peak")
+	@Column(name = "off_peak", nullable = true)
 	public Double offpeakRate;
-	@Column(name = "rate_import_time ", columnDefinition = "datetime default GETDATE()")
+	@Column(name = "rate_import_time ", columnDefinition = "datetime default GETDATE()", nullable = true)
 	@Type(type = "date")
 	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
 	public Date rateImportDate = new Date();

@@ -23,20 +23,20 @@ public class Commission {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int id;
 	
-	@Column(name=" customer_full_name")
+	@Column(name=" customer_full_name", nullable = true)
 	private String fullName;
 	
-	@Column(name="salesrep_id")
+	@Column(name="salesrep_id", nullable = true)
 	private int fullsalsRepId;
 	
-	@Column(name="salesrep_name")
+	@Column(name="salesrep_name", nullable = true)
 	private String salsRep;
 	
-	@Column(name="commission_level")
+	@Column(name="commission_level", nullable = true)
 	private float commissioinLevel;
 	
 	
-	@Column(name="commission")
+	@Column(name="commission", nullable = true)
 	private float totalCommission;
 
 	public int getId() {

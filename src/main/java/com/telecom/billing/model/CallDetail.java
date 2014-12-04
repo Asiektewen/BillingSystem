@@ -26,23 +26,23 @@ public class CallDetail {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
-	@Column(name = "service_type")
+	@Column(name = "service_type", nullable = true)
 	public String servviceType;
-	@Column(name = "src_country_code")
+	@Column(name = "src_country_code", nullable = true)
 	public Integer srcCountryId;
-	@Column(name = "dest_country_code")
+	@Column(name = "dest_country_code", nullable = true)
 	public Integer destCountryId;
-	@Column(name = "src_phone_num")
+	@Column(name = "src_phone_num", nullable = true)
 	public String srcPhoneNumber;
-	@Column(name = "dest_phone_num")
+	@Column(name = "dest_phone_num", nullable = true)
 	public String destPhoneNumber;
-	@Column(name = "call_date")
+	@Column(name = "call_date", nullable = true)
 	@Type(type = "date")
 	@DateTimeFormat(pattern = "dd-mm-yyyy")
 	public Date callDate;
-	@Column(name = "call_time")
+	@Column(name = "call_time", nullable = true)
 	public String callTime;
-	@Column(name = "duration")
+	@Column(name = "duration", nullable = true)
 	public Integer duration;
 
 	public String getServviceType() {

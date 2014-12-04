@@ -22,9 +22,9 @@ public class CountryInfo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 	@Id
-	@Column(name = "country_code")
+	@Column(name = "country_code", nullable = true)
 	public String countryCode;
-	@Column(name = "country_name")
+	@Column(name = "country_name", nullable = true)
 	public String countryName;
 
 	// @OneToMany(mappedBy = "countryInfo", cascade =
