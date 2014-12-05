@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,8 @@ import com.telecom.billing.services.UserService;
 @RequestMapping("/admin")
 // @SessionAttributes({ "user" })
 public class LogController {
+	private static final Logger logger = LoggerFactory
+			.getLogger(LogController.class);
 	@Autowired
 	@Qualifier("userService")
 	public UserService userService;
@@ -53,7 +57,7 @@ public class LogController {
 			Map<String, Object> model, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		User user = userService.getUserByUsername(username);
-		if (user.getPassword().equalsIgnoreCase(password)) {
+		if (user != null && user.getPassword().equalsIgnoreCase(password)) {
 			// model.put("user", user);
 			request.getSession().setAttribute("user", user);
 			StringBuilder sb = new StringBuilder();

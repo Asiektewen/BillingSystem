@@ -21,7 +21,7 @@ import com.telecom.billing.dao.GenericDAO;
  * @param <T>
  *
  */
-//@Repository
+// @Repository
 public class GenericDAOImpl<T> implements GenericDAO<T> {
 	private Class<T> clazz;
 	@Autowired

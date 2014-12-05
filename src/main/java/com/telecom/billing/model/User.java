@@ -20,7 +20,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "t_user_info")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User {
 	@Id
 	@Column(name = "id")
@@ -80,9 +79,6 @@ public class User {
 
 	@Column(name = "zipCode")
 	private String zipCode;
-
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	public List<Customer> customerList;
 
 	public String getPhoneNumber() {
 		return phoneNumber;

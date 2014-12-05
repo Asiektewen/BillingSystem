@@ -8,8 +8,10 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,25 +25,38 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class RateHistory {
 	@Id
 	@Column(name = "id")
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 
-	@Column(name = "service_type")
+	@Column(name = "service_type", nullable = true)
 	public String servviceType;
-	@Column(name = "src_country")
+	@Column(name = "src_country_code", nullable = true)
+	public Integer srcCountryId;
+	@Column(name = "src_country_name", nullable = true)
 	public String srcCountry;
-	@Column(name = "dest_country")
+
+	@Column(name = "dest_country_code", nullable = true)
+	public Integer destCountryId;
+
+	@Column(name = "dest_country_name", nullable = true)
 	public String destCountry;
-	@Column(name = "start_time")
-	public Date startTime;
-	@Column(name = "end_time")
+
+	@Column(name = "effective_time", nullable = true)
 	@Type(type = "date")
-	@DateTimeFormat(pattern = "dd-mm-yyyy")
+	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
+	public Date startTime;
+	@Column(name = "expire_time",columnDefinition = "datetime default '12/31/9999 23:59:59.997'", nullable = true)
+	@Type(type = "date")
+	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
 	public Date endTime;
-	@Column(name = "peak_rate")
+	@Column(name = "peak", nullable = true)
 	public Double peakRate;
-	@Column(name = "offpeak_rate")
+	@Column(name = "off_peak", nullable = true)
 	public Double offpeakRate;
+	@Column(name = "rate_import_time ", columnDefinition = "datetime default GETDATE()", nullable = true)
+	@Type(type = "date")
+	@DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
+	public Date rateImportDate = new Date();
 
 	/**
 	 * @return the peakRate
@@ -50,12 +65,28 @@ public class RateHistory {
 		return peakRate;
 	}
 
+	public Date getRateImportDate() {
+		return rateImportDate;
+	}
+
+	public void setRateImportDate(Date rateImportDate) {
+		this.rateImportDate = rateImportDate;
+	}
+
 	/**
 	 * @param peakRate
 	 *            the peakRate to set
 	 */
 	public void setPeakRate(Double peakRate) {
 		this.peakRate = peakRate;
+	}
+
+	public Integer getSrcCountryId() {
+		return srcCountryId;
+	}
+
+	public void setSrcCountryId(Integer srcCountryId) {
+		this.srcCountryId = srcCountryId;
 	}
 
 	/**
@@ -121,16 +152,16 @@ public class RateHistory {
 	/**
 	 * @return the destCountry
 	 */
-	public String getDestCountry() {
-		return destCountry;
+	public Integer getDestCountryId() {
+		return destCountryId;
 	}
 
 	/**
 	 * @param destCountry
 	 *            the destCountry to set
 	 */
-	public void setDestCountry(String destCountry) {
-		this.destCountry = destCountry;
+	public void setDestCountryId(Integer destCountryId) {
+		this.destCountryId = destCountryId;
 	}
 
 	/**
@@ -163,4 +194,11 @@ public class RateHistory {
 		this.endTime = endTime;
 	}
 
+	public String getDestCountry() {
+		return destCountry;
+	}
+
+	public void setDestCountry(String destCountry) {
+		this.destCountry = destCountry;
+	}
 }

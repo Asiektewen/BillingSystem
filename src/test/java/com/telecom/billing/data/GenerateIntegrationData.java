@@ -28,17 +28,17 @@ public class GenerateIntegrationData extends ServiceImplTestBase {
 	public void generateAdminAndSales() {
 		User admin = getAdmin();
 		admin = userService.save(admin);
-		for (int i = 0; i < 50; i++) {
-			User user = createUser();
-			user = userService.save(user);
-		}
+		// // for (int i = 0; i < 10; i++) {
+		// // User user = createUser();
+		// // user = userService.save(user);
+		// // }
 		// List<User> userList = userService.findAll();
-		// assertEquals(userList.size(), 51);
+		// // assertEquals(userList.size(), 51);
 		// List<User> userNotAdminList = userService.findUsersWithoutAdmin(0,
 		// 10,
 		// "joinDate", "asc");
-		// assertEquals(userNotAdminList.size(), 10);
+		// // assertEquals(userNotAdminList.size(), 10);
 		// Integer allNotAdmin = userService.countAllUserNotAdmin();
-		// assertEquals(userList.size(), allNotAdmin + 1);
+		// // assertEquals(userList.size(), allNotAdmin + 1);
 	}
 }

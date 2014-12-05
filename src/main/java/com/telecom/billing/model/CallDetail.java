@@ -8,6 +8,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -23,25 +24,25 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class CallDetail {
 	@Id
 	@Column(name = "id")
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
-	@Column(name = "service_type")
+	@Column(name = "service_type", nullable = true)
 	public String servviceType;
-	@Column(name = "src_country")
-	public String srcCountry;
-	@Column(name = "dest_country")
-	public String destCountry;
-	@Column(name = "src_phone_num")
+	@Column(name = "src_country_code", nullable = true)
+	public Integer srcCountryId;
+	@Column(name = "dest_country_code", nullable = true)
+	public Integer destCountryId;
+	@Column(name = "src_phone_num", nullable = true)
 	public String srcPhoneNumber;
-	@Column(name = "dest_phone_num")
+	@Column(name = "dest_phone_num", nullable = true)
 	public String destPhoneNumber;
-	@Column(name = "call_date")
+	@Column(name = "call_date", nullable = true)
 	@Type(type = "date")
 	@DateTimeFormat(pattern = "dd-mm-yyyy")
 	public Date callDate;
-	@Column(name = "call_time")
+	@Column(name = "call_time", nullable = true)
 	public String callTime;
-	@Column(name = "duration")
+	@Column(name = "duration", nullable = true)
 	public Integer duration;
 
 	public String getServviceType() {
@@ -52,20 +53,20 @@ public class CallDetail {
 		this.servviceType = servviceType;
 	}
 
-	public String getSrcCountry() {
-		return srcCountry;
+	public Integer getSrcCountryId() {
+		return srcCountryId;
 	}
 
-	public void setSrcCountry(String srcCountry) {
-		this.srcCountry = srcCountry;
+	public void setSrcCountryId(Integer srcCountryId) {
+		this.srcCountryId = srcCountryId;
 	}
 
-	public String getDestCountry() {
-		return destCountry;
+	public Integer getDestCountryId() {
+		return destCountryId;
 	}
 
-	public void setDestCountry(String destCountry) {
-		this.destCountry = destCountry;
+	public void setDestCountryId(Integer destCountryId) {
+		this.destCountryId = destCountryId;
 	}
 
 	public String getSrcPhoneNumber() {
